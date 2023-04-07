@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /users/:userId
+  * URL: /users/current
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -275,7 +275,7 @@ Returns all the groups.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /:userId/groups
+  * URL: /groups/current
   * Body: none
 
 * Successful Response
@@ -742,7 +742,7 @@ Edit a new venue specified by its id
   the group with a status of "co-host"
 * Request
   * Method: PUT
-  * URL: /groups/:groupId/venues/:venue:id
+  * URL: /groups/:groupId/venues/:venueId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1385,7 +1385,7 @@ Request a new membership for a group specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: GET
+  * Method: POST
   * URL: /groups/:groupId/join
   * Headers:
     * Content-Type: application/json
@@ -1719,7 +1719,7 @@ Request attendance for an event specified by id.
 * Require Authentication: true
 * Require Authorization: Current User must be a member of the group
 * Request
-  * Method: GET
+  * Method: POST
   * URL: /events/:eventId/attend
   * Headers:
     * Content-Type: application/json
@@ -1863,7 +1863,7 @@ Delete an attendance to an event specified by id.
   the user whose attendance is being deleted
 * Request
   * Method: DELETE
-  * URL: /events/:eventId/:userId
+  * URL: /events/:eventId/attendees/:userId
   * Headers:
     * Content-Type: application/json
   * Body:
