@@ -742,7 +742,7 @@ Edit a new venue specified by its id
   the group with a status of "co-host"
 * Request
   * Method: PUT
-  * URL: /groups/:groupId/venues/:venueId
+  * URL: /venues/:venueId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -880,7 +880,7 @@ Returns all the events of a group specified by its id
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /groups/:groupId/events/:eventsId
+  * URL: /groups/:groupId/events
   * Body: none
 
 * Successful Response
