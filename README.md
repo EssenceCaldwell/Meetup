@@ -1,7 +1,7 @@
 # `<name of application here>`
 
 ## Database Schema Design
-![Schema](https://i.imgur.com/J2sK2IA.png)
+![Schema](https://i.imgur.com/poQVGnb.png)
 
 ## API Documentation
 
@@ -1974,7 +1974,7 @@ Delete an existing image for an Event.
   of the Group that the Event belongs to
 * Request
   * Method: DELETE
-  * URL: events/:eventId/images/:imageId
+  * URL: /events/:eventId/images/:imageId
   * Body: none
 
 * Successful Response
