@@ -1,7 +1,7 @@
 # `<name of application here>`
 
 ## Database Schema Design
-![Schema](https://imgur.com/a/5m1Oofe)
+![Schema](https://i.imgur.com/PXYhCuw.png)
 
 ## API Documentation
 
