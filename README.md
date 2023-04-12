@@ -1,7 +1,7 @@
 # `<name of application here>`
 
 ## Database Schema Design
-<iframe width="560" height="315" src='https://dbdiagram.io/embed/6435f7068615191cfa8d27b0'> </iframe>
+![Schema](https://imgur.com/PXYhCuw)
 
 ## API Documentation
 
