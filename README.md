@@ -1,7 +1,7 @@
 # Meetup Clone
 
 ## Database Schema Design
-![Schema](https://i.imgur.com/E3etPzH.png)
+![Schema](https://i.imgur.com/RtNbDln.png)
 
 ## API Documentation
 
