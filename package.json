@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "bcryptjs": "^2.4.3"
   },
   "name": "meetupbackend",
   "description": "## Database Schema Design ![Schema](https://i.imgur.com/RtNbDln.png)",

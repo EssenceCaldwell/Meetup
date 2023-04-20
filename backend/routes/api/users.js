@@ -25,8 +25,9 @@ const validateSignup = [
       .isLength({ min: 6 })
       .withMessage('Password must be 6 characters or more.'),
     handleValidationErrors
-  ];
-  router.post(
+];
+
+router.post(
     '',
     validateSignup,
     async (req, res) => {
@@ -48,7 +49,7 @@ const validateSignup = [
         user: safeUser
       });
     }
-  );
+);
 
 
 module.exports = router;
