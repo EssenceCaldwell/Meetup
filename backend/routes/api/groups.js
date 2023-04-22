@@ -13,7 +13,8 @@ router.use(express.json());
 router.get('/:id', async (req, res) => {
     const newId = req.params.id
     const groupById = await Group.findOne({
-        where: {id: newId}
+        where: {id: newId},
+        include: Images
     });
     const count = await Membership.count({
         where: {
@@ -24,8 +25,9 @@ router.get('/:id', async (req, res) => {
 }),
 
 router.get('/', async (req, res)=>{
-    const allGroups = await Group.findAll();
-    console.log(allGroups)
+    const allGroups = await Group.findAll({
+    });
+
     res.json(allGroups)
 }),
 
