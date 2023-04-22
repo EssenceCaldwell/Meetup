@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.belongsToMany(
         models.Event,
-        {through: models.Attendance}
+        {through: models.Attendance, foreignKey: 'attendeeId'}
       ),
       User.belongsToMany(
         models.Group,
-        {through: models.Membership}
+        {through: models.Membership, foreignKey: 'memberId'}
       ),
       User.hasMany(
         models.Group,
