@@ -27,12 +27,10 @@ const validateSignup = [
     handleValidationErrors
 ];
 
-router.post(
-    '',
-    validateSignup,
-    async (req, res) => {
+router.post('/', validateSignup, async (req, res) => {
       const { email, password, firstName, lastName, username } = req.body;
       const hashedPassword = bcrypt.hashSync(password);
+
       const user = await User.create({ email, username, firstName, lastName, hashedPassword });
 
       const safeUser = {
@@ -51,5 +49,16 @@ router.post(
     }
 );
 
+router.get('/current', requireAuth, async (req, res) => {
+  const user = req.user;
+
+  const currentUser = await User.findOne(
+    {
+      where: {id: user.id}
+    }
+    )
+
+  res.json(currentUser)
+})
 
 module.exports = router;

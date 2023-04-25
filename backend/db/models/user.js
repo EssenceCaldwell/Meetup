@@ -2,7 +2,7 @@
 const {
   Model, Validator
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes, Validator) => {
   class User extends Model {
     static associate(models) {
       // define association here
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate:{
           isName(val){
-            if(!val.lenght){
+            if(!val.length){
               throw new Error('First Name is required')
             }
           }
@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      password: {
+      hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
@@ -86,6 +86,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }, {
+      defaultScope: {
+        attributes:{
+          exclude: ['hashedPassword', 'createdAt', 'updatedAt']
+        }
+      },
       sequelize,
       modelName: 'User'
     }

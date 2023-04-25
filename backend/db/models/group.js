@@ -72,9 +72,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isIn: [['Online', 'In Person']],
         isCorrectVal(val){
-          if(val === 'Online' || 'In Person'){
+          if(val !==  "Online"){
             throw new Error("Type must be 'Online' or 'In person'")
           }
         }
@@ -85,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isBoolean(val){
-          if(val === true || false){
+          if(val !== true || false){
             throw new Error('Private must be a boolean')
           }
         }
@@ -114,8 +113,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     previewImage: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
