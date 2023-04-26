@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'imageableId', onDelete: 'CASCADE',  hooks: true ,
           constraints: false,
           scope: {
-            imageableType: 'Group'
+            imageableType: 'Groups'
           }
         }
       ),

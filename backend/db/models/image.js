@@ -15,14 +15,20 @@ module.exports = (sequelize, DataTypes) => {
         models.Event,
         {
           foreignKey: 'imageableId',
-        constraints: false
+        constraints: false,
+        scope: {
+          imageableType: 'Events'
+        }
       }
       ),
       Image.belongsTo(
         models.Group,
         {
           foreignKey: 'imageableId',
-          constraints: false
+          constraints: false,
+          scope: {
+            imageableType: 'Groups'
+          }
         }
       )
     }

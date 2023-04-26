@@ -29,6 +29,20 @@ module.exports = {
       groupId: 3,
       memberId: 3,
       status: 'pending',
+    },
+    { groupId: 1,
+      memberId: 2,
+      status: 'member'
+    },
+    {
+      groupId: 2,
+      memberId: 3,
+      status: 'pending'
+    },
+    {
+      groupId: 3,
+      memberId: 1,
+      status: "member"
     }
    ])
   },

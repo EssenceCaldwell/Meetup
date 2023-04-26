@@ -109,22 +109,87 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
   res.json({message: 'Successfully deleted'})
 });
 
+//Get All Groups Joined Or Organized by the Current User
+router.get('/current', requireAuth, async (req, res) => {
+  const user = req.user;
+  const userOrganizer = await Group.findAll({
+    where: {
+      organizerId: user.id
+    },
+    attributes: {
+      include: [
+        [
+          Sequelize.fn('COUNT', Sequelize.col('Users.Membership.memberId')),
+          'numMembers'
+        ]
+      ]
+    },
+    include: [
+      {
+        model: User,
+        attributes: [],
+        through: {
+          attributes: ['memberId']
+        }
+      }
+    ],
+    group: ['Group.id']
+  });
+
+  const userMember = await Group.findAll({
+      attributes: {
+        include: [
+          [
+            Sequelize.fn('COUNT', Sequelize.col('Users.Membership.memberId')),
+            'numMembers'
+          ]
+        ]
+      },
+      include: [
+        {
+          model: User,
+          attributes: [],
+          through: {
+            attributes: ['memberId']
+          },
+          where: {id: user.id}
+        }
+      ],
+      group: ['Group.id']
+    });
+  res.json({userOrganizer, userMember})
+})
+
 //Get Details of a Group from an Id
 router.get('/:id', async (req, res) => {
   const groupId = req.params.id;
 
-  const group = await Group.findAll(
-    {where: {id: groupId},
-      include:{
-        model: Image
-      } ,
-      include:{
+  const group = await Group.findAll({
+    where: {id: groupId},
+      include:[
+      {
+        model: Image,
+        attributes: ['id', 'url', 'preview']
+      },
+      {
         model: User,
         through: {attributes: []}
-      }}
-  )
-  res.json(group)
-})
+      }
+    ]
+  });
+
+  if(group.length){
+    const organizerId = group[0].organizerId
+
+ const organizer = await User.findOne({
+  where: {id: organizerId},
+  attributes: ['id', 'firstName', 'lastName']
+} )
+
+  res.json({group, organizer})
+}else res.status(404).json({Error: 'Group could not be found'})
+});
+
 //Create New Group
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {
   const {name, about, type, private, city, state} =  req.body;
