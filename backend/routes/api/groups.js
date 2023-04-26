@@ -7,7 +7,7 @@ require('express-async-errors');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Group, User, Membership, Image, Event, sequelize, Sequelize} = require('../../db/models');
+const { Group, User, Membership, Image, Venue, Event, sequelize, Sequelize} = require('../../db/models');
 
 router.use(express.json());
 
@@ -31,7 +31,46 @@ const validateGroup = [
   .exists({checkFalsy: true})
   .withMessage('Please provide a state'),
   handleValidationErrors
-]
+];
+
+
+
+//Get all Venues for a Group Specified by Id
+router.get('/:id/venues', async (req, res) => {
+  const groupsId = req.params.id;
+
+  const venue = await Venue.findAll({
+    where: {
+      groupId: groupsId
+    },
+    attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+  });
+  res.json(venue)
+})
+
+//Request Membership to a Group
+router.post('/:id/membership', requireAuth, async (req, res) => {
+  const groupsId = req.params.id;
+  const user = req.user;
+
+  const existingMembership = await Membership.findOne({
+    where: {
+      memberId: user.id,
+      groupId: groupsId
+    }
+  })
+
+  const group = await Group.findOne({
+    where:{ id : groupsId}
+  });
+  if(!group){
+    res.status(404).json({Error: 'Group cannont be found'})
+  }if(existingMembership){
+    res.status(400).json({Error: 'You have already applied to this group'})
+  };
+  const newMember = await Membership.create({memberId: user.id, groupId: groupsId, status: 'pending'});
+  res.json(newMember)
+})
 
 //Get All Members of a Group based on the Group's id
 router.get('/:id/members', async (req, res) => {
