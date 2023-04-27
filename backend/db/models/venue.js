@@ -28,44 +28,31 @@ module.exports = (sequelize, DataTypes) => {
     },
     address: {
       type: DataTypes.STRING,
-       allowNull: false,
-       validate:{
-        isNotTooShort(val){
-          if(!val.length){
-            throw new Error('Street address is required')
-          }
-        }
-       }
+       allowNull: false
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        isNotTooShort(val){
-          if(!val.length){
-            throw new Error('City is required')
-          }
-        }
-       }
+      allowNull: false
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        isNotTooShort(val){
-          if(!val.length){
-            throw new Error('State is required')
-          }
-        }
-       }
+      allowNull: false
     },
     lat: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        min: -90,
+        max: 90
+      }
     },
     lng: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: -180,
+        max: 180
+      }
     }
   }, {
     defaultScope:{

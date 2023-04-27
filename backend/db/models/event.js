@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes, Validator) => {
   class Event extends Model {
     /**
      * Helper method for defining associations.
@@ -46,69 +46,46 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [5, 20],
-        isNotTooShort(val){
-          if(val.length < 5){
-            throw new Error('Name must be at least 5 characters')
-          }
-        }
-      }
+      allowNull: false
     }
       ,
     description: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNotEmpty(val){
-          if(!val.length){
-            throw new Error('Description is required')
-          }
-        }
-      }
+      allowNull: false
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isCorrectVal(val){
-          if(val === 'Online' || 'In Person'){
-            throw new Error("Type must be 'Online' or 'In person'")
-          }
-        }
-      }
+      allowNull: false
     },
     capacity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate:{
-        isInteger(val){
-          if(!Validator.isInt(val)){
-            throw new Error('Capacity must be an integer')
-          }
-        }
-      }
+      allowNull: false
     },
     price: {
       type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    startDate: {
+      type: DataTypes.DATE,
       allowNull: false,
       validate:{
-        len: [4,4],
-        notAcceptable(val){
-          if(!val.length === 4){
-            throw new Error('Price is invalid')
+        isInFuture(val){
+          if(new Date(val) < new Date){
+            throw new Error ('Start date must be in the future')
           }
         }
       }
     },
-    startDate: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
     endDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isInFuture(val){
+          if(new Date(val) >= startDate){
+            throw new Error ('End date is less than start date')
+          }
+        }
+      }
     },
     previewImage: {
       type: DataTypes.STRING,

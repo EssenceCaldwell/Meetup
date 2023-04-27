@@ -4,53 +4,13 @@ const { requireAuth } = require('../../utils/auth');
 
 require('dotenv').config();
 require('express-async-errors');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { handleValidationErrors, validateGroup, validateVenue } = require('../../utils/validation');
 
 const { Group, User, Membership, Image, Venue, Event, sequelize, Sequelize} = require('../../db/models');
-const group = require('../../db/models/group');
 
 router.use(express.json());
 
-const validateGroup = [
-  check('name')
-  .exists({checkFalsy: true})
-  .withMessage('Please provide a name'),
-  check('about')
-  .exists({checkFalsy: true})
-  .withMessage("Please provide an about section"),
-  check('type')
-  .exists({checkFalsy: true})
-  .withMessage('Please provide a type'),
-  check('private')
-  .exists({checkFalsy: true})
-  .withMessage('Please state if group is private or public'),
-  check('city')
-  .exists({checkFalsy: true})
-  .withMessage('Please provide a city'),
-  check('state')
-  .exists({checkFalsy: true})
-  .withMessage('Please provide a state'),
-  handleValidationErrors
-];
-const validateVenue = [
-  check('address')
-  .exists({checkFalsy: true })
-  .withMessage('Please provide an address'),
-  check('city')
-  .exists({checkFalsy: true })
-  .withMessage('Please provide a city'),
-  check('state')
-  .exists({checkFalsy: true })
-  .withMessage('Please provide a state'),
-  check('lat')
-  .exists({checkFalsy: true })
-  .withMessage('Please provide a latitude'),
-  check('lng')
-  .exists({checkFalsy: true })
-  .withMessage('Please provide a longitute'),
-  handleValidationErrors
-]
+
 //Create a new Venue for a Group specified by its id
 router.post('/:id/venues', requireAuth, validateVenue ,async (req, res) => {
   const groupsId = req.params.id;
@@ -350,8 +310,17 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:id', async (req, res) => {
   const groupId = req.params.id;
 
-  const group = await Group.findAll({
-    where: {id: groupId},
+  const group = await Group.findByPk(
+    groupId,
+    {
+    attributes:{
+      include:[
+        [
+          Sequelize.fn('COUNT', Sequelize.col('Users.Membership.memberId')),
+          'numMembers'
+        ]
+      ]
+    },
       include:[
       {
         model: Image,
@@ -359,21 +328,25 @@ router.get('/:id', async (req, res) => {
       },
       {
         model: User,
+        attributes: [],
         through: {attributes: []}
       }
-    ]
+    ],
+    raw: true
   });
+  console.log(group)
+  if(!group.id){
+  return res.status(404).json({Error: 'Group could not be found'})
+  }
+  const organizerId = group.organizerId
 
-  if(group.length){
-    const organizerId = group[0].organizerId
-
- const organizer = await User.findOne({
+  const organizer = await User.findOne({
   where: {id: organizerId},
   attributes: ['id', 'firstName', 'lastName']
-} )
+  } )
+
 
   res.json({group, organizer})
-}else res.status(404).json({Error: 'Group could not be found'})
 });
 
 //Create New Group
@@ -416,7 +389,7 @@ router.get('/', async (req, res) => {
     });
 
     res.json({ allGroups });
-  });
+});
 
 
 
