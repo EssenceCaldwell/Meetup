@@ -35,6 +35,14 @@ module.exports = {
         state: 'IL',
         lat: 654.456,
         lng: 987.789
+      },
+      {
+        groupId: 1,
+        address: '789 Address Rd',
+        city: 'Chicago',
+        state: 'IL',
+        lat: 654.456,
+        lng: 987.789
       }
     ])
   },

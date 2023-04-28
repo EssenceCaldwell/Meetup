@@ -123,7 +123,6 @@ const validateEvent = [
   check('price')
   .exists({checkFalsy: true})
   .isDecimal()
-  .isLength({min: 4})
   .withMessage('Price is invalid'),
   check('description')
   .exists({checkFalsy: true})
@@ -134,6 +133,7 @@ const validateEvent = [
   .withMessage('Please add a start date'),
   check('endDate')
   .exists({checkFalsy: true})
+  .isDate()
   .withMessage('Please add an end date'),
   handleValidationErrors
 ];

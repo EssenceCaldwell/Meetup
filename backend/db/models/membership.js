@@ -16,11 +16,19 @@ module.exports = (sequelize, DataTypes) => {
   Membership.init({
     groupId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Groups',
+        key: 'id'
+      }
     },
     memberId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     status: {
       type: DataTypes.STRING,

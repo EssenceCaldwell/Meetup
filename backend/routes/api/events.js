@@ -12,9 +12,21 @@ router.use(express.json());
 router.put('/:id', requireAuth, validateEvent, async (req,res) => {
     const eventsId = req.params.id;
     const user = req.user;
-    const {groupId, venueId, name, type, capacity, price, description, startDate, endDate} = req.body
+    const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
 
-    const memberStatus = await Membership.findOne({
+    const event = await Event.findByPk(eventsId);
+    if(!event){
+        res.status(404).json({Error: 'Event cannont be found'})
+    }
+    const groupId = event.dataValues.groupId;
+    const group = await Group.findByPk(groupId)
+    const venue = await Venue.findByPk(venueId)
+
+    if(!venue){
+        res.status(404).json({Error: 'No venues associated with this id'})
+    }
+
+    const memberStatusInfo = await Membership.findOne({
         where:{
           memberId: user.id,
           groupId
@@ -23,16 +35,15 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
           include: ['status']
         }
       });
+      let memberStatus
 
-    const group = await Group.findByPk(groupId)
-
-    const event = await Event.findByPk(eventsId);
-
-    if(!event){
-        res.status(404).json({Error: 'Event cannont be found'})
-    }if(!event.venueId){
-        res.status(404).json({Error: 'No venues associated with event'})
-    }if(group.organizerId === user.id || memberStatus === 'status'){
+    if(memberStatusInfo){
+         memberStatus = memberStatusInfo.dataValues.status
+      }
+    if(!memberStatusInfo){
+        memberStatus = ''
+       }
+    if(group.dataValues.organizerId === user.id || memberStatus === 'co-host' ){
         const newEvent = await event.update({
             id: event.id,
             groupId,

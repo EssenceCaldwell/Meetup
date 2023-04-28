@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes, Validator) => {
       allowNull: false,
       validate:{
         isInFuture(val){
-          if(new Date(val) >= startDate){
+          if(new Date(val) <= this.startDate){
             throw new Error ('End date is less than start date')
           }
         }

@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { Op } = require('sequelize');
 const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
 
@@ -148,31 +149,29 @@ router.post('/:id/membership', requireAuth, async (req, res) => {
 router.get('/:id/members', async (req, res) => {
   const newId = req.params.id
   const user = req.user
-  let groupById = await Group.findOne({
-      where: {id: newId},
-      include:{
-        model: User,
-        attributes: ["id", "firstName", "lastName"],
-        through: { attributes: ['status'],
-      where: {
-        status: 'member'
+
+  let group = await Group.findByPk(newId);
+
+  if(!group){
+    res.status(404).json({Error: 'This group does not exist'})
+  }if(group.dataValues.organizerId === user.id){
+    const members = await group.getUsers({
+      attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
+      joinTableAttributes: []
+    })
+    res.json({members})
+ }else {
+  const members = await group.getUsers({
+    attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
+    joinTableAttributes: [],
+    through:{
+      where:{
+        status: ['member', 'co-host']
       }
-    }
-      }
-  });
-  if(!groupById){
-    res.status(404).json({Error: 'This group does not exisit'})
-  }if(user.id === groupById.organizerId){
-  groupById = await Group.findOne({
-    where: {id: newId},
-    include:{
-      model:User,
-      attributes: ['id', 'firstName', 'lastName'],
-      through: {attributes: ['status']}
     }
   })
- }
-  res.json({groupById })
+  res.json({members})
+}
 }),
 
 
@@ -275,14 +274,28 @@ router.get('/current', requireAuth, async (req, res) => {
         model: User,
         attributes: [],
         through: {
-          attributes: ['memberId']
+          attributes:{
+            include: ['groupId']
+          }
         }
       }
     ],
     group: ['Group.id']
   });
 
-  const userMember = await Group.findAll({
+  const groups = await Membership.findAll({
+    where: {
+      memberId: user.id
+    },
+    attributes: ['groupId']
+  });
+
+  let userMemberships = []
+
+  for(let i = 0; i < groups.length; i++){
+    let groupInfo = groups[i].dataValues.groupId
+    const member = await Group.findOne({
+      where: {id: groupInfo},
       attributes: {
         include: [
           [
@@ -295,15 +308,18 @@ router.get('/current', requireAuth, async (req, res) => {
         {
           model: User,
           attributes: [],
-          through: {
-            attributes: ['memberId']
-          },
-          where: {id: user.id}
+         through: {
+           attributes: ['memberId'],
+           where:{memberId: user.id}
+         }
         }
       ],
-      group: ['Group.id']
-    });
-  res.json({userOrganizer, userMember})
+      //group: ['Group.id']
+    })
+    userMemberships.push(member.dataValues)
+  }
+  console.log(userMemberships)
+  res.json({userOrganizer, userMemberships})
 })
 
 //Get Details of a Group from an Id
