@@ -35,62 +35,30 @@ module.exports = (sequelize, DataTypes, Validator) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [4, 30],
-          isNotEmail(value) {
-            if (Validator.isEmail(value)) {
-              throw new Error("Cannot be an email.");
-            }
-          }
+          len: [4, 30]
         }
       },
       firstName:{
         type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-          isName(val){
-            if(!val.length){
-              throw new Error('First Name is required')
-            }
-          }
-        }
+        allowNull: false
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
-        isName(val){
-          if(!val.length){
-            throw new Error('Last Name is required')
-          }
-        }
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           len: [3, 256],
-          isEmail: true,
-          mustBeEmail(val){
-            if(!Validator.isEmail(val)){
-              throw new Error('Invalid email')
-            }
-          },
-          requireEmail(val){
-            if(!val.length){
-              throw new Error('Email is required')
-            }
-          }
+          isEmail: true
         }
       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
-          len: [60, 60],
-          requirePassword(val){
-            if(!val.length){
-              throw new Error('Password is required')
-            }
-          }
+          len: [60, 60]
         }
       }
     }, {

@@ -8,6 +8,76 @@ const { Group, User, Membership, Image, Venue, Event, Attendance, sequelize, Seq
 
 router.use(express.json());
 
+//Change the status of an attendance for an event specified by id
+router.put('/:id/attendance', requireAuth, async (req, res) => {
+    const {attendeeId, status} = req.body
+    const user = req.user;
+    const eventsId = req.params.id;
+
+    const memberInfo = await Attendance.findOne({
+        where:{
+            attendeeId,
+            eventId: eventsId
+        }
+    })
+
+    //console.log(userInfo.dataValues.status)
+    const event = await Event.findByPk(eventsId,{
+          include:{
+            model: Group,
+            attributes: ['organizerId']
+          }
+    })
+    if(!event){
+        res.status(404).json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+          }
+          )
+    }
+    const organizer = event.Group.dataValues.organizerId
+    const groupId = event.dataValues.groupId
+
+    const userInfo = await Membership.findOne({
+        where: {
+            memberId: user.id,
+            groupId
+
+        }
+    })
+    if(!userInfo){
+        res.status(403).json({Error: 'You are not a part of this group'})
+    }
+    if(status === "pending"){
+        res.status(400).json({
+            "message": "Cannot change an attendance status to pending",
+            "statusCode": 400
+          })
+    }
+    if(!memberInfo){
+        res.status(404).json({
+            "message": "Attendance between the user and the event does not exist",
+            "statusCode": 404
+          })
+    }
+    if(user.id !== organizer && userInfo.dataValues.status !== 'co-host'){
+        res.status(403).json({
+            "message": "You do not have permission to alter status",
+            "statusCode": 403
+          })
+    }else {
+        await Attendance.update({
+            status,
+            userId: attendeeId
+        },
+        {where: {
+            eventId: eventsId,
+            attendeeId
+        }})
+        res.json(memberInfo)
+    }
+})
+
 //Delete an Attendance
 router.delete('/:id/attendance', requireAuth, async (req, res) => {
 const {attendeeId} = req.body
