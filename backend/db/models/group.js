@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
       ),
       Group.hasMany(
         models.Event,
-        {foreignKey: 'groupId'}
+        {foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true}
+      ),
+      Group.hasMany(
+        models.Membership,
+        {foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true}
       ),
       Group.hasMany(
         models.Image,
@@ -35,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       ),
       Group.hasMany(
         models.Venue,
-        {foreignKey: 'groupId'}
+        {foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true}
       )
     }
   }

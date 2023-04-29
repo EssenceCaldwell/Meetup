@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes, Validator) => {
       Event.hasMany(
         models.Image,
         {
-          foreignKey: 'imageableId', onDelete: 'CASCADE',  hooks: true,
+          foreignKey: 'imageableId', onDelete: 'CASCADE',  hooks: true ,
           constraints: false,
-          scope:{
-            imageableType: 'Event'
+          scope: {
+            imageableType: 'Events'
           }
         }
       ),
@@ -32,13 +32,17 @@ module.exports = (sequelize, DataTypes, Validator) => {
       Event.belongsTo(
         models.Group,
         {foreignKey: 'groupId'}
+      ),
+      Event.hasMany(
+        models.Attendance,
+        {foreignKey: 'eventId', onDelete: 'CASCADE',  hooks: true}
       )
     }
   }
   Event.init({
     venueId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     groupId: {
       type: DataTypes.INTEGER,
@@ -89,7 +93,7 @@ module.exports = (sequelize, DataTypes, Validator) => {
     },
     previewImage: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     }
   }, {
     defaultScope:{

@@ -5,9 +5,9 @@ const { requireAuth } = require('../../utils/auth');
 
 require('dotenv').config();
 require('express-async-errors');
-const { handleValidationErrors, validateGroup, validateVenue } = require('../../utils/validation');
+const { handleValidationErrors, validateGroup, validateVenue, validateEvent } = require('../../utils/validation');
 
-const { Group, User, Membership, Image, Venue, Event, sequelize, Sequelize} = require('../../db/models');
+const { Group, User, Membership, Image, Venue, Event, Attendance, sequelize, Sequelize} = require('../../db/models');
 
 router.use(express.json());
 
@@ -16,7 +16,7 @@ router.use(express.json());
 router.post('/:id/venues', requireAuth, validateVenue ,async (req, res) => {
   const groupsId = req.params.id;
   const user = req.user;
-  const {groupId, address, city, state, lat, lng} = req.body
+  const { address, city, state, lat, lng} = req.body
 
   const memberStatus = await Membership.findOne({
     where:{
@@ -48,9 +48,57 @@ if(!group){
     state,
     lat,
     lng
- })
+ },)
  res.json({newVenue})
  } throw new Error('You do not have permission to edit this group')
+})
+
+//Create and Event by Group Id
+router.post('/:id/events', requireAuth, validateEvent, async (req, res) => {
+  const {venueId, name, type, capacity, price, description, startDate, endDate } = req.body
+const user = req.user;
+const groupId = req.params.id;
+const group = await Group.findByPk(groupId)
+const organizer = group.dataValues.organizerId
+const memberStatus = await Membership.findOne({
+  where: {
+    groupId,
+    memberId: user.id
+  },
+  attributes: ['status']
+})
+let status
+let validVenue
+console.log(memberStatus)
+if(!memberStatus){
+status = ''
+}
+if(memberStatus){
+  status = memberStatus.dataValues.status
+}
+if(venueId !== undefined){
+  validVenue = await Venue.findOne({
+    where: {id:venueId}
+  });
+  if(!validVenue){
+    res.status(404).json({Error: 'Venue does not exist'})
+  }
+}
+if(organizer === user.id || status === 'co-host'){
+const newGroup = await group.createEvent({
+  groupId,
+  venueId,
+  name,
+  type,
+  capacity,
+  price,
+  description,
+  startDate,
+  endDate
+})
+res.json(newGroup)
+}
+res.status(400).json({Error: 'You do not have permission to edit this Group'})
 })
 
 //Get All Events by Group Id
@@ -58,38 +106,28 @@ router.get('/:id/events', async (req, res) => {
   const groupsId = req.params.id;
   const groups = await Group.findOne({
     where: { id: groupsId },
-    attributes: {
-      include: ['id', 'name', 'city', 'state',
-        [
-          Sequelize.fn('COUNT', Sequelize.col('Users.Membership.memberId')),
-          'numMembers'
-        ]
+    attributes: ['id', 'name', 'city', 'state'],
+    include: [
+     {
+      model: Event,
+      attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate',
+      'previewImage', [Sequelize.fn('COUNT', Sequelize.col('attendeeId')), 'numAttending']],
+      include: [
+       { model: Attendance,
+        attributes: []}
       ]
     },
-    include: [
-      {
-        model: User,
-        attributes: [],
-        through: {
-          attributes: ['memberId']
-        }
-      }
+    {
+      model: Venue,
+      attributes: ['id', 'city', 'state']
+    }
     ],
-    group: ['Group.id']
+    //group: ['Event.id']
   });
 if(!groups){
   res.status(404).json({Error: 'Group does not exist'})
 }
-  const events = await Event.findAll({
-    where: { groupId: groupsId },
-    attributes: {
-      include: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage']
-    },
-    include: {
-      model: Venue,
-    attributes: ['id', 'city', 'state']}
-  })
-  res.json({groups, events})
+  res.json({groups})
 });
 
 //Add an Image to a Group based on the Groups id
@@ -118,6 +156,8 @@ router.get('/:id/venues', async (req, res) => {
     },
     attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
   });
+  const group = await Group.findByPk(groupsId)
+  if(!group){ res.status(404).json({Error: 'Group could not be found'})}
   res.json(venue)
 })
 
@@ -151,16 +191,20 @@ router.get('/:id/members', async (req, res) => {
   const user = req.user
 
   let group = await Group.findByPk(newId);
+  console.log(user.id)
 
   if(!group){
     res.status(404).json({Error: 'This group does not exist'})
-  }if(group.dataValues.organizerId === user.id){
+  }if(user.id === group.dataValues.organizerId){
+    console.log('HIT THIS PART!!!!!!!!!!!!!!!!')
     const members = await group.getUsers({
       attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
       joinTableAttributes: []
     })
+    console.log(members)
     res.json({members})
- }else {
+ }if(group.dataValues.organizerId != user.id) {
+  console.log('SHOULD NOT HIT THIS PART!!!!!!!!!!!!!!!!')
   const members = await group.getUsers({
     attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
     joinTableAttributes: [],
@@ -246,12 +290,16 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
           id: groupId
       }
   });
+  console.log(selectGroup.dataValues.organizerId)
   if(!selectGroup){
     res.status(404).json({Error: "Group does not exist."})
-  }if(user.id === selectGroup.organizerId){
+  }
+  if(user.id !== selectGroup.dataValues.organizerId){
+    res.status(404).json({Error: 'You do not have permission to delete group'})
+  }else{
     await selectGroup.destroy()
-  }else res.status(404).json({Error: 'You do not have permission to delete group'})
-  res.json({message: 'Successfully deleted'})
+    res.json({message: 'Successfully deleted'})
+  }
 });
 
 //Get All Groups Joined Or Organized by the Current User
@@ -260,24 +308,18 @@ router.get('/current', requireAuth, async (req, res) => {
   const userOrganizer = await Group.findAll({
     where: {
       organizerId: user.id
-    },
-    attributes: {
+    }, attributes: {
       include: [
         [
-          Sequelize.fn('COUNT', Sequelize.col('Users.Membership.memberId')),
+          Sequelize.fn('COUNT', Sequelize.col('memberId')),
           'numMembers'
         ]
       ]
     },
     include: [
       {
-        model: User,
+        model: Membership,
         attributes: [],
-        through: {
-          attributes:{
-            include: ['groupId']
-          }
-        }
       }
     ],
     group: ['Group.id']
@@ -291,34 +333,32 @@ router.get('/current', requireAuth, async (req, res) => {
   });
 
   let userMemberships = []
+  //console.log(groups)
 
   for(let i = 0; i < groups.length; i++){
     let groupInfo = groups[i].dataValues.groupId
+    console.log(groupInfo)
     const member = await Group.findOne({
       where: {id: groupInfo},
       attributes: {
         include: [
           [
-            Sequelize.fn('COUNT', Sequelize.col('Users.Membership.memberId')),
+            Sequelize.fn('COUNT', Sequelize.col('memberId')),
             'numMembers'
           ]
         ]
       },
       include: [
         {
-          model: User,
+          model: Membership,
           attributes: [],
-         through: {
-           attributes: ['memberId'],
-           where:{memberId: user.id}
-         }
         }
       ],
       //group: ['Group.id']
     })
     userMemberships.push(member.dataValues)
   }
-  console.log(userMemberships)
+  //console.log(userMemberships)
   res.json({userOrganizer, userMemberships})
 })
 

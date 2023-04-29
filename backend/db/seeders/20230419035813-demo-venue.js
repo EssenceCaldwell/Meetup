@@ -17,32 +17,32 @@ module.exports = {
         address: '123 Address Rd',
         city: 'Greensboro',
         state: 'NC',
-        lat: 123.321,
-        lng: 456.654
+        lat: 70.321,
+        lng: 80.654
       },
       {
         groupId: 2,
         address: '456 Address Rd',
         city: 'Owensboro',
         state: 'KY',
-        lat: 789.987,
-        lng: 321.123
+        lat: 71.987,
+        lng: 81.123
       },
       {
         groupId: 3,
         address: '789 Address Rd',
         city: 'Chicago',
         state: 'IL',
-        lat: 654.456,
-        lng: 987.789
+        lat: 72.456,
+        lng: 82.789
       },
       {
         groupId: 1,
         address: '789 Address Rd',
         city: 'Chicago',
         state: 'IL',
-        lat: 654.456,
-        lng: 987.789
+        lat: 73.456,
+        lng: 83.789
       }
     ])
   },

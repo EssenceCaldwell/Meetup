@@ -17,7 +17,7 @@ module.exports = {
       },
       venueId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Venues',
           key: 'id'
@@ -61,7 +61,7 @@ module.exports = {
       },
       previewImage: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       createdAt: {
         allowNull: false,
