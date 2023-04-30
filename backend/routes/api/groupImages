@@ -1,0 +1,67 @@
+const express = require('express');
+const router = express.Router();
+const { requireAuth } = require('../../utils/auth');
+
+const { handleValidationErrors, validateEvent, validateDate} = require('../../utils/validation');
+
+const { Group, Image, Membership, sequelize} = require('../../db/models');
+
+
+router.use(express.json());
+
+router.delete('/:id', requireAuth, async (req, res) => {
+const user = req.user;
+const imageId = req.params.id;
+
+const image = await Image.findOne({
+    where: {
+        id: imageId,
+        imageableType: 'Groups'
+    }
+})
+
+if(!image){
+    res.status(404).json({Error: 'Image does not exist'})
+}
+
+const group = await Group.findOne({
+    include:{
+        model: Image,
+        attributes: [],
+        where: {
+            id: imageId
+
+        }
+    }
+})
+
+//console.log(group)
+
+const groupOwner = group.dataValues.organizerId;
+
+
+
+const memberInfo = await Membership.findOne({
+    where: {
+        memberId: user.id,
+        groupId: group.dataValues.id
+    }
+})
+
+if(!memberInfo){
+    res.status(400).json({Error: 'You are not a member of this group'})
+}
+
+const status = memberInfo.dataValues.status;
+
+if(groupOwner !== user.id && status !== 'co-host'){
+res.status(400).json({Error: 'You do not have permission to edit this group'})
+}
+
+await image.destroy()
+
+res.json('Sucess')
+})
+
+
+module.exports = router;

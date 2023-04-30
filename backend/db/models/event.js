@@ -77,6 +77,11 @@ module.exports = (sequelize, DataTypes, Validator) => {
           if(new Date(val) < new Date){
             throw new Error ('Start date must be in the future')
           }
+        },
+        isDate(val){
+          if(!Validator.isDate(val)){
+            throw new Error('Please enter a valid date')
+          }
         }
       }
     },
@@ -87,6 +92,11 @@ module.exports = (sequelize, DataTypes, Validator) => {
         isInFuture(val){
           if(new Date(val) <= this.startDate){
             throw new Error ('End date is less than start date')
+          }
+        },
+        isDate(val){
+          if(!Validator.isDate(val)){
+            throw new Error('Please enter a valid date')
           }
         }
       }

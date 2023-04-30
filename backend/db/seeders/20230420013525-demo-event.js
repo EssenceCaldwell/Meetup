@@ -20,8 +20,8 @@ module.exports = {
         type: 'In person',
         capacity: 10,
         price: 50.00,
-        startDate: '2024-01-01',
-        endDate: '2024-01-02',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-01-02'),
         previewImage: 'www.preview.com/image/1'
       },
       {
@@ -32,8 +32,8 @@ module.exports = {
         type: 'In person',
         capacity: 20,
         price: 100.00,
-        startDate: '2024-02-01',
-        endDate: '2024-02-01',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-01-02'),
         previewImage: 'www.preview.com/image/2'
       },
       {
@@ -44,8 +44,8 @@ module.exports = {
         type: 'In person',
         capacity: 30,
         price: 150.00,
-        startDate: '2024-03-01',
-        endDate: '2024-03-02',
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-01-02'),
         previewImage: 'www.preview.com/image/3'
       }
     ])

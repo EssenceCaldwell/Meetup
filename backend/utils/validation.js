@@ -82,24 +82,40 @@ const validateGroup = [
   handleValidationErrors
 ];
 
+const validateDate = [
+  check('startDate')
+  .exists({checkNull: false})
+  .isDate()
+  .withMessage("Invalid date"),
+  check('endDate')
+  .exists({checkNull: false})
+  .isDate()
+  .withMessage("Invalid date"),
+  handleValidationErrors
+]
 
 const validateVenue = [
     check('address')
     .exists({checkFalsy: true })
+    .isString()
     .withMessage("Street address is required"),
     check('city')
+    .isString()
     .exists({checkFalsy: true })
     .withMessage("City is required"),
     check('state')
     .exists({checkFalsy: true })
+    .isString()
     .withMessage("State is required"),
     check('lat')
     .exists({checkFalsy: true })
     .isDecimal()
+    .isFloat({ min: -90, max: 90 })
     .withMessage("Latitude is not valid"),
     check('lng')
     .exists({checkFalsy: true })
     .isDecimal()
+    .isFloat({ min: -180, max: 180 })
     .withMessage('Longitude is not valid'),
     handleValidationErrors
 ];
@@ -132,7 +148,7 @@ const validateEvent = [
   .isDate()
   .withMessage('Please add a start date'),
   check('endDate')
-  .exists({checkFalsy: true})
+    .exists({checkFalsy: true})
   .isDate()
   .withMessage('Please add an end date'),
   handleValidationErrors
@@ -150,5 +166,6 @@ module.exports = {
   validateSignup,
   validateGroup,
   validateVenue,
-  validateEvent
+  validateEvent,
+  validateDate
 };

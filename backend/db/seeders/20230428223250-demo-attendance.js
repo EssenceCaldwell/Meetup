@@ -1,5 +1,4 @@
 'use strict';
-
 const bcrypt = require("bcryptjs");
 
 let options = {};
@@ -9,15 +8,6 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
     options.tableName = 'Attendances'
     await queryInterface.bulkInsert(options, [
       {
@@ -38,17 +28,17 @@ module.exports = {
       {
         eventId: 1,
         attendeeId: 2,
-        status: 'member'
+        status: 'pending'
       },
       {
         eventId: 2,
         attendeeId: 3,
-        status: 'member'
+        status: 'pending'
       },
       {
         eventId: 3,
         attendeeId: 1,
-        status: 'member'
+        status: 'pending'
       },
     ])
   },

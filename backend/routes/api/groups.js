@@ -11,6 +11,77 @@ const { Group, User, Membership, Image, Venue, Event, Attendance, sequelize, Seq
 
 router.use(express.json());
 
+//Change the status of a membership for a group specified by id
+router.put('/:id/membership', requireAuth, async (req, res) => {
+  const {memberId, status} = req.body
+  const user = req.user;
+  const groupId = req.params.id;
+
+  const group = await Group.findByPk(groupId);
+
+  if(!group){
+    res.status(404).json({
+      "message": "Group couldn't be found",
+      "statusCode": 404
+    })
+  }
+
+const member =await Membership.findOne({
+    where: {
+      memberId,
+      groupId
+    }
+  })
+
+  if(!member){
+    res.status(400).json({
+      "message": "Validation Error",
+      "statusCode": 400,
+      "errors": {
+        "memberId": "User couldn't be found"
+      }
+    })
+  }
+
+  const userInfo = await Membership.findOne({
+    where: {
+      memberId: user.id,
+      groupId
+    }
+  })
+
+  let statusInfo = ''
+
+  if(userInfo){
+    //console.log(userInfo)
+    statusInfo = userInfo.dataValues.status
+
+  }
+  if(status === 'pending'){
+    res.status(400).json({
+      "message": "Validations Error",
+      "statusCode": 400,
+      "errors": {
+        "status" : "Cannot change a membership status to pending"
+      }
+    })
+
+    if(status === 'co-host' || group.dataValues.organizerId !== user.id){
+      res.status(403).json({Error: 'Only group owner can make that change'})
+    }
+  }
+
+  if(group.dataValues.organizerId === user.id || statusInfo === 'co-host'){
+   // console.log(mem)
+     member.update({
+      memberId,
+      groupId,
+      status
+    })
+  }else{res.status(403).json({Error: "You don't have permission to do that"})}
+
+  res.json(member)
+})
 
 //Create a new Venue for a Group specified by its id
 router.post('/:id/venues', requireAuth, validateVenue ,async (req, res) => {
@@ -191,20 +262,20 @@ router.get('/:id/members', async (req, res) => {
   const user = req.user
 
   let group = await Group.findByPk(newId);
-  console.log(user.id)
+  //console.log(user.id)
 
   if(!group){
     res.status(404).json({Error: 'This group does not exist'})
   }if(user.id === group.dataValues.organizerId){
-    console.log('HIT THIS PART!!!!!!!!!!!!!!!!')
+    //console.log('HIT THIS PART!!!!!!!!!!!!!!!!')
     const members = await group.getUsers({
       attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
       joinTableAttributes: []
     })
     console.log(members)
     res.json({members})
- }if(group.dataValues.organizerId != user.id) {
-  console.log('SHOULD NOT HIT THIS PART!!!!!!!!!!!!!!!!')
+ }if(group.dataValues.organizerId !== user.id) {
+  //console.log('SHOULD NOT HIT THIS PART!!!!!!!!!!!!!!!!')
   const members = await group.getUsers({
     attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
     joinTableAttributes: [],
@@ -278,8 +349,8 @@ if(!memberStatus){
   await member.destroy();
   res.json({message: 'Successfully Deleted User'})
 }
-
 });
+
 
 //Delete Group By Id
 router.delete('/:groupId', requireAuth, async (req, res) => {
@@ -423,6 +494,7 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 
 //Get All Groups
 router.get('/', async (req, res) => {
+
     const allGroups = await Group.findAll({
       attributes: {
         include: [
