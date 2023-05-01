@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Group.belongsToMany(
         models.User,
-        {through: models.Membership}
+        {through: models.Membership, foreignKey: 'groupId'}
       ),
       Group.belongsTo(
         models.User,
@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
       ),
       Group.hasMany(
         models.Event,
-        {foreignKey: 'groupId', onDelete: 'CASCADE',  hooks: true }
+        {foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true}
+      ),
+      Group.hasMany(
+        models.Membership,
+        {foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true}
       ),
       Group.hasMany(
         models.Image,
@@ -29,13 +33,13 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'imageableId', onDelete: 'CASCADE',  hooks: true ,
           constraints: false,
           scope: {
-            imageableType: 'Group'
+            imageableType: 'Groups'
           }
         }
       ),
-      Group.belongsTo(
+      Group.hasMany(
         models.Venue,
-        {foreignKey: 'groupId'}
+        {foreignKey: 'groupId', onDelete: 'CASCADE', hooks: true}
       )
     }
   }
@@ -46,76 +50,30 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-       allowNull: false,
-       validate: {
-        len: [2, 60],
-        isNotTooLong(val){
-          if(val.length > 60){
-            throw new Error ('Name must be 60 characters or less')
-          }
-        }
-       }
+       allowNull: false
     },
     about: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [60, 200],
-        isNotTooShort(val){
-          if(val.length < 60){
-            throw new Error('About must be 50 characters or more')
-          }
-        }
-      }
+      allowNull: false
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isIn: [['Online', 'In Person']],
-        isCorrectVal(val){
-          if(val === 'Online' || 'In Person'){
-            throw new Error("Type must be 'Online' or 'In person'")
-          }
-        }
-      }
+      allowNull: false
     },
     private: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-      validate: {
-        isBoolean(val){
-          if(val === true || false){
-            throw new Error('Private must be a boolean')
-          }
-        }
-      }
+      allowNull: false
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        isNotEmpty(val){
-          if(!val.length){
-            throw new Error('City is required')
-          }
-        }
-      }
+      allowNull: false
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNotEmpty(val){
-          if(!val.length){
-            throw new Error('State is required')
-          }
-        }
-      }
+      allowNull: false
     },
     previewImage: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     }
   }, {
     sequelize,

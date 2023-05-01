@@ -14,15 +14,21 @@ module.exports = (sequelize, DataTypes) => {
       Image.belongsTo(
         models.Event,
         {
-          foreignKey: 'commentableId',
-        constraints: false
+          foreignKey: 'imageableId',
+        constraints: false,
+        scope: {
+          imageableType: 'Events'
+        }
       }
       ),
       Image.belongsTo(
         models.Group,
         {
-          foreignKey: 'commentableId',
-          constraints: false
+          foreignKey: 'imageableId',
+          constraints: false,
+          scope: {
+            imageableType: 'Groups'
+          }
         }
       )
     }
@@ -45,6 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
+    defaultScope:{
+      attributes:{
+        exclude:['imageableType', 'imageableId', 'createdAt', 'updatedAt']
+      }
+    },
     sequelize,
     modelName: 'Image',
   });
