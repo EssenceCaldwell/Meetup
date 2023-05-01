@@ -11,13 +11,13 @@ const router = express.Router();
 
 
 router.post('/', validateLogin, async (req, res, next) => {
-      const { credential, password } = req.body;
+      const { username, email, password } = req.body;
 
       const user = await User.unscoped().findOne({
         where: {
           [Op.or]: {
-            username: credential,
-            email: credential
+            username: username,
+            email: email
           }
         }
       });
