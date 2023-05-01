@@ -408,7 +408,7 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
 //Get all Events details of an event specified by its Id
 router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
-    const Event = await Event.findByPk(eventId,
+    const event = await Event.findByPk(eventId,
         {
             attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity',
             'price', 'startDate', 'endDate',  [
@@ -436,26 +436,26 @@ router.get('/:id', async (req, res) => {
             group: ['Event.id', 'Group.id', 'Venue.id', 'Images.id']
         }
         )
-        if(!Event){
+        if(!event){
             res.status(404).json({
                 "message": "Event couldn't be found",
                 "statusCode": 404
               })
         }
-        if(Event.id === null){
+        if(event.id === null){
             res.status(404).json({
                 "message": "Group couldn't be found",
                 "statusCode": 404
               })
         }
-        if(!Event.length){
-            res.status(404).json({
-                "message": "Group couldn't be found",
-                "statusCode": 404
-              })
-        }
+       //if(!event.length){
+       //    res.status(404).json({
+       //        "message": "Group couldn't be found",
+       //        "statusCode": 404
+       //      })
+       //}
 
-    res.json(Event)
+    res.json(event)
 });
 
 //Get all Events
