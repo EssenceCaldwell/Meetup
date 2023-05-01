@@ -2,53 +2,34 @@
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;
+  options.schema = process.env.SCHEMA;  
 };
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Groups', {
+    await queryInterface.createTable('Images', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      organizerId: {
+      imageableId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
+        allowNull: false
       },
-      name: {
+      imageableType: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      about: {
+      url: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      private: {
+      preview: {
         type: Sequelize.BOOLEAN,
         allowNull: false
-      },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      state: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      previewImage: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -63,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Groups');
+    await queryInterface.dropTable('Images');
   }
 };
