@@ -284,7 +284,7 @@ res.json(newImg)
 router.get('/:id/venues', async (req, res) => {
   const groupsId = req.params.id;
 
-  const venue = await Venue.findAll({
+  const Venue = await Venue.findAll({
     where: {
       groupId: groupsId
     },
@@ -295,7 +295,7 @@ router.get('/:id/venues', async (req, res) => {
     "message": "Group couldn't be found",
     "statusCode": 404
   })}
-  res.json(venue)
+  res.json({Venue})
 })
 
 //Request Membership to a Group
