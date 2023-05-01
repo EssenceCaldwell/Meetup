@@ -592,8 +592,7 @@ router.get('/:id', async (req, res) => {
         model: Venue,
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
       }
-    ],
-    raw: true
+    ]
   });
   //console.log(group)
   if(!group.id){
