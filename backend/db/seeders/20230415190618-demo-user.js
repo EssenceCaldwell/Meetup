@@ -9,27 +9,27 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     options.tableName = 'Users';
-    return queryInterface.bulkInsert(options, [
+    await queryInterface.bulkInsert(options, [
       {
         username: 'Demo-lition',
         firstName: 'First',
         lastName: 'Last',
         email: 'demo@user.io',
-        password: bcrypt.hashSync('password')
+        hashedPassword: bcrypt.hashSync('password')
       },
       {
         username: 'FakeUser1',
         firstName: 'First1',
         lastName: 'Last1',
         email: 'user1@user.io',
-        password: bcrypt.hashSync('password2')
+        hashedPassword: bcrypt.hashSync('password2')
       },
       {
         username: 'FakeUser2',
         firstName: 'First2',
         lastName: 'Last2',
         email: 'user2@user.io',
-        password: bcrypt.hashSync('password3')
+        hashedPassword: bcrypt.hashSync('password3')
       }
     ], {});
   },

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         models.Event,
         {foreignKey: 'venueId', onDelete: 'CASCADE',  hooks: true}
       ),
-      Venue.hasMany(
+      Venue.belongsTo(
         models.Group,
         {foreignKey: 'groupId'}
       )
@@ -28,36 +28,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     address: {
       type: DataTypes.STRING,
-       allowNull: false,
-       validate:{
-        isNotTooShort(val){
-          if(!val.length){
-            throw new Error('Street address is required')
-          }
-        }
-       }
+       allowNull: false
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        isNotTooShort(val){
-          if(!val.length){
-            throw new Error('City is required')
-          }
-        }
-       }
+      allowNull: false
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        isNotTooShort(val){
-          if(!val.length){
-            throw new Error('State is required')
-          }
-        }
-       }
+      allowNull: false
     },
     lat: {
       type: DataTypes.DECIMAL,
@@ -68,6 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
+    defaultScope:{
+      attributes:{
+        exclude: [ 'createdAt', 'updatedAt']
+      }
+    },
     sequelize,
     modelName: 'Venue',
   });
