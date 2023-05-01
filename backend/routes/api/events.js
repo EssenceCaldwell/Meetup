@@ -138,6 +138,7 @@ router.put('/:id/attendance', requireAuth, async (req, res) => {
             eventId: eventsId
         }
     })
+    console.log(memberInfo)
 
     //console.log(userInfo.dataValues.status)
     const event = await Event.findByPk(eventsId,{

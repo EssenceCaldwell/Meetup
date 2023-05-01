@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes, Validator) => {
       // define association here
       User.belongsToMany(
         models.Event,
-        {through: models.Attendance, foreignKey: 'attendeeId'}
+        {through: models.Attendance, foreignKey: 'userId'}
       ),
       User.belongsToMany(
         models.Group,
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes, Validator) => {
       ),
       User.hasMany(
         models.Attendance,
-        {foreignKey: 'attendeeId', onDelete: 'CASCADE',  hooks: true}
+        {foreignKey: 'userId', onDelete: 'CASCADE',  hooks: true}
       )
     }
   };
