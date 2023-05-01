@@ -594,7 +594,7 @@ router.get('/:id', async (req, res) => {
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
       }
     ],
-    group: ["Group.id"]
+    group: ["Group.id", "Images.id", "Venues.id"]
   });
   //console.log(group)
   if(!groupDemo){
