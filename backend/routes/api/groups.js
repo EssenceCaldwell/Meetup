@@ -595,10 +595,6 @@ router.get('/:id', async (req, res) => {
     },
       include:[
       {
-        model: Image,
-        attributes: ['id', 'url', 'preview']
-      },
-      {
         model: User,
         attributes: [],
         through: {attributes: []}
@@ -608,7 +604,7 @@ router.get('/:id', async (req, res) => {
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
       }
     ],
-    group: ["Group.id", "Images.id", "Venues.id"]
+    group: ["Group.id", "Venues.id"]
   });
   //console.log(group)
   if(!groupDemo){
@@ -618,14 +614,23 @@ router.get('/:id', async (req, res) => {
   })
   }
   const organizerId = group.organizerId
+  const images = await Image.findAll({
+    where:{
+      imageableId: groupId,
+      imageableType: 'Groups'
+    }
+  })
+  console.log(images)
 
   const organizer = await User.findOne({
   where: {id: organizerId},
   attributes: ['id', 'firstName', 'lastName']
   } )
 
+    group.setDataValue('GroupImages', images)
+    group.setDataValue('Organizer', organizer);
 
-  res.json({group, organizer})
+  res.json(group)
 });
 
 //Create New Group
