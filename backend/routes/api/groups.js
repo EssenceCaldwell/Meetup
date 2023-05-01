@@ -91,14 +91,14 @@ const member = await Membership.findOne({
       groupId,
       status
     })
+    const updatedMember = await Membership.findByPk(memberId, {
+      attributes: {
+        include: ['id', 'groupId', 'memberId', 'status']
+      }
+    })
+    res.json(updatedMember)
+    
   }else{res.status(403).json({Error: "You don't have permission to do that"})}
-
-  const updatedMember = await Membership.findByPk(memberId, {
-    attributes: {
-      include: ['id', 'groupId', 'memberId', 'status']
-    }
-  })
-  res.json(updatedMember)
 })
 
 //Create a new Venue for a Group specified by its id
