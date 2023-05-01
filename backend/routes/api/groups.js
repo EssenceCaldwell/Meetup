@@ -574,7 +574,7 @@ router.get('/current', requireAuth, async (req, res) => {
   const Groups = Array.from(uniqueGroups).map(group => JSON.parse(group));
 
   //console.log(userMemberships)
-  res.json(Groups)
+  res.json({Groups})
 })
 
 //Get Details of a Group from an Id
