@@ -202,7 +202,13 @@ const newGroup = await group.createEvent({
   startDate: new Date(newStartDate),
   endDate: new Date(newEndDate)
 })
-res.json(newGroup)
+
+const result = await Event.findByPk(newGroup.dataValues.id, {
+  attributes:{
+    exclude: ['createdAt', 'updatedAt', 'previewImage']
+  }
+})
+res.json(result)
 }
 res.status(400).json({Error: 'You do not have permission to edit this Group'})
 })
