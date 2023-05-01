@@ -89,7 +89,7 @@ const member = await Membership.findOne({
      member.update({
       memberId,
       groupId,
-      status: status
+      status
     })
   }else{res.status(403).json({Error: "You don't have permission to do that"})}
 
