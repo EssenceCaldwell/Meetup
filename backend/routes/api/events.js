@@ -78,14 +78,14 @@ const event = await Event.findByPk(eventId)
 
 const userStatusPending = await Attendance.findOne({
     where:{
-        attendeeId: user.id,
+        userId: user.id,
         eventId,
         status: 'pending'
     }
 })
 const userStatusMember = await Attendance.findOne({
     where:{
-        attendeeId: user.id,
+        userId: user.id,
         eventId,
         status: 'member'
     }
@@ -109,14 +109,14 @@ if(userStatusMember){
       })
 }
 const request = await event.createAttendance({
-    attendeeId: user.id,
+    userId: user.id,
     eventId,
     status: 'pending'
 });
 
 const results = await Attendance.findOne({
     where: {
-        attendeeId: user.id,
+        userId: user.id,
         eventId
     },
     attributes: {
@@ -128,13 +128,13 @@ res.json(results)
 
 //Change the status of an attendance for an event specified by id
 router.put('/:id/attendance', requireAuth, async (req, res) => {
-    const {attendeeId, status} = req.body
+    const {userId, status} = req.body
     const user = req.user;
     const eventsId = req.params.id;
 
     const memberInfo = await Attendance.findOne({
         where:{
-            attendeeId,
+            userId,
             eventId: eventsId
         }
     })
@@ -186,16 +186,16 @@ router.put('/:id/attendance', requireAuth, async (req, res) => {
     }else {
         await Attendance.update({
             status,
-            userId: attendeeId
+            userId: userId
         },
         {where: {
             eventId: eventsId,
-            attendeeId
+            userId
         }})
 
         const response = await Attendance.findOne({
             where:{
-                attendeeId,
+                userId,
                 eventId: eventsId
             },
             attributes: {
@@ -253,7 +253,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
 //Delete an Attendance
 router.delete('/:id/attendance', requireAuth, async (req, res) => {
-const {attendeeId} = req.body
+const {userId} = req.body
 const user = req.user;
 const eventId = req.params.id;
 const event = await Event.findByPk(eventId,
@@ -269,7 +269,7 @@ const event = await Event.findByPk(eventId,
     }
     const member = await Attendance.findOne({
         where:{
-            attendeeId,
+            userId,
             eventId
         }
      })
@@ -279,10 +279,10 @@ const event = await Event.findByPk(eventId,
         res.status(404).json({ message: "Attendance does not exist for this User", statusCode: 404})
     }
     const owner = event.Group.dataValues.organizerId
-    if(user.id === owner || user.id === attendeeId){
+    if(user.id === owner || user.id === userId){
     await Attendance.destroy({
         where:{
-            attendeeId,
+            userId,
             eventId
         }
     })
@@ -316,7 +316,7 @@ if(!event){
 const attendeeStatus = await Attendance.findOne({
         where: {
             eventId,
-            attendeeId: user.id
+            userId: user.id
         }
     })
 

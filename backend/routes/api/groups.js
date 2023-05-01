@@ -512,7 +512,7 @@ router.get('/current', requireAuth, async (req, res) => {
     where: {
       memberId: user.id
     },
-    attributes: ['groupId']
+    //attributes: ['groupId']
   });
 
   let userMemberships = []

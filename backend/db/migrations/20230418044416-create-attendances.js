@@ -24,7 +24,7 @@ module.exports = {
         },
         onDelete: 'cascade'
       },
-      attendeeId: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references:{
