@@ -12,21 +12,26 @@ const router = express.Router();
 
 router.post('/', validateLogin, async (req, res, next) => {
       const { username, email, password } = req.body;
+
 let user
 
   if(username){
-    const user = await User.unscoped().findOne({
+     user = await User.unscoped().findOne({
     where: {
         username: username
       }
     })
   }
+  console.log(user)
   if(email){
-    const user = await User.unscoped().findOne({
+     user = await User.unscoped().findOne({
       where: {
           email: email
         }
       })
+    }
+    if(!email && !username){
+      res.status(400).json({Error: "Please provide a valid email or username."})
     }
 
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
