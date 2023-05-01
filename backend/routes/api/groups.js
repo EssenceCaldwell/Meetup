@@ -325,7 +325,13 @@ router.post('/:id/membership', requireAuth, async (req, res) => {
       })
   }};
   const newMember = await Membership.create({memberId: user.id, groupId: groupsId, status: 'pending'});
-  res.json(newMember)
+
+  const response = await Membership.findByPk(newMember.dataValues.id, {
+    attributes: {
+      exclude: ['updatedAt', 'createdAt']
+    }
+  })
+  res.json(response)
 })
 
 //Get All Members of a Group based on the Group's id
