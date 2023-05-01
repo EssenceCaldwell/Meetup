@@ -55,7 +55,7 @@ router.put('/:id', requireAuth, validateVenue, async (req, res) => {
             exclude: ['updatedAt', "createdAt"]
         }
     })
-    res.json(venue)
+    res.json(newVenue)
 })
 
 
