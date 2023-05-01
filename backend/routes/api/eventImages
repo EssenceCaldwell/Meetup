@@ -21,7 +21,10 @@ router.delete('/:id', requireAuth, async (req, res) => {
     })
 
     if(!image){
-        res.status(404).json({Error: 'Image does not exist'})
+        res.status(404).json({
+            "message": "Event Image couldn't be found",
+            "statusCode": 404
+          })
     }
 
     const event = await Event.findOne({
@@ -39,6 +42,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
     const groupId = event.dataValues.groupId
 
     const group = await Group.findByPk(groupId)
+
 
     const groupOwner = group.dataValues.organizerId;
 
@@ -63,7 +67,10 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
     await image.destroy()
 
-    res.json('Sucess')
+    res.json({
+        "message": "Successfully deleted",
+        "statusCode": 200
+      })
     })
 
 

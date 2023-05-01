@@ -21,7 +21,10 @@ const image = await Image.findOne({
 })
 
 if(!image){
-    res.status(404).json({Error: 'Image does not exist'})
+    res.status(404).json({
+        "message": "Group Image couldn't be found",
+        "statusCode": 404
+      })
 }
 
 const group = await Group.findOne({
@@ -60,7 +63,10 @@ res.status(400).json({Error: 'You do not have permission to edit this group'})
 
 await image.destroy()
 
-res.json('Sucess')
+res.json({
+    "message": "Successfully deleted",
+    "statusCode": 200
+  })
 })
 
 

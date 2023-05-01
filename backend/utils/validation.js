@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const { isISO8601 } = require('validator');
 const { check } = require('express-validator');
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
@@ -127,7 +128,7 @@ const validateEvent = [
   check('name')
   .exists({checkFalsy: true})
   .isLength({min: 5})
-  .withMessage('Please add a name'),
+  .withMessage('Name must be at least 5 characters'),
   check('type')
   .exists({checkFalsy: true})
   .isIn(['Online', 'In person'])
@@ -145,11 +146,11 @@ const validateEvent = [
   .withMessage('Description is required'),
   check('startDate')
   .exists({checkFalsy: true})
-  .isDate()
+  .isISO8601()
   .withMessage('Please add a start date'),
   check('endDate')
-    .exists({checkFalsy: true})
-  .isDate()
+  .exists({checkFalsy: true})
+ .isISO8601()
   .withMessage('Please add an end date'),
   handleValidationErrors
 ];

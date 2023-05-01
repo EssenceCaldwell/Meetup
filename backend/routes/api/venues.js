@@ -6,6 +6,7 @@ const {Venue, Group, Membership} = require('../../db/models')
 
 router.use(express.json());
 
+//Edit a venue based on its Id
 router.put('/:id', requireAuth, validateVenue, async (req, res) => {
     const {address, city, state, lat, lng} = req.body
     const user = req.user;
@@ -13,7 +14,10 @@ router.put('/:id', requireAuth, validateVenue, async (req, res) => {
     const venue = await Venue.findByPk(venueId);
 
     if(!venue){
-        res.status(404).json({Error: 'Venue could not be found'})
+        res.status(404).json({
+            "message": "Venue couldn't be found",
+            "statusCode": 404
+          })
     }
     groupId = venue.dataValues.groupId
 

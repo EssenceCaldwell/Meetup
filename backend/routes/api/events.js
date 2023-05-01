@@ -113,8 +113,17 @@ const request = await event.createAttendance({
     eventId,
     status: 'pending'
 });
-console.log(request)
-res.json(request)
+
+const results = await Attendance.findOne({
+    where: {
+        attendeeId: user.id,
+        eventId
+    },
+    attributes: {
+        exclude: ['createdAt', 'updatedAt']
+    }
+})
+res.json(results)
 })
 
 //Change the status of an attendance for an event specified by id
@@ -183,7 +192,17 @@ router.put('/:id/attendance', requireAuth, async (req, res) => {
             eventId: eventsId,
             attendeeId
         }})
-        res.json(memberInfo)
+
+        const response = await Attendance.findOne({
+            where:{
+                attendeeId,
+                eventId: eventsId
+            },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+        res.json(response)
     }
 })
 
@@ -288,7 +307,10 @@ router.post('/:id/images', requireAuth, async (req, res) => {
 
 
 if(!event){
-        res.status(404).json('Event could not be found')
+        res.status(404).json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+          })
     }
 
 const attendeeStatus = await Attendance.findOne({
@@ -303,7 +325,13 @@ if(attendeeStatus){
             url,
             preview
         })
-        res.json(newImage)
+
+        const addedImage = await Image.findByPk(newImage.dataValues.id, {
+            attributes: {
+                include: ['url', 'preview']
+            }
+        })
+        res.json(addedImage)
     }
     res.status(400).json('Only users who have attended can add photos')
 })
@@ -313,17 +341,26 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
     const eventsId = req.params.id;
     const user = req.user;
     const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
+    const newStartDate = startDate.slice(0 , 10);
+    const newEndDate = endDate.slice(0 , 10)
+
 
     const event = await Event.findByPk(eventsId);
     if(!event){
-        res.status(404).json({Error: 'Event cannont be found'})
+        res.status(404).json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+          })
     }
     const groupId = event.dataValues.groupId;
     const group = await Group.findByPk(groupId)
     const venue = await Venue.findByPk(venueId)
 
     if(!venue){
-        res.status(404).json({Error: 'No venues associated with this id'})
+        res.status(404).json({
+            "message": "Venue couldn't be found",
+            "statusCode": 404
+          })
     }
 
     const memberStatusInfo = await Membership.findOne({
@@ -353,20 +390,26 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
             capacity,
             price,
             description,
-            startDate: new Date(startDate),
-            endDate
+            startDate: new Date(newStartDate),
+            endDate: new Date(newEndDate)
         },)
-        res.json(newEvent)
+        const updatedEvent = await Event.findByPk(newEvent.dataValues.id, {
+            attributes: {
+                exclude: ['previewImage']
+            }
+        })
+        res.json(updatedEvent)
     }else throw new Error('You do not have permission to edit this event')
 });
 
-//Get all Events of a Group specified by its Id
+//Get all Events details of an event specified by its Id
 router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
     const event = await Event.findByPk(eventId,
         {
             attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity',
-            'price', 'startDate', 'endDate', [Sequelize.fn('COUNT', Sequelize.col('attendeeId')),'numAttending']],
+            'price', 'startDate', 'endDate', [Sequelize.literal(`(SELECT COUNT(*) FROM "Attendances" WHERE "Attendances"."eventId" = "Event"."id")`
+            ),'numAttending']],
             include:[
                 {
                 model: Attendance,
@@ -387,8 +430,17 @@ router.get('/:id', async (req, res) => {
             ]
         }
         )
+        if(!event){
+            res.status(404).json({
+                "message": "Event couldn't be found",
+                "statusCode": 404
+              })
+        }
         if(event.id === null){
-            res.status(404).json({Error: 'Event does not exist'})
+            res.status(404).json({
+                "message": "Group couldn't be found",
+                "statusCode": 404
+              })
         }
 
     res.json(event)
@@ -466,8 +518,17 @@ router.get('/', async (req, res) => {
             }
         ]
     });
+    if(!event){
+        res.status(404).json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+          })
+    }
     if(!event.length){
-        res.status(400).json({Error: 'No event exisits with that information'})
+        res.status(404).json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+          })
     }
     res.json({event, page, size})
 })
