@@ -326,7 +326,11 @@ router.post('/:id/membership', requireAuth, async (req, res) => {
   }};
   const newMember = await Membership.create({memberId: user.id, groupId: groupsId, status: 'pending'});
 
-  const response = await Membership.findByPk(newMember.dataValues.id, {
+  const response = await Membership.findOne({
+    where: {
+      memberId: user.id,
+      groupId: groupsId
+    },
     attributes: {
       exclude: ['updatedAt', 'createdAt']
     }
