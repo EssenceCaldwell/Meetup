@@ -86,18 +86,15 @@ const member = await Membership.findOne({
 
   if(group.dataValues.organizerId === user.id || statusInfo === 'co-host'){
    // console.log(mem)
-     member.update({
-      memberId,
-      groupId,
-      status
-    })
+    await member.update({status});
+    
     const updatedMember = await Membership.findByPk(memberId, {
       attributes: {
         include: ['id', 'groupId', 'memberId', 'status']
       }
     })
     res.json(updatedMember)
-    
+
   }else{res.status(403).json({Error: "You don't have permission to do that"})}
 })
 
