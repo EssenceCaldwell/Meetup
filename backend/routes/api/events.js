@@ -431,7 +431,7 @@ router.get('/:id', async (req, res) => {
                 attributes: ['id', 'url', 'preview']
                 }
             ],
-            group: ['Event.id']
+            group: ['Event.id', 'Group.id']
         }
         )
         if(!event){
@@ -489,7 +489,11 @@ router.get('/', async (req, res) => {
     if(size > 20){
         res.status(400).json({Error: 'Size can not be greater than 20'})
     }
-    if(page >= 0 && size >= 0){
+    if(page = 0 && size >= 0){
+        pagination.limit = size;
+        pagination.offset = 0
+    }
+    if(page > 0 && size >= 0){
         pagination.limit = size;
         pagination.offset = size * (page - 1);
     }
