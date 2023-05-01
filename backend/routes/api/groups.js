@@ -608,7 +608,15 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
       state,
       organizerId: user.id
   })
-  res.json(newGroup)
+  const result = await Group.findOne({
+    where: {
+      id: newGroup.dataValues.id
+    },
+    attributes: {
+      exclude: ['previewImage']
+    }
+  })
+  res.json(result)
 });
 
 //Get All Groups
