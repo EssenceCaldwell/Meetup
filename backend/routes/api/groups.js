@@ -567,6 +567,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:id', async (req, res) => {
   const groupId = req.params.id;
 
+  const groupDemo = await Group.findByPk(groupId)
   const group = await Group.findByPk(
     groupId,
     {
@@ -592,10 +593,11 @@ router.get('/:id', async (req, res) => {
         model: Venue,
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
       }
-    ]
+    ],
+    group: ["Group.id"]
   });
   //console.log(group)
-  if(!group.id){
+  if(!groupDemo){
   return res.status(404).json({
     "message": "Group couldn't be found",
     "statusCode": 404
