@@ -49,6 +49,12 @@ router.put('/:id', requireAuth, validateVenue, async (req, res) => {
     lat,
     lng
     })
+
+    const newVenue = await Venue.findByPk(venueId, {
+        attributes: {
+            exclude: ['updatedAt', "createdAt"]
+        }
+    })
     res.json(venue)
 })
 
