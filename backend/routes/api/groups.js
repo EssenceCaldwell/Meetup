@@ -217,32 +217,43 @@ res.status(400).json({Error: 'You do not have permission to edit this Group'})
 
 //Get All Events by Group Id
 router.get('/:id/events', async (req, res) => {
-  const groupsId = req.params.id;
-  const groups = await Group.findOne({
-    where: { id: groupsId },
-    attributes: ['id', 'name', 'city', 'state'],
+  const groupId = req.params.id;
+  const group = Group.findByPk(groupId)
+
+  if(!group){
+    res.status(404).json({
+      "message": "Group couldn't be found",
+      "statusCode": 404
+    })
+  }
+  const Events = await Event.findAll({
+    where: {
+      groupId
+    },
+    attributes:['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage', [
+      Sequelize.fn('COUNT', Sequelize.col('Attendances.userId')),
+      'numAttending'
+    ]],
     include: [
-     {
-      model: Event,
-      attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage']
-     },
+      {
+        model: Attendance,
+        attributes: []
+      },
+      {
+        model: Group,
+        attributes: ['id', 'name', 'city', 'state']
+      },
       {
         model: Venue,
         attributes: ['id', 'city', 'state']
       }
-      ],
-
-  });
-if(!groups){
-  res.status(404).json({
-    "message": "Group couldn't be found",
-    "statusCode": 404
+    ],
+    group: ['Event.id', 'Group.id', 'Venue.id']
   })
-}
 
-const members = await groups.getUsers()
-const numMembers = await groups.countUsers()
-  res.json({groups, numMembers})
+//const members = await groups.getUsers()
+//const numMembers = await groups.countUsers()
+  res.json({Events})
 });
 
 //Add an Image to a Group based on the Groups id
@@ -559,8 +570,11 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     userMemberships.push(member.dataValues)
   }
+  const uniqueGroups = new Set([...userOrganizer, ...userMemberships].map(group => JSON.stringify(group)));
+  const Groups = Array.from(uniqueGroups).map(group => JSON.parse(group));
+
   //console.log(userMemberships)
-  res.json({userOrganizer, userMemberships})
+  res.json(Groups)
 })
 
 //Get Details of a Group from an Id
@@ -641,7 +655,7 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
 //Get All Groups
 router.get('/', async (req, res) => {
 
-    const allGroups = await Group.findAll({
+    const Groups = await Group.findAll({
       attributes: {
         include: [
           [
@@ -662,7 +676,7 @@ router.get('/', async (req, res) => {
       group: ['Group.id']
     });
 
-    res.json({ allGroups });
+    res.json({ Groups });
 });
 
 
