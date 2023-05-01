@@ -523,7 +523,7 @@ router.get('/current', requireAuth, async (req, res) => {
         attributes: [],
       }
     ],
-    //group: ['Group.id']
+    group: ['Group.id']
   });
 
   const groups = await Membership.findAll({
@@ -555,7 +555,7 @@ router.get('/current', requireAuth, async (req, res) => {
           attributes: [],
         }
       ],
-      //group: ['Group.id']
+      group: ['Group.id']
     })
     userMemberships.push(member.dataValues)
   }
