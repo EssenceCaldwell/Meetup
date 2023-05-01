@@ -431,7 +431,7 @@ router.get('/:id', async (req, res) => {
                 attributes: ['id', 'url', 'preview']
                 }
             ],
-            group: ['Event.id', 'Group.id']
+            group: ['Event.id', 'Group.id', 'Venue.id']
         }
         )
         if(!event){
