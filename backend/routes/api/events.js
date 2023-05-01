@@ -409,8 +409,10 @@ router.get('/:id', async (req, res) => {
     const event = await Event.findByPk(eventId,
         {
             attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity',
-            'price', 'startDate', 'endDate', [Sequelize.literal(`(SELECT COUNT(*) FROM "Attendances" WHERE "Attendances"."eventId" = "Event"."id")`
-            ),'numAttending']],
+            'price', 'startDate', 'endDate',  [
+                Sequelize.fn('COUNT', Sequelize.col('Attendances.userId')),
+                'numAttending'
+              ]],
             include:[
                 {
                 model: Attendance,
@@ -502,36 +504,42 @@ router.get('/', async (req, res) => {
     }
 
 
-    const event = await Event.findAll({
+    const events = await Event.findAll({
         ...pagination,
-        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage', [Sequelize.literal(`(SELECT COUNT(*) FROM "Attendances" WHERE "Attendances"."eventId" = "Event"."id")`
-            ),'numAttending']],
+        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage'],
         include: [
-            {model: Group,
+            {
+            model: Group,
             attributes: ['id', 'name', 'city', 'state']}
             ,
-            {model: Venue,
-            attributes:['id', 'city', 'state']}
-            ,
             {
-                model: Attendance,
-                attributes:[],
-            }
+            model: Venue,
+            attributes:['id', 'city', 'state']}
+
         ]
     });
-    if(!event){
+
+    if(!events){
         res.status(404).json({
             "message": "Event couldn't be found",
             "statusCode": 404
           })
     }
-    if(!event.length){
+    if(!events.length){
         res.status(404).json({
             "message": "Event couldn't be found",
             "statusCode": 404
           })
     }
-    res.json({event, page, size})
+    for (const event of events) {
+        const numMembers = await Attendance.count({
+          where: { eventId: event.dataValues.id },
+        });
+        event.setDataValue('numMembers', numMembers);
+    }
+
+
+    res.json({events, page, size})
 })
 
 module.exports = router;
