@@ -87,8 +87,13 @@ const member = await Membership.findOne({
   if(group.dataValues.organizerId === user.id || statusInfo === 'co-host'){
    // console.log(mem)
     await member.update({status});
-    
-    const updatedMember = await Membership.findByPk(memberId, {
+
+    const updatedMember = await Membership.findOne({
+      where:{
+        memberId,
+        groupId,
+        status
+      },
       attributes: {
         include: ['id', 'groupId', 'memberId', 'status']
       }
