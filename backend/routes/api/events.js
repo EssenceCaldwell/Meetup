@@ -430,7 +430,8 @@ router.get('/:id', async (req, res) => {
                 model: Image,
                 attributes: ['id', 'url', 'preview']
                 }
-            ]
+            ],
+            group: ['Event.id']
         }
         )
         if(!event){
