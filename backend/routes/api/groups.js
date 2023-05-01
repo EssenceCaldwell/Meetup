@@ -485,7 +485,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
           id: groupId
       }
   });
-  console.log(selectGroup.dataValues.organizerId)
+  //console.log(selectGroup.dataValues.organizerId)
   if(!selectGroup){
     res.status(404).json({
       "message": "Group couldn't be found",
