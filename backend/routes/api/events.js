@@ -437,11 +437,8 @@ router.get('/:id', async (req, res) => {
         }
         )
        // console.log(event)
-        if(event === null){
-            res.status(404).json({
-                "message": "Event couldn't be found",
-                "statusCode": 404
-              })
+        if(event !== null){
+            res.json({event})
         }
        //if(!event.length){
        //    res.status(404).json({
@@ -449,8 +446,10 @@ router.get('/:id', async (req, res) => {
        //        "statusCode": 404
        //      })
        //}
-
-    res.json({event})
+       res.status(404).json({
+        "message": "Event couldn't be found",
+        "statusCode": 404
+      })
 });
 
 //Get all Events
