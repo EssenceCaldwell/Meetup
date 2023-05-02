@@ -442,7 +442,7 @@ router.get('/:id', async (req, res) => {
                 "message": "Event couldn't be found",
                 "statusCode": 404
               })
-        } else if(event.length === 1){
+        } else if(event.length === 0){
             res.status(404).json({
                 "message": "Group couldn't be found",
                 "statusCode": 40
@@ -455,7 +455,7 @@ router.get('/:id', async (req, res) => {
        //      })
        //}
 
-    res.json(event)
+    res.json({event})
 });
 
 //Get all Events
