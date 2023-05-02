@@ -438,7 +438,10 @@ router.get('/:id', async (req, res) => {
         )
        // console.log(event)
         if(event !== null){
-            res.json({event})
+            if(event !== []){
+                res.json({event})
+            }
+        
         }
        //if(!event.length){
        //    res.status(404).json({
