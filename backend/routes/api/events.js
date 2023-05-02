@@ -437,11 +437,11 @@ router.get('/:id', async (req, res) => {
         }
         )
        // console.log(event)
-        if(event !== null){
-            if(event !== []){
+        if(event){
+            if(event.dataValues.id !== null){
                 res.json({event})
             }
-        
+
         }
        //if(!event.length){
        //    res.status(404).json({
