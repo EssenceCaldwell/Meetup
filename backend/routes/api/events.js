@@ -409,8 +409,9 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
 router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
     const theEvent = await Event.findByPk(eventId)
+   // console.log(theEvent)
 
-    if(!theEvent){
+    if(theEvent === null){
         res.status(404).json({
             "message": "Event couldn't be found",
             "statusCode": 404
