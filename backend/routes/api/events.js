@@ -408,34 +408,7 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
 //Get all Events details of an event specified by its Id
 router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
-    const event = await Event.findByPk(eventId,
-        {
-            attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity',
-            'price', 'startDate', 'endDate',  [
-                Sequelize.fn('COUNT', Sequelize.col('Attendances.userId')),
-                'numAttending'
-              ]],
-            include:[
-                {
-                model: Attendance,
-                attributes: []
-                },
-                {
-                model: Group,
-                attributes: ['id', 'name', 'private', 'city', 'state']
-                },
-                {
-                model: Venue,
-                attributes: ['id', 'address', 'city', 'lat', 'lng']
-                },
-                {
-                model: Image,
-                attributes: ['id', 'url', 'preview']
-                }
-            ],
-            group: ['Event.id', 'Group.id', 'Venue.id', 'Images.id']
-        }
-        )
+    const event = await Event.findByPk(eventId)
        // console.log(event)
         if(event){
             if(event.dataValues.id !== null){
