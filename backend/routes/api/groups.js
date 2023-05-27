@@ -354,7 +354,7 @@ router.post('/:id/membership', requireAuth, async (req, res) => {
 //Get All Members of a Group based on the Group's id
 router.get('/:id/members', async (req, res) => {
   const newId = req.params.id
-  const user = req.user
+  const user = req.user;
 
   let group = await Group.findByPk(newId);
   //console.log(user.id)
@@ -370,7 +370,7 @@ router.get('/:id/members', async (req, res) => {
       attributes: ['id', 'firstName', 'lastName', [sequelize.literal('"Membership"."status"'), 'status']],
       joinTableAttributes: []
     })
-    console.log(members)
+    //console.log(members)
     res.json({members})
  }if(group.dataValues.organizerId !== user.id) {
   //console.log('SHOULD NOT HIT THIS PART!!!!!!!!!!!!!!!!')
