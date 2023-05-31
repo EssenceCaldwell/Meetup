@@ -1,0 +1,24 @@
+.box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.words {
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: xx-large;
+  padding-bottom: 0px;
+  font-weight: bolder;
+}
+
+.innerBox {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    padding-left: 50px;
+}
+
+.topWords{
+    display: flex;
+    align-items: flex-end;
+}

@@ -4,14 +4,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 import Groups from '../Groups/Groups';
+import './LandingPage.css'
+import frendlyImage from '../../Images/computer.png'
 
 
 const LandingPage = () => {
 
     return (
       <>
-        <div>
-          <p>The people platform—Where interests become friendships</p>
+        <div className="box">
+          <div className="words innerBox">
+            <span className='topWords'>The people platform—</span>
+            <span>
+              Where interests become friendships
+              </span>
+          </div>
+          <div>
+            <img
+              src={frendlyImage}
+              alt="friendly computer image"
+              style={{ height: 350 }}
+            />
+          </div>
         </div>
 
         <div>
