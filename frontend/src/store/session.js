@@ -77,6 +77,7 @@ export const logout = () => async (dispatch) => {
   dispatch(removeUser());
   return response;
 };
+
 const user = {
   user: null,
 };
