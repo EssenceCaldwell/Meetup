@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import logo from '../../Images/logo.png'
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -36,10 +37,14 @@ function Navigation({ isLoaded }) {
     <ul className="container">
       <li className="homeButton">
         <NavLink exact to="/">
-          Home
+          <img
+            src={logo}
+            alt="Home"
+            style={{ width: "75px"}}
+          />
         </NavLink>
       </li>
-      <div >{isLoaded && sessionLinks}</div>
+      <div>{isLoaded && sessionLinks}</div>
     </ul>
   );
 }
