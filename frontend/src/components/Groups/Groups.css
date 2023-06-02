@@ -30,3 +30,33 @@
 display: grid;
 grid-template-columns: 1fr 3fr;
 }
+
+.image{
+
+    padding-right: 15px;
+    padding-bottom: 20px;
+}
+
+.image-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-width{
+    width: 400px;
+}
+
+.no-top-padding{
+  padding-top: 0px;
+    margin-top: 0px;
+}
+
+.no-bottom-padding{
+    margin-bottom: 0px;
+}
+
+.location{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

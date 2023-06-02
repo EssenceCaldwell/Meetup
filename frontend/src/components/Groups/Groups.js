@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allGroups } from "../../store/groups";
 import { Link } from 'react-router-dom';
-import './Groups.css'
+import './Groups.css';
 
 const Groups = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,14 @@ const Groups = () => {
               <span>
                 <Link
                   to="/events"
-                  style={{ textDecoration: "none", color: "black"}}>
+                  style={{ textDecoration: "none", color: "gray" }}
+                  onMouseEnter={(e) => {
+                    e.target.style.textDecoration = "underline";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.textDecoration = "none";
+                  }}
+                >
                   Events
                 </Link>
               </span>
@@ -44,9 +51,21 @@ const Groups = () => {
 
           <ul>
             {groupData.map((group) => (
-              <li className="borders">
-                <div>{`${group.previewImage}`}</div>
-                <div>{`${group.name}`}</div>
+              <li className="borders" onClick={() => window.location.href = `/api/groups/${group.id}`}>
+                <div className="image-container">
+                  <img
+                    src={`${group.previewImage}`}
+                    alt="previewImage"
+                    style={{ width: 200 }}
+                    className="image"
+                  />
+                </div>
+                <div>
+                  <h3 className="no-top-padding no-bottom-padding">{`${group.name}`}</h3>
+                  <h6 className="location">{`${group.city}, ${group.state}`}</h6>
+                  <div className="text-width">{`${group.about}`}</div>
+                  <h6 className="location">{`${group.type}`}</h6>
+                </div>
               </li>
             ))}
           </ul>
