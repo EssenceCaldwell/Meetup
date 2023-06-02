@@ -12,10 +12,10 @@ const handleValidationErrors = (req, _res, next) => {
       .array()
       .forEach(error => errors[error.param] = error.msg);
 
-    const err = Error("Bad request.");
+    const err = Error("Validation Error");
     err.errors = errors;
     err.status = 400;
-    err.title = "Bad request.";
+    err.title = "Validation Error";
     next(err);
   }
   next();
@@ -48,10 +48,6 @@ const validateSignup = [
 ];
 
 const validateLogin = [
-  check('credential')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Password is required'),

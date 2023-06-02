@@ -43,29 +43,30 @@ router.get('/:id/attendees', async (req, res) => {
     status = memberInfo.dataValues.status
   }
   if(group.dataValues.organizerId === user.id || status === 'co-host'){
-    const users = await Attendance.findAll({
-        where:{
-            eventId
-        },
-        attributes: ['status'],
+    const users = await User.findAll({
+        attributes: ['id', 'firstName', 'lastName'],
         include:{
-            model: User,
-            attributes: ['id', 'firstName', 'lastName']
+            model: Attendance,
+            attributes: ['status'],
+            where: {
+                eventId
+            }
         }
     })
     res.json(users)
     }
-    const users = await Attendance.findAll({
-        where:{
-            eventId,
-            status: ['member', 'waitlist']
-        },
-        attributes: ['status'],
+    const users = await User.findAll({
+        attributes: ['id', 'firstName', 'lastName'],
         include:{
-            model: User,
-            attributes: ['id', 'firstName', 'lastName']
+            model: Attendance,
+            attributes: ['status'],
+            where:{
+                eventId,
+                status: ['member', 'waitlist']
+            }
         }
     })
+
     res.json(users)
 })
 
@@ -78,14 +79,14 @@ const event = await Event.findByPk(eventId)
 
 const userStatusPending = await Attendance.findOne({
     where:{
-        attendeeId: user.id,
+        userId: user.id,
         eventId,
         status: 'pending'
     }
 })
 const userStatusMember = await Attendance.findOne({
     where:{
-        attendeeId: user.id,
+        userId: user.id,
         eventId,
         status: 'member'
     }
@@ -109,14 +110,14 @@ if(userStatusMember){
       })
 }
 const request = await event.createAttendance({
-    attendeeId: user.id,
+    userId: user.id,
     eventId,
     status: 'pending'
 });
 
 const results = await Attendance.findOne({
     where: {
-        attendeeId: user.id,
+        userId: user.id,
         eventId
     },
     attributes: {
@@ -127,17 +128,19 @@ res.json(results)
 })
 
 //Change the status of an attendance for an event specified by id
-router.put('/:id/attendance', requireAuth, async (req, res) => {
-    const {attendeeId, status} = req.body
+router.put('/:id/attendees/:userId', requireAuth, async (req, res) => {
+    const {status} = req.body
     const user = req.user;
+    const userId = req.params.userId
     const eventsId = req.params.id;
 
     const memberInfo = await Attendance.findOne({
         where:{
-            attendeeId,
+            userId,
             eventId: eventsId
         }
     })
+    console.log(memberInfo)
 
     //console.log(userInfo.dataValues.status)
     const event = await Event.findByPk(eventsId,{
@@ -186,16 +189,16 @@ router.put('/:id/attendance', requireAuth, async (req, res) => {
     }else {
         await Attendance.update({
             status,
-            userId: attendeeId
+            userId: userId
         },
         {where: {
             eventId: eventsId,
-            attendeeId
+            userId
         }})
 
         const response = await Attendance.findOne({
             where:{
-                attendeeId,
+                userId,
                 eventId: eventsId
             },
             attributes: {
@@ -253,7 +256,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
 //Delete an Attendance
 router.delete('/:id/attendance', requireAuth, async (req, res) => {
-const {attendeeId} = req.body
+const {userId} = req.body
 const user = req.user;
 const eventId = req.params.id;
 const event = await Event.findByPk(eventId,
@@ -269,7 +272,7 @@ const event = await Event.findByPk(eventId,
     }
     const member = await Attendance.findOne({
         where:{
-            attendeeId,
+            userId,
             eventId
         }
      })
@@ -279,10 +282,10 @@ const event = await Event.findByPk(eventId,
         res.status(404).json({ message: "Attendance does not exist for this User", statusCode: 404})
     }
     const owner = event.Group.dataValues.organizerId
-    if(user.id === owner || user.id === attendeeId){
+    if(user.id === owner || user.id === userId){
     await Attendance.destroy({
         where:{
-            attendeeId,
+            userId,
             eventId
         }
     })
@@ -316,7 +319,7 @@ if(!event){
 const attendeeStatus = await Attendance.findOne({
         where: {
             eventId,
-            attendeeId: user.id
+            userId: user.id
         }
     })
 
@@ -405,11 +408,25 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
 //Get all Events details of an event specified by its Id
 router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
-    const event = await Event.findByPk(eventId,
+    const theEvent = await Event.findByPk(eventId)
+   // console.log(theEvent)
+
+    if(theEvent === null){
+        res.status(404).json({
+            "message": "Event couldn't be found",
+            "statusCode": 404
+          })
+    }
+    const event = await Event.findOne(
         {
+            where:{
+                id: eventId
+            },
             attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity',
-            'price', 'startDate', 'endDate', [Sequelize.literal(`(SELECT COUNT(*) FROM "Attendances" WHERE "Attendances"."eventId" = "Event"."id")`
-            ),'numAttending']],
+            'price', 'startDate', 'endDate',  [
+                Sequelize.fn('COUNT', Sequelize.col('Attendances.userId')),
+                'numAttending'
+              ]],
             include:[
                 {
                 model: Attendance,
@@ -427,23 +444,28 @@ router.get('/:id', async (req, res) => {
                 model: Image,
                 attributes: ['id', 'url', 'preview']
                 }
-            ]
+            ],
+            group: ['Event.id', 'Group.id', 'Venue.id', 'Images.id']
         }
         )
-        if(!event){
-            res.status(404).json({
-                "message": "Event couldn't be found",
-                "statusCode": 404
-              })
-        }
-        if(event.id === null){
-            res.status(404).json({
-                "message": "Group couldn't be found",
-                "statusCode": 404
-              })
-        }
+       // console.log(event)
 
-    res.json(event)
+        if(event){
+            if(event){
+                res.json({event})
+            }
+
+        }
+       //if(!event.length){
+       //    res.status(404).json({
+       //        "message": "Group couldn't be found",
+       //        "statusCode": 404
+       //      })
+       //}
+       res.status(404).json({
+        "message": "Event couldn't be found",
+        "statusCode": 404
+      })
 });
 
 //Get all Events
@@ -485,7 +507,11 @@ router.get('/', async (req, res) => {
     if(size > 20){
         res.status(400).json({Error: 'Size can not be greater than 20'})
     }
-    if(page >= 0 && size >= 0){
+    if(page = 0 && size >= 0){
+        pagination.limit = size;
+        pagination.offset = 0
+    }
+    if(page > 0 && size >= 0){
         pagination.limit = size;
         pagination.offset = size * (page - 1);
     }
@@ -501,36 +527,42 @@ router.get('/', async (req, res) => {
     }
 
 
-    const event = await Event.findAll({
+    const Events = await Event.findAll({
         ...pagination,
-        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage', [Sequelize.literal(`(SELECT COUNT(*) FROM "Attendances" WHERE "Attendances"."eventId" = "Event"."id")`
-            ),'numAttending']],
+        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage'],
         include: [
-            {model: Group,
+            {
+            model: Group,
             attributes: ['id', 'name', 'city', 'state']}
             ,
-            {model: Venue,
-            attributes:['id', 'city', 'state']}
-            ,
             {
-                model: Attendance,
-                attributes:[],
-            }
+            model: Venue,
+            attributes:['id', 'city', 'state']}
+
         ]
     });
-    if(!event){
+
+    if(!Events){
         res.status(404).json({
             "message": "Event couldn't be found",
             "statusCode": 404
           })
     }
-    if(!event.length){
+    if(!Events.length){
         res.status(404).json({
             "message": "Event couldn't be found",
             "statusCode": 404
           })
     }
-    res.json({event, page, size})
+    for (const event of Events) {
+        const numAttending = await Attendance.count({
+          where: { eventId: event.dataValues.id },
+        });
+        event.setDataValue('numAttending', numAttending);
+    }
+
+
+    res.json({Events, page, size})
 })
 
 module.exports = router;

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes, Validator) => {
       // define association here
       Event.belongsToMany(
         models.User,
-        {through: models.Attendance, foreignKey: 'attendeeId'}
+        {through: models.Attendance, foreignKey: 'userId'}
       ),
       Event.hasMany(
         models.Image,

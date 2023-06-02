@@ -11,16 +11,28 @@ const router = express.Router();
 
 
 router.post('/', validateLogin, async (req, res, next) => {
-      const { credential, password } = req.body;
+      const { username, email, password } = req.body;
 
-      const user = await User.unscoped().findOne({
-        where: {
-          [Op.or]: {
-            username: credential,
-            email: credential
-          }
+let user
+
+  if(username){
+     user = await User.unscoped().findOne({
+    where: {
+        username: username
+      }
+    })
+  }
+  console.log(user)
+  if(email){
+     user = await User.unscoped().findOne({
+      where: {
+          email: email
         }
-      });
+      })
+    }
+    if(!email && !username){
+      res.status(400).json({Error: "Please provide a valid email or username."})
+    }
 
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
         const err = new Error('Login failed');
@@ -30,11 +42,13 @@ router.post('/', validateLogin, async (req, res, next) => {
         return next(err);
       }
 
-      const safeUser = {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      };
+    const safeUser = {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+    };
 
       await setTokenCookie(res, safeUser);
 
@@ -58,11 +72,11 @@ router.post('/', validateLogin, async (req, res, next) => {
         const safeUser = {
           id: user.id,
           email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
           username: user.username,
         };
-        return res.json({
-          user: safeUser
-        });
+        return res.json(user);
       } else return res.json({ user: null });
     }
   );

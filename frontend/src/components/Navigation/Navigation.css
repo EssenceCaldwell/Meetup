@@ -1,0 +1,59 @@
+
+.right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px;
+
+}
+
+.signupBorder{
+    border-radius: 5px;
+    background-color: teal;
+    border-color: teal;
+    border-style: solid;
+    border-width: 10px;
+    font-size: 15px;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.loginBorder{
+    border-style: none;
+    background-color: white;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: sans-serif;
+
+}
+
+.homeButton{
+    width: 15px;
+    height: 15px;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-left: 0px;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+
+}
+
+li{
+    display: flex;
+    border-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding-top: 0;
+}
