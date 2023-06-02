@@ -1,5 +1,5 @@
 
-const GET_GROUPS = '/groups/get-groups'
+const GET_GROUPS = '/groups'
 
 const getGroups = (groups) => {
     return{

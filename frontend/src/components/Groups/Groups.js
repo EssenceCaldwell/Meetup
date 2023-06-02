@@ -51,7 +51,12 @@ const Groups = () => {
 
           <ul>
             {groupData.map((group) => (
-              <li className="borders" onClick={() => window.location.href = `/api/groups/${group.id}`}>
+              <li
+                className="borders"
+                onClick={() =>
+                  (window.location.href = `/api/groups/${group.id}`)
+                }
+              >
                 <div className="image-container">
                   <img
                     src={`${group.previewImage}`}
@@ -64,7 +69,10 @@ const Groups = () => {
                   <h3 className="no-top-padding no-bottom-padding">{`${group.name}`}</h3>
                   <h6 className="location">{`${group.city}, ${group.state}`}</h6>
                   <div className="text-width">{`${group.about}`}</div>
-                  <h6 className="location">{`${group.type}`}</h6>
+                  <div className="header">
+                    <h6 className="location">events</h6>
+                    <h6 className="location">{`${group.type}`}</h6>
+                  </div>
                 </div>
               </li>
             ))}
