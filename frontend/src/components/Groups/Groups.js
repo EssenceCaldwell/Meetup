@@ -1,20 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allGroups } from "../../store/groups";
 import { Link } from 'react-router-dom';
 import './Groups.css';
+import { allEvents, eventsByGroup } from "../../store/events";
 
 const Groups = () => {
   const dispatch = useDispatch();
- const groupData = Object.values(useSelector((state) => state.groupState));
-    //const groups = Object.values(groupData.Groups)
+  const groupData = Object.values(useSelector((state) => state.groupState));
+  const events = Object.values(useSelector((state) => state.eventState));
+
 
   useEffect(() => {
     dispatch(allGroups());
   }, [dispatch]);
 
+  useEffect(() => {
+      dispatch(allEvents());
 
-//console.log(groupData[0])
+  }, [ dispatch]);
+
+
   return (
     <>
       <div className="container">
@@ -50,7 +56,9 @@ const Groups = () => {
           </div>
 
           <ul>
-            {groupData.map((group) => (
+            {groupData.map((group) => {
+              const groupEvents = events.filter((event) => event.groupId === group.id);
+            return (
               <li
                 className="borders"
                 onClick={() =>
@@ -70,12 +78,14 @@ const Groups = () => {
                   <h6 className="location">{`${group.city}, ${group.state}`}</h6>
                   <div className="text-width">{`${group.about}`}</div>
                   <div className="header">
-                    <h6 className="location">events</h6>
+                    {<h6 className="location">
+                      {groupEvents.length} Event(s)
+                    </h6>}
                     <h6 className="location">{`${group.type}`}</h6>
                   </div>
                 </div>
               </li>
-            ))}
+            )})}
           </ul>
         </div>
         <div></div>
