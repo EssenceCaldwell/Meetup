@@ -11,44 +11,46 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
     options.tableName = 'Events';
-    await queryInterface.bulkInsert(options,[
+    await queryInterface.bulkInsert(options, [
       {
         venueId: 1,
         groupId: 1,
-        name: 'group1',
-        description: 'group 1 description',
-        type: 'In person',
+        name: "Voice Over Networking",
+        description: "A great way to meet other voice actors and network!",
+        type: "In person",
         capacity: 10,
-        price: 50.00,
-        startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-01-02'),
-        previewImage: 'www.preview.com/image/1'
+        price: 50.0,
+        startDate: new Date("2024-01-01"),
+        endDate: new Date("2024-01-02"),
+        previewImage: "https://i.imgur.com/s1jN3Tp.jpg",
       },
       {
         venueId: 2,
         groupId: 2,
-        name: 'group2',
-        description: 'group 2 description',
-        type: 'In person',
+        name: "Mountian Lovers Meetup",
+        description:
+          "It's time mountain lovers! We shall meet and drink of the mountain's fresh spring!",
+        type: "In person",
         capacity: 20,
-        price: 100.00,
-        startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-01-02'),
-        previewImage: 'www.preview.com/image/2'
+        price: 100.0,
+        startDate: new Date("2024-01-01"),
+        endDate: new Date("2024-01-02"),
+        previewImage: "https://i.imgur.com/td7pKHw.jpeg",
       },
       {
         venueId: 3,
         groupId: 3,
-        name: 'group3',
-        description: 'group 3 description',
-        type: 'In person',
+        name: "Soulfame Lanch Party",
+        description:
+          "Online event! Come and celebrate the new SoulFrame launch!",
+        type: "Online",
         capacity: 30,
-        price: 150.00,
-        startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-01-02'),
-        previewImage: 'www.preview.com/image/3'
-      }
-    ])
+        price: 150.0,
+        startDate: new Date("2024-01-01"),
+        endDate: new Date("2024-01-02"),
+        previewImage: "https://i.imgur.com/tIZDMdJ.jpg",
+      },
+    ]);
   },
 
   async down (queryInterface, Sequelize) {

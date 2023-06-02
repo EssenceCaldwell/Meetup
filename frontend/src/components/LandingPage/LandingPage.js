@@ -19,13 +19,6 @@ const handleClickSignup = () =>{
 history.push('/signup')
 }
 
-const handleClickCreateGroup = (e) => {
-  e.preventDefault()
-
-  if(sessionUser){
-    history.push('/groups')
-  }
-}
 let joinButton;
 let createGroupsLink
 
@@ -72,7 +65,6 @@ let createGroupsLink
                   <span className="link">
                     <Link
                       to="/groups"
-                      onClick={handleClickCreateGroup}
                       style={{
                         textDecoration: "none",
                         color: "teal",
