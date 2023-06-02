@@ -25,6 +25,7 @@
     font-size: 15px;
     font-weight: bold;
     font-family: sans-serif;
+
 }
 
 .homeButton{
@@ -32,6 +33,7 @@
     height: 15px;
     margin-top: 0px;
     padding-top: 0px;
+    margin-left: 0px;
 }
 
 .container{
@@ -41,9 +43,10 @@
     font-size: 20px;
     padding-top: 0px;
     margin-top: 0px;
+    margin-left: 0px;
     border-bottom: 1px solid lightgray;
     margin-bottom: 0;
-    padding-bottom: 0;
+    padding-bottom: 20px;
 
 }
 

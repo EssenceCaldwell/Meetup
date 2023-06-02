@@ -10,38 +10,41 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up (queryInterface, Sequelize) {
     options.tableName = 'Groups';
-    await queryInterface.bulkInsert(options,[
+    await queryInterface.bulkInsert(options, [
       {
         organizerId: 1,
-        name: 'group1',
-        about: 'group 1 description',
-        type: 'In Person',
+        name: "Voice Life",
+        about:
+          "A great group to join if you are intersted in the voiceover world! If you are interested in joining the industry, we meet and network regularly.",
+        type: "In Person",
         private: true,
-        city: 'Greensboro',
-        state: 'NC',
-        previewImage: 'www.preview.com/image/1'
+        city: "Greensboro",
+        state: "NC",
+        previewImage: "https://i.imgur.com/s1jN3Tp.jpg",
       },
       {
         organizerId: 2,
-        name: 'group2',
-        about: 'group 2 description',
-        type: 'In Person',
+        name: "Mountain Lovers",
+        about:
+          "Do you love mountains? Do just talking about mountain make you want to cry tears of joy? Come join our Mountain Lovers Event! We will talk about mountains and even drink fresh mountain water! Hill lovers not allowed.",
+        type: "In Person",
         private: false,
-        city: 'Owensboro',
-        state: 'KY',
-        previewImage: 'www.preview.com/image/2'
+        city: "Owensboro",
+        state: "KY",
+        previewImage: "https://i.imgur.com/td7pKHw.jpeg",
       },
       {
         organizerId: 3,
-        name: 'group3',
-        about: 'group 3 description',
-        type: 'In Person',
+        name: "Gamers Unite!",
+        about:
+          "Join our group to be up to date on all the latest releases on Xbox, PS5 and Switch. Everyone welcome!",
+        type: "Online",
         private: true,
-        city: 'Chicago',
-        state: 'IL',
-        previewImage: 'www.preview.com/image/3'
-      }
-    ])
+        city: "Chicago",
+        state: "IL",
+        previewImage: "https://i.imgur.com/pfbsrZb.jpeg",
+      },
+    ]);
   },
 
   async down (queryInterface, Sequelize) {

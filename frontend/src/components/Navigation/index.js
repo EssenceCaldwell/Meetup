@@ -40,7 +40,7 @@ function Navigation({ isLoaded }) {
           <img
             src={logo}
             alt="Home"
-            style={{ width: "75px"}}
+            style={{ width: "200px"}}
           />
         </NavLink>
       </li>
