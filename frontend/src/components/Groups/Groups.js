@@ -42,12 +42,12 @@ const Groups = () => {
                   Events
                 </Link>
               </span>
-              <span
+              <Link to='/groups'
                 className="left-spacing"
-                style={{ textDecoration: "underline", color: "teal" }}
+                style={{ textDecoration: "underline", color: "teal", cursor: "default"}}
               >
                 Groups
-              </span>
+              </Link>
             </div>
 
             <h6 className="header" style={{ color: "gray" }}>
