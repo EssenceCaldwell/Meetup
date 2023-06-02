@@ -128,8 +128,3 @@ h2{
     color: rgb(100, 93, 93);
     font-family: Arial, Helvetica, sans-serif;
 }
-
-
-span:hover{
-    text-decoration: underline;
-}

@@ -35,24 +35,7 @@ let createGroupsLink
         Join What's Up
       </button>
     );
-    createGroupsLink =( <span className='notLink'>Start a group</span>);
-  }else createGroupsLink = (
-    <Link
-      style={{
-        textDecoration: "none",
-        color: "teal",
-        fontFamily: "Arial",
-      }}
-      onMouseEnter={(e) => {
-        e.target.style.textDecoration = "underline";
-      }}
-      onMouseLeave={(e) => {
-        e.target.style.textDecoration = "none";
-      }}
-    >
-      Start a group
-    </Link>
-  );
+  }
 
     return (
       <>
@@ -156,7 +139,29 @@ let createGroupsLink
                   className="group-of-three-container"
                   style={{ height: 160 }}
                 />
-                <span className="link">{createGroupsLink}</span>
+                <span className="link">
+                  {sessionUser ? (
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: "teal",
+                        fontFamily: "Arial",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.textDecoration = "underline";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.textDecoration = "none";
+                      }}
+                    >
+                      Start a group
+                    </Link>
+                  ) : (
+                    <span style={{ color: "gray", cursor: "default" }}>
+                      Start a group
+                    </span>
+                  )}
+                </span>
               </div>
 
               <div className="description">
