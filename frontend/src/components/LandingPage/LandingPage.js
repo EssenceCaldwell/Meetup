@@ -38,11 +38,16 @@ let createGroupsLink
     createGroupsLink =( <span className='notLink'>Start a group</span>);
   }else createGroupsLink = (
     <Link
-      to="/groups"
       style={{
         textDecoration: "none",
         color: "teal",
         fontFamily: "Arial",
+      }}
+      onMouseEnter={(e) => {
+        e.target.style.textDecoration = "underline";
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.textDecoration = "none";
       }}
     >
       Start a group
@@ -84,12 +89,18 @@ let createGroupsLink
                   <span className="link">
                     <Link
                       to="/groups"
+                      onClick={handleClickCreateGroup}
                       style={{
                         textDecoration: "none",
                         color: "teal",
                         fontFamily: "Arial",
                       }}
-                      onClick={handleClickCreateGroup}
+                      onMouseEnter={(e) => {
+                        e.target.style.textDecoration = "underline";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.textDecoration = "none";
+                      }}
                     >
                       Join a group
                     </Link>
@@ -119,6 +130,12 @@ let createGroupsLink
                       color: "teal",
                       fontFamily: "Arial",
                     }}
+                    onMouseEnter={(e) => {
+                      e.target.style.textDecoration = "underline";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.textDecoration = "none";
+                    }}
                   >
                     Find an event
                   </Link>
@@ -139,9 +156,7 @@ let createGroupsLink
                   className="group-of-three-container"
                   style={{ height: 160 }}
                 />
-                <span className="link">
-                  {createGroupsLink}
-                </span>
+                <span className="link">{createGroupsLink}</span>
               </div>
 
               <div className="description">
@@ -151,9 +166,7 @@ let createGroupsLink
             </div>
           </div>
         </div>
-        <div className="joinButton">
-          {joinButton}
-        </div>
+        <div className="joinButton">{joinButton}</div>
       </>
     );
 }
