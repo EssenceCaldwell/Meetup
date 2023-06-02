@@ -60,7 +60,7 @@ const Groups = () => {
               const groupEvents = events.filter((event) => event.groupId === group.id);
             return (
               <li
-                className="borders"
+                className="borders box-width"
                 onClick={() =>
                   (window.location.href = `/api/groups/${group.id}`)
                 }

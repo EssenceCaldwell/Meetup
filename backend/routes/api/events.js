@@ -529,7 +529,7 @@ router.get('/', async (req, res) => {
 
     const Events = await Event.findAll({
         ...pagination,
-        attributes: ['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage'],
+        attributes: ['id', 'groupId', 'venueId', 'description', 'name', 'type', 'startDate', 'endDate', 'previewImage'],
         include: [
             {
             model: Group,
