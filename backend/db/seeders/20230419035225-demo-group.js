@@ -26,7 +26,7 @@ module.exports = {
         organizerId: 2,
         name: "Mountain Lovers",
         about:
-          "Do you love mountains? Do just talking about mountain make you want to cry tears of joy? Come join our Mountain Lovers Event! We will talk about mountains and even drink fresh mountain water! Hill lovers not allowed.",
+          "Do you love mountains? Does just talking about mountain make you want to cry tears of joy? Come join our Mountain Lovers Event! We will talk about mountains and even drink fresh mountain water! Hill lovers not allowed.",
         type: "In Person",
         private: false,
         city: "Owensboro",
