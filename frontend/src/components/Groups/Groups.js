@@ -62,7 +62,7 @@ const Groups = () => {
               <li
                 className="borders box-width"
                 onClick={() =>
-                  (window.location.href = `/api/groups/${group.id}`)
+                  (window.location.href = `/groups/${group.id}`)
                 }
               >
                 <div className="image-container">

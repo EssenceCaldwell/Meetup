@@ -80,7 +80,7 @@ const Events = () => {
                   <li
                     className="borders outer-event-container"
                     onClick={() =>
-                      (window.location.href = `/api/events/${event.id}`)
+                      (window.location.href = `/events/${event.id}`)
                     }
                   >
                     <div className="inner-event-container">

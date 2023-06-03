@@ -8,6 +8,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Events from "./components/Events/Events";
+import EventById from "./components/Events/EventById";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path="/events/:eventId">
+            <EventById />
+          </Route>
           <Route path="/events">
             <Events />
           </Route>
@@ -33,9 +37,10 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <LandingPage />
           </Route>
+          <Route>Sorry. Page does not exist</Route>
         </Switch>
       )}
     </>
