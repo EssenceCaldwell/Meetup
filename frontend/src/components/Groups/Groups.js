@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { allGroups } from "../../store/groups";
 import { Link } from 'react-router-dom';
 import './Groups.css';
-import { allEvents, eventsByGroup } from "../../store/events";
+import { allEvents } from "../../store/events";
 
 const Groups = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,19 @@ const Groups = () => {
 
   }, [ dispatch]);
 
-  console.log(groupData)
+  //console.log(groupData)
+
+  const numEvents = (id) => {
+    const groupEvents = events.filter((event) => event.groupId === id);
+    if (!groupEvents.length) {
+      return "0 Events";
+    }
+    if (groupEvents.length === 1) {
+      return "1 Event";
+    } else {
+      return `${groupEvents.length} Events`;
+    }
+  };
 
   return (
     <>
@@ -58,7 +70,6 @@ const Groups = () => {
 
           <ul>
             {groupData.map((group) => {
-              const groupEvents = events.filter((event) => event.groupId === group.id);
             return (
               <li
                 className="borders box-width"
@@ -79,9 +90,9 @@ const Groups = () => {
                   <h6 className="location">{`${group.city}, ${group.state}`}</h6>
                   <div className="text-width">{`${group.about}`}</div>
                   <div className="header">
-                    {<h6 className="location">
-                      {groupEvents.length} Event(s)
-                    </h6>}
+                    <h6 className="location">
+                      {numEvents(group.id)}
+                    </h6>
                     <h6 className="location">{`${group.type}`}</h6>
                   </div>
                 </div>

@@ -16,7 +16,7 @@ const EventById = () => {
       dispatch(eventsById(eventId));
     }, [dispatch]);
 
-     console.log(event);
+     //console.log(event);
 
      let previewImage
      let groupImage

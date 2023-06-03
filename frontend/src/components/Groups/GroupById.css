@@ -1,0 +1,33 @@
+.main-container{
+    display: grid;
+    grid-template-rows: 2fr 2fr;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.group-by-container{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+}
+.top-container{
+    display: grid;
+    padding-bottom: 25px;
+}
+
+.bottom-container{
+    background-color: rgb(243, 237, 237);
+}
+.grid-left-padding{
+    padding-left: 200px;
+}
+
+.grid-right-padding{
+    padding-right: 200px;
+}
+
+.image-size{
+    width: 600px;
+}
+
+.inner-padding{
+    padding-left: 15px;
+}

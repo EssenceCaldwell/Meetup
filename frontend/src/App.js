@@ -9,6 +9,8 @@ import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage/LandingPage";
 import Events from "./components/Events/Events";
 import EventById from "./components/Events/EventById";
+import GroupById from "./components/Groups/GroupById";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +24,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path="/groups/:groupId">
+            <GroupById />
+          </Route>
           <Route path="/events/:eventId">
             <EventById />
           </Route>
