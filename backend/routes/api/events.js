@@ -409,7 +409,7 @@ router.put('/:id', requireAuth, validateEvent, async (req,res) => {
 router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
     const theEvent = await Event.findByPk(eventId)
-   // console.log(theEvent)
+    //console.log(theEvent)
 
     if(theEvent === null){
         res.status(404).json({
@@ -423,7 +423,7 @@ router.get('/:id', async (req, res) => {
                 id: eventId
             },
             attributes: ['id', 'groupId', 'venueId', 'name', 'description', 'type', 'capacity',
-            'price', 'startDate', 'endDate',  [
+            'price', 'startDate', 'previewImage', 'endDate',  [
                 Sequelize.fn('COUNT', Sequelize.col('Attendances.userId')),
                 'numAttending'
               ]],
@@ -438,7 +438,7 @@ router.get('/:id', async (req, res) => {
                 },
                 {
                 model: Venue,
-                attributes: ['id', 'address', 'city', 'lat', 'lng']
+                attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
                 },
                 {
                 model: Image,
@@ -448,6 +448,7 @@ router.get('/:id', async (req, res) => {
             group: ['Event.id', 'Group.id', 'Venue.id', 'Images.id']
         }
         )
+
        // console.log(event)
 
         if(event){

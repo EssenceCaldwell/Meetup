@@ -20,6 +20,7 @@ const Groups = () => {
 
   }, [ dispatch]);
 
+  console.log(groupData)
 
   return (
     <>

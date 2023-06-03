@@ -1,0 +1,20 @@
+.group-by-container{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+}
+
+.inner-group-container{
+    display: f;
+}
+
+.grid-left-padding{
+    padding-left: 200px;
+}
+
+.grid-right-padding{
+    padding-right: 200px;
+}
+
+.image-size{
+    width: 600px;
+}
