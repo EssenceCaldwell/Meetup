@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const { handleValidationErrors, validateLogin} = require('../../utils/validation');
 
-const { setTokenCookie } = require('../../utils/auth');
+const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const router = express.Router();
 
@@ -76,7 +76,7 @@ let user
           lastName: user.lastName,
           username: user.username,
         };
-        return res.json(user);
+        return res.json({user: safeUser});
       } else return res.json({ user: null });
     }
   );

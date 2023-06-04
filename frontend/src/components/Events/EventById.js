@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSelector , useDispatch} from "react-redux"
 import { Link } from 'react-router-dom';
 import { eventsById } from "../../store/events"
@@ -11,46 +11,27 @@ const EventById = () => {
     const events = Object.values(useSelector(state => state.eventState))
     const groupData = Object.values(useSelector((state) => state.groupState));
     const event = events[0]
+    const [eventLoaded, setEventLoaded] = useState(false);
 
     useEffect(() => {
-      dispatch(eventsById(eventId));
+      dispatch(eventsById(eventId)).then(() => setEventLoaded(true));
     }, [dispatch]);
 
      //console.log(event);
 
-     let previewImage
-     let groupImage
-     let eventName
-     let city
-     let state
-     let address
 
-    if(events.length){
-        previewImage = `${event.previewImage}`
-        groupImage = `${event.Group}`
-        eventName = `${event.name}`
-         city = `${event.Venue.city}`
-         state = `${event.Venue.state}`
-         address = `${event.Venue.address}`
-
-    }else{
-      previewImage = '';
-      eventName = 'Loading...';
-      city = "Loading";
-      state = '';}
-
-    return (
+    return eventLoaded && (
       <>
         <div className="group-by-container">
           <div className="grid-left-padding">
             <Link to="/events">Events</Link>
-            <img className="image-size" src={previewImage} />
+            <img className="image-size" src={event.previewImage} />
           </div>
           <div>
-            <h1 className="grid-right-padding">{eventName}</h1>
-            <h6>{address}</h6>
+            <h1 className="grid-right-padding">{event.name}</h1>
+            <h6>{event.Venue.address}</h6>
             <h6>
-              {city}, {state}
+              {event.Venue.city}, {event.Venue.state}
             </h6>
           </div>
         </div>

@@ -16,6 +16,7 @@ function Navigation({ isLoaded }) {
  const handleClickLogin = () => {
    history.push("/login");
  };
+//console.log(sessionUser)
 
   let sessionLinks;
   if (sessionUser) {
