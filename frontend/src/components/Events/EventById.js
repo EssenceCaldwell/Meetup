@@ -17,7 +17,7 @@ const EventById = () => {
       dispatch(eventsById(eventId)).then(() => setEventLoaded(true));
     }, [dispatch]);
 
-     //console.log(event);
+     console.log(events);
 
 
     return eventLoaded && (
@@ -29,7 +29,7 @@ const EventById = () => {
           </div>
           <div>
             <h1 className="grid-right-padding">{event.name}</h1>
-            <h6>{event.Venue.address}</h6>
+            <h6></h6>
             <h6>
               {event.Venue.city}, {event.Venue.state}
             </h6>

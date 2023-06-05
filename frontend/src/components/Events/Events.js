@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { allEvents } from "../../store/events";
 import { Link } from "react-router-dom";
@@ -7,34 +7,40 @@ import './Events.css'
 const Events = () => {
     const dispatch = useDispatch();
     const events = Object.values(useSelector((state) => state.eventState));
+    const [eventsLoaded, setEventsLoaded] = useState();
     let date
 
     useEffect(() => {
-        dispatch(allEvents())
+        dispatch(allEvents()).then(() => setEventsLoaded(true))
     }, [dispatch])
 
-    const getDate = (startDate) => {
-        const date = new Date(startDate)
 
-        const year = date.getFullYear()
+    const getDate = (startDate) => {
+      if(eventsLoaded){
+        const date = new Date(startDate);
+
+        const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
-        return `${year}-${month}-${day}`
+        return `${year}-${month}-${day}`;
+      }
     }
 
     const getTime =(startDate) => {
-        const date = new Date(startDate)
+      if(eventsLoaded){
+        const date = new Date(startDate);
 
-          const hours = date.getHours();
-          const minutes = date.getMinutes();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
 
-          const amOrPm = hours >= 12 ? "PM" : "AM";
-          const newHours = hours % 12 === 0 ? 12 : hours % 12;
-          const newMins = minutes.toString().padStart(2, "0");
-          return `${newHours}:${newMins} ${amOrPm}`
+        const amOrPm = hours >= 12 ? "PM" : "AM";
+        const newHours = hours % 12 === 0 ? 12 : hours % 12;
+        const newMins = minutes.toString().padStart(2, "0");
+ return `${newHours}:${newMins} ${amOrPm}`;
+      }
     }
 
-    return (
+    return eventsLoaded && (
       <>
         <div className="container">
           <div></div>

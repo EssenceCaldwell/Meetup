@@ -1,5 +1,6 @@
 const GET_EVENTS = '/events';
 const GET_EVENT_BY_ID = "/events/id";
+const GET_EVENT_BY_GROUP_ID = 'events/group-id'
 
 const getEvents = (events) => {
     return{
@@ -15,6 +16,14 @@ const getEventsById = (events) => {
     }
 }
 
+const byGroupId = (events) => {
+  return {
+    type: GET_EVENT_BY_GROUP_ID,
+    events,
+  };
+};
+
+
 export const eventsById = (eventId) => async (dispatch) => {
     const id = Object.values(eventId)
     const response = await fetch(`/api/events/${id}`);
@@ -22,6 +31,17 @@ export const eventsById = (eventId) => async (dispatch) => {
     if(response.ok){
         const events = await response.json();
         dispatch(getEventsById(events))
+        return events
+    }
+}
+
+export const getEventsByGroup = (groupId) => async (dispatch) => {
+    const id = Object.values(groupId)
+    const response = await fetch(`/api/groups/${id}/events`)
+
+    if(response.ok){
+        const events = await response.json();
+        dispatch(byGroupId(events))
         return events
     }
 }
@@ -58,6 +78,12 @@ const eventsReducer = (state = initialState, action) => {
         newEvent.forEach((ele) => newState[ele.id] = ele)
          //newState = {...newState, ...newEvent}
          return newState
+      }
+      case GET_EVENT_BY_GROUP_ID: {
+        let newState = {...state}
+        const newEvent = Object.values(action.events)
+        newState = {...newState, ...newEvent}
+        return newState
       }
       default:
         return state;

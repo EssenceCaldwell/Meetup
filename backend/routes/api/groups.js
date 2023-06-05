@@ -230,7 +230,7 @@ router.get('/:id/events', async (req, res) => {
     where: {
       groupId
     },
-    attributes:['id', 'groupId', 'venueId', 'name', 'type', 'startDate', 'endDate', 'previewImage', [
+    attributes:['id', 'groupId', 'venueId', 'name', 'type', 'description', 'startDate', 'endDate', 'previewImage', [
       Sequelize.fn('COUNT', Sequelize.col('Attendances.userId')),
       'numAttending'
     ]],
