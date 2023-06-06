@@ -158,6 +158,7 @@ const GroupById = () => {
                 Organized by {group.Organizer.firstName}{" "}
                 {group.Organizer.lastName}
               </h6>
+              <button>Join this group</button>
             </div>
           </div>
           <div className="bottom-container grid-left-padding">
