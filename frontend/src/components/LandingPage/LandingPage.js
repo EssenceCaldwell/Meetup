@@ -133,7 +133,7 @@ let createGroupsLink
                 />
                 <span className="link">
                   {sessionUser ? (
-                    <Link
+                    <Link to='/groups/new'
                       style={{
                         textDecoration: "none",
                         color: "teal",

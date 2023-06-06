@@ -10,6 +10,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import Events from "./components/Events/Events";
 import EventById from "./components/Events/EventById";
 import GroupById from "./components/Groups/GroupById";
+import CreateGroup from './components/Groups/CreateGroup'
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path='/groups/new'>
+            <CreateGroup />
+          </Route>
           <Route path="/groups/:groupId">
             <GroupById />
           </Route>
