@@ -43,7 +43,7 @@ export const createGroup = (group) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(group),
   });
-  console.log(response)
+  //console.log(response)
 
   if(response.ok){
   const newGroup = await response.json();
@@ -91,7 +91,7 @@ const groupsReducer = (state = initialState, action) => {
           const newState = {...state}
           console.log(action.group)
           const group = Object.values(action.group)
-          console.log(group)
+          //console.log(group)
           newState[group] = group
           return newState
         }

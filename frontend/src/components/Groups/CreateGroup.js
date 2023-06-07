@@ -2,17 +2,39 @@ import { useEffect, useState } from "react";
 import '../Groups/CreateGroup.css'
 import { useDispatch } from "react-redux";
 import { createGroup } from "../../store/groups";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const CreateGroup = () => {
+    const history = useHistory()
     const dispatch = useDispatch();
-    const [city, setCity] = useState('city');
-    const [state, setState] = useState('STATE');
-    const [name, setName] = useState('What is your group name?');
-    const [about, setAbout] = useState('Please write at least 30 charaters');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [name, setName] = useState('');
+    const [about, setAbout] = useState('');
     const [type, setType] = useState('');
     const [isPrivate, setIsPrivate] = useState('');
-    const [url, setUrl] = useState('Image Url');
-    const [typing, setTyping] = useState(false)
+    const [url, setUrl] = useState('https://uploader-assets.s3.ap-south-1.amazonaws.com/codepen-default-placeholder.png');
+    const [validationErrors, setValidationErrors] = useState()
+    const [afterSubmit, setAfterSubmit] = useState(false)
+
+    useEffect(() => {
+      const errors = {};
+      if(!city && !state) errors.location = 'Location is required';
+      if(!name) errors.name = 'Name is required';
+      if(about.length < 30) errors.about = 'Description must be at least 30 characters long';
+      if(type !== 'In person' && type !== 'Online') errors.type = "Group Type is required";
+      if(isPrivate !== 'true' && isPrivate !== 'false') errors.private = "Visibility Type is required";
+      if(url && url !== 'https://uploader-assets.s3.ap-south-1.amazonaws.com/codepen-default-placeholder.png'){
+        const splicedUrl = url.slice(-4)
+        const slicedUrl = url.slice(-5)
+        //console.log(splicedUrl, slicedUrl)
+        if(splicedUrl !== '.png' && splicedUrl !== '.jpg' && slicedUrl !== '.jpeg'){
+          errors.url = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+      };
+
+      setValidationErrors(errors)
+    }, [city, name, about, type, isPrivate, url])
 
     const handleLocation = (e) => {
         const value = e.target.value;
@@ -24,20 +46,27 @@ const CreateGroup = () => {
         //console.log(city, state)
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+const onSubmit = (e) => {
+  e.preventDefault();
+  //console.log(validationErrors)
+  setAfterSubmit(true)
+  if(! Object.values(validationErrors).length){
+    const group = {
+      name,
+      about,
+      type,
+      private: isPrivate,
+      city,
+      state,
+      previewImage: url,
+    };
 
-        const group = {
-          name,
-          about,
-          type,
-          private: isPrivate,
-          city,
-          state,
-          previewImage: url,
-        };
-        dispatch(createGroup(group))
-    }
+     dispatch(createGroup(group)).then((ele) => {history.push(`/groups/${ele.id}`)
+  });
+//console.log(newGroup)
+
+}
+}
 
 return (
   <form onSubmit={onSubmit}>
@@ -53,9 +82,10 @@ return (
           id="locationInput"
           type="text"
           onChange={handleLocation}
-          placeholder={`${city}, ${state}`}
+          placeholder={`City, STATE`}
           className="invisibleInk"
         ></input>
+        <p className="errors">{afterSubmit && validationErrors.location}</p>
       </label>
     </div>
     <div>
@@ -70,9 +100,10 @@ return (
           id="name"
           type="text"
           onChange={(e) => setName(e.target.value)}
-          placeholder={name}
+          placeholder={"What is your group name?"}
           className="invisibleInk"
         ></input>
+        <p className="errors">{afterSubmit && validationErrors.name}</p>
       </label>
     </div>
     <div>
@@ -86,9 +117,10 @@ return (
           id="about"
           type="text"
           onChange={(e) => setAbout(e.target.value)}
-          placeholder={about}
+          placeholder={"Please write at least 30 charaters"}
           className="invisibleInk"
         ></input>
+        <p className="errors">{afterSubmit && validationErrors.about}</p>
       </label>
     </div>
     <div>
@@ -107,21 +139,23 @@ return (
           <option>In person</option>
           <option>Online</option>
         </select>
+        <p className="errors">{afterSubmit && validationErrors.type}</p>
       </label>
       <label htmlFor="isPrivate">
         Is this group private or public?
         <select
           name="isPrivate"
-          onChange={e => setIsPrivate(e.target.value)}
+          onChange={(e) => setIsPrivate(e.target.value)}
           value={isPrivate}
           className="invisibleInk"
         >
           <option value="" disabled>
             (select one)
           </option>
-          <option value='true'>Private</option>
-          <option value = 'false'> Public</option>
+          <option value="true">Private</option>
+          <option value="false"> Public</option>
         </select>
+        <p className="errors">{afterSubmit && validationErrors.private}</p>
       </label>
       <label htmlFor="url">
         Please add an image url for your group below:
@@ -129,9 +163,10 @@ return (
           id="url"
           type="text"
           onChange={(e) => setUrl(e.target.value)}
-          placeholder={url}
+          placeholder={"Image Url"}
           className="invisibleInk"
         ></input>
+        <p className="errors">{afterSubmit && validationErrors.url}</p>
       </label>
     </div>
     <button type="submit">Create group</button>

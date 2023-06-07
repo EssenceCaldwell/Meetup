@@ -2,3 +2,7 @@
     color: rgb(118, 118, 124);
     background-color: rgb(226, 226, 250);
 }
+
+.errors{
+    color: red
+}

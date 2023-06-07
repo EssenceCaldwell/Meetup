@@ -5,6 +5,7 @@ const { check } = require('express-validator');
 // (to customize, see express-validator's documentation)
 const handleValidationErrors = (req, _res, next) => {
   const validationErrors = validationResult(req);
+  console.log(validationErrors)
   if (!validationErrors.isEmpty()) {
     const errors = {};
     validationErrors
@@ -54,7 +55,6 @@ const validateLogin = [
 
 const validateGroup = [
   check('name')
-    .exists({checkFalsy: true})
     .isLength({max: 60})
     .withMessage('Name must be 60 characters or less'),
   check('about')

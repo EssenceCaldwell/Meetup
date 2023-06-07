@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
@@ -11,23 +11,37 @@ import Events from "./components/Events/Events";
 import EventById from "./components/Events/EventById";
 import GroupById from "./components/Groups/GroupById";
 import CreateGroup from './components/Groups/CreateGroup'
+import NotLoggedIn from "./components/NotLoggedIn/NotLoggedIn";
 
 
 function App() {
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+  
+const loggedIn = () => {
+  if(sessionUser){
+    return (
+      <Route path="/groups/new">
+        <CreateGroup />
+      </Route>
+    );
+  }else return (
+    <Route path="/groups/new">
+      <NotLoggedIn />
+    </Route>
+  );
+}
 
   return (
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path='/groups/new'>
-            <CreateGroup />
-          </Route>
+          {loggedIn()}
           <Route path="/groups/:groupId">
             <GroupById />
           </Route>
