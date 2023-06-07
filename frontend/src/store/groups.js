@@ -1,6 +1,8 @@
+import { csrfFetch } from "./csrf";
 
 const GET_GROUPS = '/groups'
 const GET_GROUP_BY_ID = '/groups/by-id'
+const CREATE_GROUP = '/groups/new'
 
 const getGroups = (groups) => {
     return{
@@ -16,6 +18,13 @@ const getGroupsById = (groups) => {
   };
 };
 
+const postGroup = (group) => {
+  return {
+    type: CREATE_GROUP,
+    group
+  }
+}
+
 export const allGroups = () => async (dispatch) => {
   const response = await fetch("/api/groups");
 
@@ -25,6 +34,27 @@ export const allGroups = () => async (dispatch) => {
     return groups
   }
 };
+
+
+export const createGroup = (group) => async (dispatch) => {
+  //console.log(JSON.stringify(group));
+  const response = await csrfFetch("/api/groups", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(group),
+  });
+  console.log(response)
+
+  if(response.ok){
+  const newGroup = await response.json();
+  //console.log(newGroup)
+  dispatch(postGroup(newGroup))
+  return newGroup
+  }else console.log('something went wrong')
+
+}
+
+
 
 export const groupsById = (groupId) => async (dispatch) => {
   const id = Object.values(groupId);
@@ -56,6 +86,14 @@ const groupsReducer = (state = initialState, action) => {
          newState[groups.id] = groups
         //console.log(group);
         return newState;
+        }
+        case CREATE_GROUP: {
+          const newState = {...state}
+          console.log(action.group)
+          const group = Object.values(action.group)
+          console.log(group)
+          newState[group] = group
+          return newState
         }
         default:
         return state

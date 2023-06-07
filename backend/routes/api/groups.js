@@ -635,7 +635,7 @@ router.get('/:id', async (req, res) => {
 
 //Create New Group
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {
-  const {name, about, type, private, city, state} =  req.body;
+  const {name, about, type, private, city, state, previewImage} =  req.body;
   const user = req.user
   const newGroup = await Group.create({
       name,
@@ -644,7 +644,8 @@ router.post('/', requireAuth, validateGroup, async (req, res, next) => {
       private,
       city,
       state,
-      organizerId: user.id
+      organizerId: user.id,
+      previewImage
   })
   const result = await Group.findOne({
     where: {
