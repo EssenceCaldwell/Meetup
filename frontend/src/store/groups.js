@@ -57,11 +57,16 @@ export const createGroup = (group) => async (dispatch) => {
 
 
 export const groupsById = (groupId) => async (dispatch) => {
-  const id = Object.values(groupId);
-  const response = await fetch(`/api/groups/${id}`);
+  let id
+  if(typeof groupId === 'object'){
+   id = Object.values(groupId);
+  }else { id = groupId}
 
+  const response = await fetch(`/api/groups/${id}`);
+  console.log(id)
   if (response.ok) {
     const groups = await response.json();
+    //console.log(groups)
     dispatch(getGroupsById(groups));
     return groups;
   }

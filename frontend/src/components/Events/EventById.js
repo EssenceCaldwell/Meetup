@@ -4,23 +4,36 @@ import { Link } from 'react-router-dom';
 import { eventsById } from "../../store/events"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import './EventById.css'
+import { groupsById } from "../../store/groups";
 
 const EventById = () => {
     const dispatch = useDispatch();
     const eventId = useParams();
     const events = Object.values(useSelector(state => state.eventState))
     const groupData = Object.values(useSelector((state) => state.groupState));
-    const event = events[0]
     const [eventLoaded, setEventLoaded] = useState(false);
+    const [groupLoaded, setGroupLoaded] = useState(false);
+    let event
+    let group
+    let groupId = 0
+    if (eventLoaded) {
+      event = events[0];
+      groupId = event.groupId
+      group = groupData[0]
+    }
 
     useEffect(() => {
       dispatch(eventsById(eventId)).then(() => setEventLoaded(true));
     }, [dispatch]);
 
-     console.log(events);
+    useEffect(() => {
+      dispatch(groupsById(groupId)).then(() => setGroupLoaded(true));
+    }, [dispatch]);
 
 
-    return eventLoaded && (
+
+
+    return ( eventLoaded && groupLoaded && (
       <>
         <div className="group-by-container">
           <div className="grid-left-padding">
@@ -34,9 +47,13 @@ const EventById = () => {
               {event.Venue.city}, {event.Venue.state}
             </h6>
           </div>
+          <div>
+          <img src={group.previewImage} />
+          {group.name}
+          </div>
         </div>
       </>
-    );
+    ))
 }
 
 export default EventById

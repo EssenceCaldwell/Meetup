@@ -8,6 +8,7 @@ import { element } from "prop-types";
 
 const GroupById = () => {
   const groupId = useParams();
+  const id = Object.values(groupId);
   const dispatch = useDispatch();
   const groupData = Object.values(useSelector((state) => state.groupState));
   const eventData = Object.values(useSelector((state) => state.eventState));
@@ -16,7 +17,7 @@ const GroupById = () => {
   const [eventsLoaded, setEventsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(groupsById(groupId)).then(() => setGroupLoaded(true));
+    dispatch(groupsById(id)).then(() => setGroupLoaded(true));
   }, [dispatch]);
 
   useEffect(() => {
