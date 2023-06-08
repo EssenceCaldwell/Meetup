@@ -48,7 +48,7 @@ const EventById = () => {
             </h6>
           </div>
           <div>
-          <img src={group.previewImage} />
+          <img className='image-size' src={group.previewImage} />
           {group.name}
           </div>
         </div>
