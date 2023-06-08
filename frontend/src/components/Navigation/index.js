@@ -5,6 +5,7 @@ import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import logo from '../../Images/logo.png'
+import LoginFormModal from "../LoginFormModal";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -18,6 +19,7 @@ function Navigation({ isLoaded }) {
  };
 //console.log(sessionUser)
 
+
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -27,11 +29,11 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-      <li className="">
-       <button className="right loginBorder" onClick={handleClickLogin}>Log in</button>
-        <button className="right signupBorder" onClick={handleClickSignup}>Sign up</button>
-      </li>
-    );
+            <>
+        <LoginFormModal />
+         <button className="right signupBorder" onClick={handleClickSignup}>Sign up</button>
+      </>
+    )
   }
 
   return (

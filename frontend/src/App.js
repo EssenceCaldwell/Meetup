@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import Groups from "./components/Groups/Groups";
 import * as sessionActions from "./store/session";
@@ -12,6 +11,7 @@ import EventById from "./components/Events/EventById";
 import GroupById from "./components/Groups/GroupById";
 import CreateGroup from './components/Groups/CreateGroup'
 import NotLoggedIn from "./components/NotLoggedIn/NotLoggedIn";
+import UpdateGroup from "./components/Groups/UpdateGroup";
 
 
 function App() {
@@ -21,13 +21,13 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
-  
+
 const loggedIn = () => {
   if(sessionUser){
     return (
-      <Route path="/groups/new">
-        <CreateGroup />
-      </Route>
+        <Route path="/groups/new">
+          <CreateGroup />
+        </Route>
     );
   }else return (
     <Route path="/groups/new">
@@ -41,6 +41,9 @@ const loggedIn = () => {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path="/groups/:groupId/edit">
+            <UpdateGroup />
+          </Route>
           {loggedIn()}
           <Route path="/groups/:groupId">
             <GroupById />
@@ -53,9 +56,6 @@ const loggedIn = () => {
           </Route>
           <Route path="/groups">
             <Groups />
-          </Route>
-          <Route path="/login">
-            <LoginFormPage />
           </Route>
           <Route path="/signup">
             <SignupFormPage />

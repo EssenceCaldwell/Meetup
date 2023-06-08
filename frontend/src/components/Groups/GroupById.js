@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { groupsById } from "../../store/groups";
+import { deleteGroup, groupsById } from "../../store/groups";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import './GroupById.css'
 import { allEvents, getEventsByGroup } from "../../store/events";
 import { element } from "prop-types";
+import { returnMembershipGroups } from "../../store/memberships";
 
 const GroupById = () => {
   const groupId = useParams();
   const id = Object.values(groupId);
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
   const groupData = Object.values(useSelector((state) => state.groupState));
   const eventData = Object.values(useSelector((state) => state.eventState));
   const group = groupData[0];
   const [groupLoaded, setGroupLoaded] = useState(false);
   const [eventsLoaded, setEventsLoaded] = useState(false);
+  const membershipInfo = useSelector((state) => state.membershipState)
+  const [membershipsLoaded, setMembershipsLoaded] = useState(false);
+  let membership = false
+  let owner = false
 
   useEffect(() => {
     dispatch(groupsById(id)).then(() => setGroupLoaded(true));
@@ -24,8 +30,21 @@ const GroupById = () => {
     dispatch(getEventsByGroup(groupId)).then(() => setEventsLoaded(true));
   }, [dispatch]);
 
-  //console.log(events)
+  useEffect(() => {
+    dispatch(returnMembershipGroups()).then(() => setMembershipsLoaded(true))
+  },[dispatch])
 
+ if(groupLoaded && membershipsLoaded){
+  if (membershipInfo[Object.values(groupId)]) {
+    membership = true
+  }
+  if(sessionUser){
+    if(group.organizerId === sessionUser.id){
+      owner = true
+      //console.log(owner)
+    }
+  }
+  }
 
   let events = []
   let upcomingEvents = []
@@ -137,8 +156,30 @@ const GroupById = () => {
   } else return '...loading'
   }
 
+  const joinGroupButton = () => {
+    if(membership !== true){
+     return (
+      <button>Join this group</button>
+     )
+    }if(owner === true){
+
+      const deleteAGroup = () => {
+        dispatch(deleteGroup(Object.values(groupId)))
+      }
+      return (
+        <div>
+          <button>Create event</button>
+          <Link to={`/groups/${Object.values(groupId)}/edit`}>
+          <button>Update</button>
+          </Link>
+          <button>Delete</button>
+        </div>
+      );
+    }
+  }
+
   return (
-    groupLoaded && (
+    groupLoaded && membershipsLoaded && (
       <>
         <div className="main-container">
           <div className="group-by-container top-container">
@@ -159,7 +200,7 @@ const GroupById = () => {
                 Organized by {group.Organizer.firstName}{" "}
                 {group.Organizer.lastName}
               </h6>
-              <button>Join this group</button>
+              <div>{joinGroupButton()}</div>
             </div>
           </div>
           <div className="bottom-container grid-left-padding">
