@@ -6,6 +6,7 @@ import './GroupById.css'
 import { allEvents, getEventsByGroup } from "../../store/events";
 import { element } from "prop-types";
 import { returnMembershipGroups } from "../../store/memberships";
+import DeletGroupModal from "../DeleteGroupModal";
 
 const GroupById = () => {
   const groupId = useParams();
@@ -163,16 +164,14 @@ const GroupById = () => {
      )
     }if(owner === true){
 
-      const deleteAGroup = () => {
-        dispatch(deleteGroup(Object.values(groupId)))
-      }
+
       return (
         <div>
           <button>Create event</button>
           <Link to={`/groups/${Object.values(groupId)}/edit`}>
           <button>Update</button>
           </Link>
-          <button>Delete</button>
+          <DeletGroupModal groupId={groupId}/>
         </div>
       );
     }

@@ -9,14 +9,16 @@ const Groups = () => {
   const dispatch = useDispatch();
   const groupData = Object.values(useSelector((state) => state.groupState));
   const events = Object.values(useSelector((state) => state.eventState));
+  const [groupsLoaded, setGroupsLoaded] = useState(false);
+  const [eventsLoaded, setEventsLoaded] = useState(false);
 
 
   useEffect(() => {
-    dispatch(allGroups());
+    dispatch(allGroups()).then(() => setGroupsLoaded(true))
   }, [dispatch]);
 
   useEffect(() => {
-      dispatch(allEvents());
+      dispatch(allEvents()).then(() => setEventsLoaded(true))
 
   }, [ dispatch]);
 
@@ -34,7 +36,11 @@ const Groups = () => {
     }
   };
 
-  return (
+  if(!eventsLoaded || !groupsLoaded){
+    return null
+  }
+
+  return groupsLoaded && eventsLoaded && (
     <>
       <div className="container">
         <div></div>
