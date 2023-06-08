@@ -29,10 +29,10 @@ function Navigation({ isLoaded }) {
     );
   } else {
     sessionLinks = (
-            <>
+            <div className="right">
         <LoginFormModal />
          <button className="right signupBorder" onClick={handleClickSignup}>Sign up</button>
-      </>
+      </div>
     )
   }
 
