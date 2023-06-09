@@ -56,6 +56,19 @@ router.put('/:id', requireAuth, validateVenue, async (req, res) => {
         }
     })
     res.json(newVenue)
+});
+
+//Get All Venues
+
+router.get('/:venueId', async (req, res) => {
+    const id = req.params.venueId
+    const venue = await Venue.findByPk(id, {
+        attributes: {
+            exclude: ['updatedAt', 'createdAt']
+        }
+    })
+
+    res.json(venue)
 })
 
 

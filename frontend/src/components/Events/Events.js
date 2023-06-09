@@ -7,7 +7,7 @@ import './Events.css'
 const Events = () => {
     const dispatch = useDispatch();
     const events = Object.values(useSelector((state) => state.eventState));
-    const [eventsLoaded, setEventsLoaded] = useState();
+    const [eventsLoaded, setEventsLoaded] = useState(false);
     let date
 
     useEffect(() => {
