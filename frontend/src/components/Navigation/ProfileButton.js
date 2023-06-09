@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
+import '../Navigation/ProfileButton.css'
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -36,20 +37,36 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      {/* <button onClick={openMenu}> */}
-        <button onClick={() => {setShowMenu(!showMenu)}}>
-        <i className="fa-solid fa-user"></i>
-      </button>
-    {showMenu && <ul  ref={ulRef}>
-        <li>{user.username}</li>
-        <li>
-          {user.firstName} {user.lastName}
-        </li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={logout}>Log Out</button>
-        </li>
-      </ul>}
+      <div style={{ position: "relative" }}>
+        {/* <button onClick={openMenu}> */}
+        <button
+          onClick={() => {
+            setShowMenu(!showMenu);
+          }}
+        >
+          <i className="fa-solid fa-user"></i>
+        </button>
+        {showMenu && (
+          <ul
+            ref={ulRef}
+            className="dropdown"
+            style={{
+              position: "absolute",
+              top: "100%",
+              right: 0
+            }}
+          >
+            <li className="content">Hello, {user.username}</li>
+            <li className="content">
+              {user.firstName} {user.lastName}
+            </li>
+            <li className="content">{user.email}</li>
+            <li className="content">
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </ul>
+        )}
+      </div>
     </>
   );
 }

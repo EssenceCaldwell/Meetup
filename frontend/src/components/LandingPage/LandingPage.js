@@ -133,7 +133,8 @@ let createGroupsLink
                 />
                 <span className="link">
                   {sessionUser ? (
-                    <Link to='/groups/new'
+                    <Link
+                      to="/groups/new"
                       style={{
                         textDecoration: "none",
                         color: "teal",
@@ -163,7 +164,9 @@ let createGroupsLink
             </div>
           </div>
         </div>
-        <div className="joinButton">{joinButton}</div>
+        <div className='bottom-padding'>
+          <div className="joinButton">{joinButton}</div>
+        </div>
       </>
     );
 }

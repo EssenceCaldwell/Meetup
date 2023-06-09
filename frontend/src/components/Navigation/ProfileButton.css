@@ -1,0 +1,15 @@
+.dropdown{
+    background-color: white;
+    width: 200px;
+    height: 100px;
+    font-size: small;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.content{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    border-bottom: 2px black;
+}
