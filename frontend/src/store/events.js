@@ -1,6 +1,9 @@
+import { csrfFetch } from "./csrf";
+
 const GET_EVENTS = '/events';
 const GET_EVENT_BY_ID = "/events/id";
 const GET_EVENT_BY_GROUP_ID = 'events/group-id'
+const CREATE_EVENT ='events/new'
 
 const getEvents = (events) => {
     return{
@@ -22,6 +25,13 @@ const byGroupId = (events) => {
     events,
   };
 };
+
+const newEvent = (event) => {
+  return {
+    type: CREATE_EVENT,
+    event
+  }
+}
 
 
 export const eventsById = (eventId) => async (dispatch) => {
@@ -56,6 +66,24 @@ export const allEvents = () => async (dispatch) => {
     }
 }
 
+export const createEvent = (event, groupId) => async (dispatch) => {
+  const id = Object.values(groupId)
+  console.log(id)
+  const response = await csrfFetch(`/api/groups/${id}/events`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(event)
+  });
+
+  if(response.ok){
+    const event = await response.json();
+    dispatch(newEvent(event))
+    return event
+  }
+}
+
 const initialState = {}
 
 const eventsReducer = (state = initialState, action) => {
@@ -84,6 +112,11 @@ const eventsReducer = (state = initialState, action) => {
         const newEvent = Object.values(action.events)
         newState = {...newState, ...newEvent}
         return newState
+      }
+      case CREATE_EVENT: {
+        let newState = { ...state }
+        const event = Object.values(action.event)
+        newState[event.id] = event
       }
       default:
         return state;

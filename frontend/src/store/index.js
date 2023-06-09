@@ -4,13 +4,15 @@ import sessionReducer from "./session";
 import groupsReducer from "./groups";
 import eventsReducer from "./events";
 import MembershipReducer from "./memberships";
+import venueReucer from "./venues";
 
 const rootReducer = combineReducers({
   // add reducer functions here
   session: sessionReducer,
   groupState: groupsReducer,
   eventState: eventsReducer,
-  membershipState: MembershipReducer
+  membershipState: MembershipReducer,
+  venueState: venueReucer
 });
 
 let enhancer;

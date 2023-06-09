@@ -12,6 +12,7 @@ import GroupById from "./components/Groups/GroupById";
 import CreateGroup from './components/Groups/CreateGroup'
 import NotLoggedIn from "./components/NotLoggedIn/NotLoggedIn";
 import UpdateGroup from "./components/Groups/UpdateGroup";
+import CreateEvent from "./components/Events/CreateEvent";
 
 
 function App() {
@@ -41,6 +42,9 @@ const loggedIn = () => {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path='/groups/:groupId/events/new'>
+            <CreateEvent />
+          </Route>
           <Route path="/groups/:groupId/edit">
             <UpdateGroup />
           </Route>

@@ -54,27 +54,22 @@ const validateLogin = [
 ];
 
 const validateGroup = [
-  check('name')
-    .isLength({max: 60})
-    .withMessage('Name must be 60 characters or less'),
-  check('about')
-    .exists({checkFalsy: true})
-    .isLength({min: 50})
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ max: 60 })
+    .withMessage("Name must be 60 characters or less"),
+  check("about")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 50 })
     .withMessage("About must be 50 characters or more"),
-  check('type')
-    .exists({checkFalsy: true})
-    .isIn(['Online', 'In person'])
+  check("type")
+    .exists({ checkFalsy: true })
+    .isIn(["Online", "In person"])
     .withMessage("Type must be 'Online' or 'In person'"),
-  check('private')
-    .isBoolean()
-    .withMessage('Private must be a boolean'),
-  check('city')
-    .exists({checkFalsy: true})
-    .withMessage('City is required'),
-  check('state')
-    .exists({checkFalsy: true})
-    .withMessage('State is required'),
-  handleValidationErrors
+  check("private").isBoolean().withMessage("Private must be a boolean"),
+  check("city").exists({ checkFalsy: true }).withMessage("City is required"),
+  check("state").exists({ checkFalsy: true }).withMessage("State is required"),
+  handleValidationErrors,
 ];
 
 const validateDate = [
@@ -116,37 +111,37 @@ const validateVenue = [
 ];
 
 const validateEvent = [
-  check('venueId')
-  .exists({checkFalsy: true})
-  .withMessage('Venue does not exist'),
-  check('name')
-  .exists({checkFalsy: true})
-  .isLength({min: 5})
-  .withMessage('Name must be at least 5 characters'),
-  check('type')
-  .exists({checkFalsy: true})
-  .isIn(['Online', 'In person'])
-  .withMessage('Type must be Online or In person'),
-  check('capacity')
-  .exists({checkFalsy: true})
-  .isNumeric()
-  .withMessage('Capacity must be an integer'),
-  check('price')
-  .exists({checkFalsy: true})
-  .isDecimal()
-  .withMessage('Price is invalid'),
-  check('description')
-  .exists({checkFalsy: true})
-  .withMessage('Description is required'),
-  check('startDate')
-  .exists({checkFalsy: true})
-  .isISO8601()
-  .withMessage('Please add a start date'),
-  check('endDate')
-  .exists({checkFalsy: true})
- .isISO8601()
-  .withMessage('Please add an end date'),
-  handleValidationErrors
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 5 })
+    .withMessage("Name must be at least 5 characters"),
+  check("venueId")
+    .exists({ checkFalsy: true })
+    .withMessage("Venue does not exist"),
+  check("type")
+    .exists({ checkFalsy: true })
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be Online or In person"),
+  check("capacity")
+    .exists({ checkFalsy: true })
+    .isNumeric()
+    .withMessage("Capacity must be an integer"),
+  check("price")
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage("Price is invalid"),
+  check("description")
+    .exists({ checkFalsy: true })
+    .withMessage("Description is required"),
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .isISO8601()
+    .withMessage("Please add a start date"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .isISO8601()
+    .withMessage("Please add an end date"),
+  handleValidationErrors,
 ];
 
 const validateMembership = [

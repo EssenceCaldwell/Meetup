@@ -66,7 +66,17 @@ const EventById = () => {
       return `${newHours}:${newMins} ${amOrPm}`;
     }
   };
+let city = '...loading'
+let state = '...loading'
+  if(eventLoaded){
+;
+  if(event.Venue){
 
+  city = event.Venue.city;
+    }
+   if(event.Venue){
+    state = event.Venue.state}
+  }
 
     return (
       groupLoaded &&
@@ -81,7 +91,7 @@ const EventById = () => {
               <h1 className="">{event.name}</h1>
               <h6></h6>
               <h6>
-                {event.Venue.city}, {event.Venue.state}
+                {city}, {state}
               </h6>
               <div>
                 <div>

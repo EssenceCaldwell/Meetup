@@ -167,11 +167,15 @@ const GroupById = () => {
 
       return (
         <div>
-          <button>Create event</button>
-          <Link to={`/groups/${Object.values(groupId)}/edit`}>
-          <button>Update</button>
+          <Link to={`/groups/${Object.values(groupId)}/events/new`}>
+            <button>Create event</button>
           </Link>
-          <DeletGroupModal groupId={groupId}/>
+
+          <Link to={`/groups/${Object.values(groupId)}/edit`}>
+            <button>Update</button>
+          </Link>
+
+          <DeletGroupModal groupId={groupId} />
         </div>
       );
     }
