@@ -4,6 +4,7 @@ const GET_EVENTS = '/events';
 const GET_EVENT_BY_ID = "/events/id";
 const GET_EVENT_BY_GROUP_ID = 'events/group-id'
 const CREATE_EVENT ='events/new'
+const DELETE_EVENT ='events/delete'
 
 const getEvents = (events) => {
     return{
@@ -66,6 +67,14 @@ export const allEvents = () => async (dispatch) => {
     }
 }
 
+export const deleteEvent = (eventId) => async (dispatch) => {
+  const id = Object.values(eventId);
+  const response = await csrfFetch(`/api/events/${id}`,{
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'}
+  });
+}
+
 export const createEvent = (event, groupId) => async (dispatch) => {
   const id = Object.values(groupId)
   console.log(id)
@@ -117,6 +126,9 @@ const eventsReducer = (state = initialState, action) => {
         let newState = { ...state }
         const event = Object.values(action.event)
         newState[event.id] = event
+      }
+      case DELETE_EVENT: {
+        return initialState
       }
       default:
         return state;

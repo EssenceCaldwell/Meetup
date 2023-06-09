@@ -5,12 +5,14 @@ import { eventsById } from "../../store/events"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import './EventById.css'
 import { groupsById } from "../../store/groups";
+import DeleteEventModal from "../DeleteEventModal";
 
 const EventById = () => {
     const dispatch = useDispatch();
     const eventId = useParams();
     const events = Object.values(useSelector(state => state.eventState))
     const groupData = Object.values(useSelector((state) => state.groupState));
+    const sessionUser = useSelector((state) => state.session.user);
     const [eventLoaded, setEventLoaded] = useState(false);
     const [groupLoaded, setGroupLoaded] = useState(false)
 
@@ -20,7 +22,6 @@ const EventById = () => {
  useEffect(() => {
    dispatch(eventsById(eventId)).then(() => setEventLoaded(true))
  }, [dispatch]);
-
 
  useEffect(() => {
    if (eventLoaded) {
@@ -69,13 +70,24 @@ const EventById = () => {
 let city = '...loading'
 let state = '...loading'
   if(eventLoaded){
-;
   if(event.Venue){
-
   city = event.Venue.city;
     }
    if(event.Venue){
     state = event.Venue.state}
+  }
+
+  const buttonHandler = () => {
+    if(sessionUser && groupLoaded){
+      if(sessionUser.id === group.organizerId){
+        return (
+          <div>
+            <button>Update</button>
+            <DeleteEventModal eventId={eventId}/>
+          </div>
+        )
+      }
+    }
   }
 
     return (
@@ -110,6 +122,7 @@ let state = '...loading'
                     </div>
                     <div>{event.price}</div>
                     <div>{event.type}</div>
+                    {buttonHandler()}
                   </div>
                 </div>
               </div>
