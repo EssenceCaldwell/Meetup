@@ -1,5 +1,14 @@
+.event-container{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    height: 500px;
+}
 
+.small-pic{
+    width: 200px;
+}
 
-.inner-group-container{
-    display: f;
+.description{
+    padding-top: 0px;
+    margin-top: 0px;
 }

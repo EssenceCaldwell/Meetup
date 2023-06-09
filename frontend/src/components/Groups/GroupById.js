@@ -56,7 +56,7 @@ const GroupById = () => {
 
     events.forEach((event) => {
 
-    if(new Date(event.startDate) >= new Date()){
+    if(new Date(event.endDate) >= new Date()){
       upcomingEvents.push(event)
     }else pastEvents.push(event)
    })

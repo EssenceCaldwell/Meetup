@@ -12,48 +12,106 @@ const EventById = () => {
     const events = Object.values(useSelector(state => state.eventState))
     const groupData = Object.values(useSelector((state) => state.groupState));
     const [eventLoaded, setEventLoaded] = useState(false);
-    const [groupLoaded, setGroupLoaded] = useState(false);
-    let event
+    const [groupLoaded, setGroupLoaded] = useState(false)
+
+    const event = events[0];
     let group
-    let groupId = 0
-    if (eventLoaded) {
-      event = events[0];
-      groupId = event.groupId
-      group = groupData[0]
+
+ useEffect(() => {
+   dispatch(eventsById(eventId)).then(() => setEventLoaded(true))
+ }, [dispatch]);
+
+
+ useEffect(() => {
+   if (eventLoaded) {
+     dispatch(groupsById(events[0].groupId)).then(() => setGroupLoaded(true));
+   }
+ }, [dispatch, events, eventLoaded]);
+
+  if(groupLoaded){
+    group = groupData[0]
+  }
+
+  const isPrivate = () => {
+    if(groupLoaded){
+      if(group.private === 'true'){
+        return (
+          <div>Private</div>
+        )
+      }else return (<div>Public</div>)
     }
+  }
 
-    useEffect(() => {
-      dispatch(eventsById(eventId)).then(() => setEventLoaded(true));
-    }, [dispatch]);
+    const getDate = (startOrEndDate) => {
+      if (eventLoaded) {
+        const date = new Date(startOrEndDate);
 
-    useEffect(() => {
-      dispatch(groupsById(groupId)).then(() => setGroupLoaded(true));
-    }, [dispatch]);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}-${month}-${day}`;
+      }
+    };
+
+  const getTime = (startOrEndDate) => {
+    if (eventLoaded) {
+      const date = new Date(startOrEndDate);
+
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+
+      const amOrPm = hours >= 12 ? "PM" : "AM";
+      const newHours = hours % 12 === 0 ? 12 : hours % 12;
+      const newMins = minutes.toString().padStart(2, "0");
+      return `${newHours}:${newMins} ${amOrPm}`;
+    }
+  };
 
 
-
-
-    return ( eventLoaded && groupLoaded && (
-      <>
-        <div className="group-by-container">
-          <div className="grid-left-padding">
-            <Link to="/events">Events</Link>
-            <img className="image-size" src={event.previewImage} />
+    return (
+      groupLoaded &&
+      eventLoaded && (
+        <>
+          <div className="event-container">
+            <div className="grid-left-padding">
+              <Link to="/events">Events</Link>
+              <img className="image-size" src={events[0].previewImage} />
+            </div>
+            <div>
+              <h1 className="">{event.name}</h1>
+              <h6></h6>
+              <h6>
+                {event.Venue.city}, {event.Venue.state}
+              </h6>
+              <div>
+                <div>
+                  <img className="small-pic" src={group.previewImage} />
+                  <div>{group.name}</div>
+                  {isPrivate()}
+                </div>
+                <div>
+                  <div>
+                    <div>
+                      Start {getDate(event.startDate)}{" "}
+                      {getTime(event.startDate)}
+                    </div>
+                    <div>
+                      End {getDate(event.endDate)} {getTime(event.endDate)}
+                    </div>
+                    <div>{event.price}</div>
+                    <div>{event.type}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 className="grid-right-padding">{event.name}</h1>
-            <h6></h6>
-            <h6>
-              {event.Venue.city}, {event.Venue.state}
-            </h6>
+          <div className="description">
+            Details
+            <div>{event.description}</div>
           </div>
-          <div>
-          <img className='image-size' src={group.previewImage} />
-          {group.name}
-          </div>
-        </div>
-      </>
-    ))
+        </>
+      )
+    );
 }
 
 export default EventById
