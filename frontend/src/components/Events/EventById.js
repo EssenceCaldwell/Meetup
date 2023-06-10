@@ -37,9 +37,9 @@ const EventById = () => {
     if(groupLoaded){
       if(group.private === 'true'){
         return (
-          <div>Private</div>
+          <div className="gray">Private</div>
         )
-      }else return (<div>Public</div>)
+      }else return (<div className="gray">Public</div>)
     }
   }
 
@@ -95,42 +95,75 @@ let state = '...loading'
       eventLoaded && (
         <>
           <div className="event-container">
-            <div className="grid-left-padding">
+            <div style={{ paddingLeft: "100px", paddingBottom: "20px" }}>
               <Link to="/events">Events</Link>
-              <img className="image-size" src={events[0].previewImage} />
-            </div>
-            <div>
-              <h1 className="">{event.name}</h1>
-              <h6></h6>
-              <h6>
-                {city}, {state}
-              </h6>
+              <h1>{event.name}</h1>
               <div>
+                Hosted by {group.Organizer.firstName} {group.Organizer.lastName}
+              </div>
+            </div>
+            <div className="bottom-container">
+              <div className="top-events-container">
                 <div>
-                  <img className="small-pic" src={group.previewImage} />
-                  <div>{group.name}</div>
-                  {isPrivate()}
+                  <img className="image" src={events[0].previewImage} />
                 </div>
                 <div>
-                  <div>
-                    <div>
-                      Start {getDate(event.startDate)}{" "}
-                      {getTime(event.startDate)}
+                  <div style={{ paddingLeft: "30px" }}>
+                    <div
+                      style={{ paddingTop: "1px" }}
+                      className="small-border card-align"
+                      onClick={() =>
+                        (window.location.href = `/groups/${group.id}`)
+                      }
+                    >
+                      <div>
+                        <img className="small-pic" src={group.previewImage} />
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            fontStyle: "bold",
+                            paddingTop: "20px",
+                          }}
+                        >
+                          {group.name}
+                        </div>
+                        {isPrivate()}
+                      </div>
                     </div>
                     <div>
-                      End {getDate(event.endDate)} {getTime(event.endDate)}
+                      <div className="small-border">
+                        <div className="flex">
+                          <div style={{ color: "gray" }}>Start </div>
+                          <div style={{ color: "teal", paddingLeft: "10px" }}>
+                            {getDate(event.startDate)} ·{" "}
+                            {getTime(event.startDate)}
+                          </div>
+                        </div>
+                        <div className="flex">
+                          <div style={{ color: "gray" }}>End </div>
+                          <div style={{ color: "teal", paddingLeft: "10px" }}>
+                            {getDate(event.endDate)} · {getTime(event.endDate)}
+                          </div>
+                        </div>
+                        <div style={{ color: "gray", paddingTop: "10px" }}>
+                          ${event.price}
+                        </div>
+                        <div style={{ color: "gray", paddingTop: "10px" }}>
+                          {event.type}
+                        </div>
+                        {buttonHandler()}
+                      </div>
                     </div>
-                    <div>{event.price}</div>
-                    <div>{event.type}</div>
-                    {buttonHandler()}
                   </div>
                 </div>
               </div>
+              <div style={{ paddingLeft: "90px" }}>
+                <div style={{ fontSize: "25px" }}> Details</div>
+                <div style={{ paddingTop: "10px" }}>{event.description}</div>
+              </div>
             </div>
-          </div>
-          <div className="description">
-            Details
-            <div>{event.description}</div>
           </div>
         </>
       )

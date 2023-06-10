@@ -8,7 +8,7 @@
 }
 .top-container{
     display: grid;
-    padding-bottom: 0px;
+    padding-bottom: 20px;
     margin-bottom: 0px;
 }
 
@@ -28,7 +28,8 @@
 .card{
     display: grid;
     grid-template-columns: 2fr 2fr;
-    size: 200px
+    size: 200px;
+    padding-bottom: 10px;
 }
 
 .bottom-container{
@@ -36,6 +37,7 @@
     padding-top: 0px;
     margin-top: 0px;
 }
+
 .grid-left-padding{
     padding-left: 200px;
 }
@@ -46,16 +48,69 @@
 
 .image-size{
     width: 600px;
+    border: 2px solid black;
+    border-radius: 5px;
 }
 
 .small-image{
-    width: 200px
+    width: 200px;
+    border: 2px solid black;
+    border-radius: 15px;
 }
 
 .inner-padding{
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 h6{
     color: gray
+}
+
+h5{
+    color: gray
+}
+
+.date{
+    color: teal
+}
+
+.location{
+    color: gray
+}
+
+.join-group-button{
+    color: white;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-right: 15px;
+    font-size: 20px;
+    padding-left: 15px;
+    background-color: red;
+    border: 2px solid black;
+    box-shadow: 3px 3px 0px 2px black;
+}
+
+.right-side{
+    display: flex;
+}
+
+.align-button{
+   padding-top: 140px;
+}
+
+.space-between{
+    padding-left: 6px;
+}
+
+.upper-padding{
+    padding-top: 20px;
+}
+
+.mini-titles{
+    font-size: 25px
+}
+
+.top-link{
+    color: teal;
+    padding: 8px;
 }

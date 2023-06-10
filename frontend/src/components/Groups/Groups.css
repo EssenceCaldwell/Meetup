@@ -19,7 +19,7 @@
  justify-content: start;
  width: 600px;
  margin-bottom: 10px;
- padding-bottom: 5px;
+ padding-bottom: 10px;
 }
 
 .box-width{
@@ -36,9 +36,8 @@ grid-template-columns: 1fr 3fr;
 }
 
 .image{
-
     padding-right: 15px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 .image-container{
@@ -49,6 +48,7 @@ grid-template-columns: 1fr 3fr;
 
 .text-width{
     width: 400px;
+    font-size: 15px;
 }
 
 .no-top-padding{

@@ -40,6 +40,20 @@ const Events = () => {
       }
     }
 
+
+
+    const getCity = (event) => {
+      if (event.Venue) {
+        //window.location.reload();
+      return event.Venue.city;
+    };
+  }
+    const getState = (event) => {
+      if (event.Venue) {
+       // window.location.reload();
+        return event.Venue.state;
+    };
+  }
     return eventsLoaded && (
       <>
         <div className="container">
@@ -74,14 +88,16 @@ const Events = () => {
                 </Link>
               </div>
 
-              <h6 className="header" style={{ color: "gray" }}>
+              <h6 style={{ color: "gray" }}>
                 Events in What's Up
               </h6>
             </div>
 
             <ul>
               {events.map((event) => {
-
+                if(!event.Venue){
+                  window.location.reload()
+                }
                 return (
                   <li
                     className="borders outer-event-container"
@@ -108,7 +124,7 @@ const Events = () => {
                           </h6>
                         </div>
                         <h3 className="no-top-padding no-bottom-padding">{`${event.name}`}</h3>
-                        <h6 className="location">{`${event.Venue.city}, ${event.Venue.state}`}</h6>
+                        <h6 className="location">{getCity(event)}, {getState(event)}</h6>
                       </div>
                     </div>
                     <div className="text-width">

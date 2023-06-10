@@ -69,7 +69,7 @@ const Groups = () => {
               </Link>
             </div>
 
-            <h6 className="header" style={{ color: "gray" }}>
+            <h6 style={{ color: "gray"}}>
               Groups in What's Up
             </h6>
           </div>
@@ -83,7 +83,7 @@ const Groups = () => {
                   (window.location.href = `/groups/${group.id}`)
                 }
               >
-                <div className="image-container">
+                <div className="image-container no-top-padding">
                   <img
                     src={`${group.previewImage}`}
                     alt="previewImage"
@@ -91,7 +91,7 @@ const Groups = () => {
                     className="image"
                   />
                 </div>
-                <div>
+                <div className="word-container">
                   <h3 className="no-top-padding no-bottom-padding">{`${group.name}`}</h3>
                   <h6 className="location">{`${group.city}, ${group.state}`}</h6>
                   <div className="text-width">{`${group.about}`}</div>

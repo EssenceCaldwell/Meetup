@@ -60,11 +60,18 @@ const GroupById = () => {
       upcomingEvents.push(event)
     }else pastEvents.push(event)
    })
-
-//upcomingEvents.forEach((ele) => {
-  //console.log(ele.previewImage)
-//})
   }
+ const getTime = (startOrEndDate) => {
+     const date = new Date(startOrEndDate);
+
+     const hours = date.getHours();
+     const minutes = date.getMinutes();
+
+     const amOrPm = hours >= 12 ? "PM" : "AM";
+     const newHours = hours % 12 === 0 ? 12 : hours % 12;
+     const newMins = minutes.toString().padStart(2, "0");
+     return `${newHours}:${newMins} ${amOrPm}`;
+ };
 
    const isUpcoming = () => {
     if(upcomingEvents.length){
@@ -72,30 +79,38 @@ const GroupById = () => {
         <div>
           <h4>Upcoming Events ({upcomingEvents.length})</h4>
           {upcomingEvents.map((ele) => {
-            return (
-              <div
-                className="small-border"
-                onClick={() => (window.location.href = `/events/${ele.id}`)}
-              >
-                <img
-                  className="small-image"
-                  src={ele.previewImage}
-                  alt="previewImage"
-                />
-                <span>
-                  {`${new Date(ele.startDate).getFullYear()}`}-
-                  {`${new Date(ele.startDate).getMonth()}`}-
-                  {`${new Date(ele.startDate).getDate()}`}
-                </span>
-                <div>{ele.name}</div>
-                <div>
-                  {ele.Venue.city}, {ele.Venue.state}
+
+              return (
+                <div
+                  className="small-border"
+                  onClick={() => (window.location.href = `/events/${ele.id}`)}
+                >
+                  <div className="card">
+                    <div>
+                      <img
+                        className="small-image black-border"
+                        src={ele.previewImage}
+                        alt="previewImage"
+                      />
+                    </div>
+                    <div>
+                      <div className="date">
+                        {`${new Date(ele.startDate).getFullYear()}`}-
+                        {`${new Date(ele.startDate).getMonth()}`}-
+                        {`${new Date(ele.startDate).getDate()}`} {getTime(ele.startDate)}
+                      </div>
+                      <h3>{ele.name}</h3>
+                      <div className="location">
+                        {ele.Venue.city}, {ele.Venue.state}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>{ele.description}</div>
                 </div>
-                <div>{ele.description}</div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
       );
     }
    };
@@ -120,15 +135,15 @@ const GroupById = () => {
                       />
                     </div>
                     <div>
-                      <div>
+                      <div className="date">
                         {`${new Date(ele.startDate).getFullYear()}`}-
                         {`${new Date(ele.startDate).getMonth()}`}-
                         {`${new Date(ele.startDate).getDate()}`}
                       </div>
-                      <div>{ele.name}</div>
-                      <div>
+                      <h3>{ele.name}</h3>
+                      <h6 className="location">
                         {ele.Venue.city}, {ele.Venue.state}
-                      </div>
+                      </h6>
                     </div>
                   </div>
 
@@ -167,7 +182,7 @@ const GroupById = () => {
   const joinGroupButton = () => {
     if(membership !== true){
      return (
-      <button>Join this group</button>
+      <button className="join-group-button">Join this group</button>
      )
     }if(owner === true){
 
@@ -195,33 +210,36 @@ const GroupById = () => {
         <div className="groupId-container">
           <div className="group-by-container top-container">
             <div className="grid-left-padding">
-              <Link to="/groups">Groups</Link>
+              <div className="top-link">
+                <Link to="/groups" style={{color: "teal", textDecoration: 'underline'}} >Groups</Link>
+              </div>
+
               <img className="image-size" src={group.previewImage} />
             </div>
             <div className="inner-padding">
               <h1 className="grid-right-padding">{group.name}</h1>
-              <h6>
+              <h5>
                 {group.city}, {group.state}
-              </h6>
-              <h6>
+              </h5>
+              <h5>
                 {numEvents()}
-                <span>{isPrivate()}</span>
-              </h6>
-              <h6>
+                <span className="space-between">{isPrivate()}</span>
+              </h5>
+              <h5>
                 Organized by {group.Organizer.firstName}{" "}
                 {group.Organizer.lastName}
-              </h6>
-              <div>{joinGroupButton()}</div>
+              </h5>
+              <div className="align-button">{joinGroupButton()}</div>
             </div>
           </div>
           <div className="bottom-container grid-left-padding">
-            <h3 className="upper-padding">Organizer</h3>
-            <h4>
+            <div className="upper-padding mini-titles">Organizer</div>
+            <h4 style={{ color: "gray" }}>
               {group.Organizer.firstName} {group.Organizer.lastName}
             </h4>
             <div>
-              <h3>What we're about</h3>
-              {group.about}
+              <div className="mini-titles">What we're about</div>
+              <div className="upper-padding">{group.about}</div>
             </div>
             <div>
               <div className="upper-padding">{isUpcoming()}</div>
