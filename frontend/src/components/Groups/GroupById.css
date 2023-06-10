@@ -1,6 +1,4 @@
-.main-container{
-    display: grid;
-    grid-template-rows: 2fr 2fr;
+.groupId-container{
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -10,20 +8,33 @@
 }
 .top-container{
     display: grid;
-    padding-bottom: 25px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .small-border{
+    display: grid;
+    grid-template-rows: 2fr 1fr;
     border: 1px solid white ;;
     border-radius: 20px;
     border-width: 20px;
     background-color: white ;
     font-family: Arial, Helvetica, sans-serif;
     width: 500px;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.card{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    size: 200px
 }
 
 .bottom-container{
     background-color: rgb(243, 237, 237);
+    padding-top: 0px;
+    margin-top: 0px;
 }
 .grid-left-padding{
     padding-left: 200px;

@@ -70,13 +70,13 @@ const GroupById = () => {
     if(upcomingEvents.length){
       return (
         <div>
+          <h4>Upcoming Events ({upcomingEvents.length})</h4>
           {upcomingEvents.map((ele) => {
             return (
               <div
                 className="small-border"
                 onClick={() => (window.location.href = `/events/${ele.id}`)}
               >
-                <h4>Upcoming Events ({upcomingEvents.length})</h4>
                 <img
                   className="small-image"
                   src={ele.previewImage}
@@ -96,7 +96,7 @@ const GroupById = () => {
             );
           })}
         </div>
-      )
+      );
     }
    };
 
@@ -104,27 +104,34 @@ const GroupById = () => {
       if (pastEvents.length) {
         return (
           <div>
+            <h4>Past Events ({pastEvents.length})</h4>
             {pastEvents.map((ele) => {
               return (
                 <div
                   className="small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
-                  <h4>Past Events ({pastEvents.length})</h4>
-                  <img
-                    className="small-image"
-                    src={ele.previewImage}
-                    alt="previewImage"
-                  />
-                  <span>
-                    {`${new Date(ele.startDate).getFullYear()}`}-
-                    {`${new Date(ele.startDate).getMonth()}`}-
-                    {`${new Date(ele.startDate).getDate()}`}
-                  </span>
-                  <div>{ele.name}</div>
-                  <div>
-                    {ele.Venue.city}, {ele.Venue.state}
+                  <div className="card">
+                    <div>
+                      <img
+                        className="small-image"
+                        src={ele.previewImage}
+                        alt="previewImage"
+                      />
+                    </div>
+                    <div>
+                      <div>
+                        {`${new Date(ele.startDate).getFullYear()}`}-
+                        {`${new Date(ele.startDate).getMonth()}`}-
+                        {`${new Date(ele.startDate).getDate()}`}
+                      </div>
+                      <div>{ele.name}</div>
+                      <div>
+                        {ele.Venue.city}, {ele.Venue.state}
+                      </div>
+                    </div>
                   </div>
+
                   <div>{ele.description}</div>
                 </div>
               );
@@ -182,9 +189,10 @@ const GroupById = () => {
   }
 
   return (
-    groupLoaded && membershipsLoaded && (
+    groupLoaded &&
+    membershipsLoaded && (
       <>
-        <div className="main-container">
+        <div className="groupId-container">
           <div className="group-by-container top-container">
             <div className="grid-left-padding">
               <Link to="/groups">Groups</Link>
@@ -207,7 +215,7 @@ const GroupById = () => {
             </div>
           </div>
           <div className="bottom-container grid-left-padding">
-            <h3>Organizer</h3>
+            <h3 className="upper-padding">Organizer</h3>
             <h4>
               {group.Organizer.firstName} {group.Organizer.lastName}
             </h4>
@@ -216,12 +224,8 @@ const GroupById = () => {
               {group.about}
             </div>
             <div>
-              <div>
-                {isUpcoming()}
-              </div>
-              <div>
-                {isPast()}
-              </div>
+              <div className="upper-padding">{isUpcoming()}</div>
+              <div>{isPast()}</div>
             </div>
           </div>
         </div>

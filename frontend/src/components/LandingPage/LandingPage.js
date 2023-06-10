@@ -9,6 +9,7 @@ import frendlyImage from '../../Images/mainImg.png'
 import groupPic from '../../Images/joinGroup.png'
 import partyPic from '../../Images/findEvent.png'
 import invitePic from '../../Images/makeGroup.png'
+import SecondSignupFormModal from '../SignUpModal/secondSignupModal';
 
 
 const LandingPage = ({isLoaded}) => {
@@ -164,8 +165,10 @@ let createGroupsLink
             </div>
           </div>
         </div>
-        <div className='bottom-padding'>
-          <div className="joinButton">{joinButton}</div>
+        <div className="bottom-padding">
+          <div className='joinButton'>
+            <SecondSignupFormModal />
+          </div>
         </div>
       </>
     );

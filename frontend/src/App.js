@@ -61,9 +61,6 @@ const loggedIn = () => {
           <Route path="/groups">
             <Groups />
           </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
           <Route exact path="/">
             <LandingPage />
           </Route>
