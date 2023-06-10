@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import './LoginForm.css'
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function LoginForm() {
+  const history = useHistory()
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -11,12 +13,12 @@ function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
+    return dispatch(sessionActions.login({ credential, password }))
+      .then(() => history.push("/"))
+      .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
-      }
-    );
+      });
   };
   return (
     <form className="login-modal" onSubmit={handleSubmit}>
@@ -49,7 +51,7 @@ function LoginForm() {
           />
         </label>
       </div>
-      <div style={{paddingLeft: '50px'}}>
+      <div style={{paddingLeft: '45px'}}>
         <button className="login-button" type="submit">Log In</button>
       </div>
     </form>
