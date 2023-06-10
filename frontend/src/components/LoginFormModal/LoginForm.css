@@ -8,3 +8,32 @@
     font-weight: bold;
     border-style: hidden;
 }
+
+.login-modal{
+    border-style: none;
+    border-radius: 15px;
+    height: 200px;
+    width: 400px;
+}
+
+.input-container{
+    display: grid;
+    grid-template-rows: 2fr 2fr;
+    padding-left: 45px;
+}
+
+.input-box{
+    background-color: rgb(188, 208, 218);
+    border: 2px solid black;
+    width: 300px;
+    color: gray
+}
+
+.login-button{
+    border: 2px solid gray;
+    background-color: white;
+    width: 309px;
+    color: gray;
+    height: 45px;
+    box-shadow: 4px 3px 0px 1px;
+}

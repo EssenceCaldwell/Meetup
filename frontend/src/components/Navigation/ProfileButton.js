@@ -51,19 +51,32 @@ function ProfileButton({ user }) {
             ref={ulRef}
             className="dropdown"
             style={{
-              position: "absolute",
-              top: "100%",
-              right: 0
+              position: "fixed",
+
+              right: 0,
             }}
           >
-            <li className="content">Hello, {user.username}</li>
-            <li className="content">
-              {user.firstName} {user.lastName}
-            </li>
-            <li className="content">{user.email}</li>
-            <li className="content">
-              <button onClick={logout}>Log Out</button>
-            </li>
+            <div>
+              <li className="content">Hello, {user.username}</li>
+            </div>
+            <div>
+              <li
+                style={{ borderBottom: "2px solid black" }}
+                className="content"
+              >
+                {user.email}
+              </li>
+            </div>
+            <div>
+              <li className="content">
+                <button
+                  style={{ borderStyle: "none", backgroundColor: "white" }}
+                  onClick={logout}
+                >
+                  Log Out
+                </button>
+              </li>
+            </div>
           </ul>
         )}
       </div>

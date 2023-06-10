@@ -1,0 +1,28 @@
+.signup-modal{
+    border-style: none;
+    border-radius: 15px;
+    height: 350px;
+    width: 400px;
+}
+
+.signup-container{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding-left: 45px;
+}
+
+.signup-box{
+    background-color: rgb(188, 208, 218);
+    border: 2px solid black;
+    width: 300px;
+    color: gray
+}
+
+.signup-button{
+    border: 2px solid gray;
+    background-color: white;
+    width: 305px;
+    color: gray;
+    height: 45px;
+    box-shadow: 4px 3px 0px 1px;
+}

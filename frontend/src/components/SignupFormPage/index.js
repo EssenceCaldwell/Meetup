@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
-import "./SignupForm.css";
+import './SignupForm.css'
 
 function SignupForm() {
   const dispatch = useDispatch();
@@ -44,70 +44,85 @@ function SignupForm() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
-          First Name
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
-      </form>
+      <div className="signup-modal">
+        <h3 style={{ paddingLeft: "170px" }}>Sign Up</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="signup-container">
+            <label>
+              <input
+                type="text"
+                className="signup-box"
+                value={email}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </label>
+            {errors.email && <p>{errors.email}</p>}
+            <label>
+              <input
+                type="text"
+                className="signup-box"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </label>
+            {errors.username && <p>{errors.username}</p>}
+            <label>
+              <input
+                type="text"
+                className="signup-box"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </label>
+            {errors.firstName && <p>{errors.firstName}</p>}
+            <label>
+              <input
+                type="text"
+                className="signup-box"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </label>
+            {errors.lastName && <p>{errors.lastName}</p>}
+            <label>
+              <input
+                type="password"
+                className="signup-box"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </label>
+            {errors.password && <p>{errors.password}</p>}
+            <label>
+              <input
+                style={{ paddingBottom: "10px" }}
+                type="password"
+                className="signup-box"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </label>
+            {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+          </div>
+          <div style={{ paddingLeft: "45px", paddingTop: "10px" }}>
+            <button className="signup-button" type="submit">
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

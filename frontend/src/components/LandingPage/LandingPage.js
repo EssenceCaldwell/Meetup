@@ -31,12 +31,25 @@ let createGroupsLink
     );
   }
 
+  const handleSecondSignupButton = () => {
+    if(!sessionUser){
+      return (
+        <SecondSignupFormModal />
+      )
+    }
+  }
+
     return (
       <>
         <div className="box">
           <div className="words innerBox">
             <h1 className="topWords">The people platform—</h1>
             <h1 className="bottomWords">Where interests become friendships</h1>
+            <p className='paragraph'>
+              Whatever your interest, from hiking and reading to networking and
+              skill sharing, there are thousands of people who share it on
+              Meetup. Events are happening every day—sign up to join the fun
+            </p>
           </div>
           <div>
             <img
@@ -48,7 +61,7 @@ let createGroupsLink
         </div>
 
         <div>
-          <h2 className="centerWords">How Meetup works</h2>
+          <h2 className="centerWords">How What's Up works</h2>
           <p className="centerWords landing-container">
             Meet new people who share your interests through online and
             in-person events. It’s free to create an account.
@@ -166,9 +179,7 @@ let createGroupsLink
           </div>
         </div>
         <div className="bottom-padding">
-          <div className='joinButton'>
-            <SecondSignupFormModal />
-          </div>
+          <div className="joinButton">{handleSecondSignupButton()}</div>
         </div>
       </>
     );

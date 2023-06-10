@@ -15,6 +15,13 @@
   font-weight: bolder;
 }
 
+.paragraph{
+    font-size: large;
+    width: 500px;
+    padding-left: 70px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .innerBox {
     display: grid;
     grid-template-rows: 1fr 1fr;
