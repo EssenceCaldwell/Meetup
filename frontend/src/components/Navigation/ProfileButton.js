@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
 import '../Navigation/ProfileButton.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -37,14 +40,30 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", paddingTop: "20px" }}>
         {/* <button onClick={openMenu}> */}
         <button
+          style={{
+            background: "red",
+            paddingTop: "10px",
+            borderRadius: "50px",
+            height: "35px",
+            width: "35px",
+            borderColor: "red",
+            borderWidth: "10px",
+            borderStyle: "none",
+          }}
           onClick={() => {
             setShowMenu(!showMenu);
           }}
         >
-          <i className="fa-solid fa-user"></i>
+          <i style={{display: 'flex', marginRight: '30px'}}>
+            <FontAwesomeIcon
+              icon={faUser}
+              size="2xl"
+              style={{ color: "white"}}
+            />
+          </i>
         </button>
         {showMenu && (
           <ul

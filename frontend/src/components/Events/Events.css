@@ -1,7 +1,8 @@
-.event-container{
+.events-container{
     display: grid;
-    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     font-family: Arial, Helvetica, sans-serif;
+    padding-left: 300px;
 }
 
 
@@ -36,7 +37,7 @@
  padding-bottom: 0px;
 }
 
-.borders{
+.event-borders{
     border-bottom: 2px solid lightgray;
 }
 
@@ -45,8 +46,8 @@ display: grid;
 grid-template-columns: 1fr 3fr;
 }
 
-.image{
-
+.event-image{
+    margin-left: 0px;
     padding-right: 15px;
     padding-bottom: 20px;
 }

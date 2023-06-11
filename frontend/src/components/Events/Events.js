@@ -56,10 +56,9 @@ const Events = () => {
   }
     return eventsLoaded && (
       <>
-        <div className="container">
-          <div></div>
+        <div className="events-container">
           <div>
-            <div className=" borders">
+            <div className=" event-borders">
               <div className="header top-spacing">
                 <span>
                   <Link
@@ -111,7 +110,7 @@ const Events = () => {
                           src={`${event.previewImage}`}
                           alt="previewImage"
                           style={{ width: 200 }}
-                          className="image"
+                          className="event-image"
                         />
                       </div>
                       <div>

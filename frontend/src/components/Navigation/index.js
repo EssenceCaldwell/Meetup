@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import logo from '../../Images/logo.png'
+import logo from '../../Images/Whatsup.png'
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignUpModal";
 
@@ -25,8 +25,17 @@ function Navigation({ isLoaded }) {
   if (sessionUser) {
     sessionLinks = (
       <li>
-        <div style={{fontSize: '15px', paddingTop: '20px'}}>
-          <Link style={{textDecoration: 'none', color: 'teal',  paddingRight: '10px'}} to="/groups/new">Start a new group</Link>
+        <div style={{ fontSize: "15px", paddingTop: "30px" }}>
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "teal",
+              paddingRight: "10px",
+            }}
+            to="/groups/new"
+          >
+            Start a new group
+          </Link>
         </div>
         <ProfileButton user={sessionUser} />
       </li>
@@ -47,7 +56,7 @@ function Navigation({ isLoaded }) {
           <img
             src={logo}
             alt="Home"
-            style={{ width: "200px"}}
+            style={{ width: "200px", paddingTop: '0px'}}
           />
         </NavLink>
       </li>

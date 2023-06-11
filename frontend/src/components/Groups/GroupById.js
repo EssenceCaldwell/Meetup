@@ -188,14 +188,33 @@ const GroupById = () => {
 
 
       return (
-        <div>
+        <div style={{display: 'flex'}}>
           <Link to={`/groups/${Object.values(groupId)}/events/new`}>
-            <button>Create event</button>
+            <button
+              style={{
+                backgroundColor: "#999999",
+                color: "white",
+                boxShadow: "4px 4px 0px 1px black",
+                border: "2px solid black",
+              }}
+            >
+              Create event
+            </button>
           </Link>
-
-          <Link to={`/groups/${Object.values(groupId)}/edit`}>
-            <button>Update</button>
-          </Link>
+          <div style={{paddingLeft: '10px', paddingRight: '10px'}}>
+            <Link to={`/groups/${Object.values(groupId)}/edit`}>
+              <button
+                style={{
+                  backgroundColor: "#999999",
+                  color: "white",
+                  boxShadow: "4px 4px 0px 1px black",
+                  border: "2px solid black",
+                }}
+              >
+                Update
+              </button>
+            </Link>
+          </div>
 
           <DeletGroupModal groupId={groupId} />
         </div>
@@ -211,7 +230,12 @@ const GroupById = () => {
           <div className="group-by-container top-container">
             <div className="grid-left-padding">
               <div className="top-link">
-                <Link to="/groups" style={{color: "teal", textDecoration: 'underline'}} >Groups</Link>
+                <Link
+                  to="/groups"
+                  style={{ color: "teal", textDecoration: "underline" }}
+                >
+                  Groups
+                </Link>
               </div>
 
               <img className="image-size" src={group.previewImage} />
@@ -222,7 +246,7 @@ const GroupById = () => {
                 {group.city}, {group.state}
               </h5>
               <h5>
-                {numEvents()}
+                {numEvents()} ·
                 <span className="space-between">{isPrivate()}</span>
               </h5>
               <h5>

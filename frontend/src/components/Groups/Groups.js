@@ -88,7 +88,7 @@ const Groups = () => {
                     src={`${group.previewImage}`}
                     alt="previewImage"
                     style={{ width: 200 }}
-                    className="image"
+                    className="group-image"
                   />
                 </div>
                 <div className="word-container">

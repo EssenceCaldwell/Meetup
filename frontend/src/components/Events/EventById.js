@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import './EventById.css'
 import { groupsById } from "../../store/groups";
 import DeleteEventModal from "../DeleteEventModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock, faMapPin, faDollarSign, faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 
 const EventById = () => {
     const dispatch = useDispatch();
@@ -81,11 +83,24 @@ let state = '...loading'
     if(sessionUser && groupLoaded){
       if(sessionUser.id === group.organizerId){
         return (
-          <div>
-            <button>Update</button>
-            <DeleteEventModal eventId={eventId}/>
+          <div style={{ display: "flex" }}>
+            <div style={{ paddingRight: "10px" }}>
+              <button
+                style={{
+                  backgroundColor: "#999999",
+                  color: "white",
+                  boxShadow: "4px 4px 0px 1px black",
+                  border: "2px solid black",
+                }}
+              >
+                Update
+              </button>
+            </div>
+            <div>
+              <DeleteEventModal eventId={eventId} />
+            </div>
           </div>
-        )
+        );
       }
     }
   }
@@ -95,10 +110,19 @@ let state = '...loading'
       eventLoaded && (
         <>
           <div className="event-container">
-            <div style={{ paddingLeft: "100px", paddingBottom: "20px" }}>
-              <Link to="/events">Events</Link>
+            <div style={{ paddingLeft: "100px", paddingTop: '70px', paddingBottom: "30px" }}>
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                style={{ color: "#000000" }}
+              />{" "}
+              <Link
+                style={{ textDecoration: "none", color: "teal" }}
+                to="/events"
+              >
+                Events
+              </Link>
               <h1>{event.name}</h1>
-              <div>
+              <div style={{color: 'gray'}}>
                 Hosted by {group.Organizer.firstName} {group.Organizer.lastName}
               </div>
             </div>
@@ -134,34 +158,98 @@ let state = '...loading'
                     </div>
                     <div>
                       <div className="small-border">
-                        <div className="flex">
-                          <div style={{ color: "gray" }}>Start </div>
-                          <div style={{ color: "teal", paddingLeft: "10px" }}>
-                            {getDate(event.startDate)} ·{" "}
-                            {getTime(event.startDate)}
+                        <div
+                          style={{
+                            display: "flex",
+                          }}
+                        >
+                          <div
+                            style={{ paddingRight: "10px", paddingTop: "10px" }}
+                          >
+                            <i>
+                              {" "}
+                              <FontAwesomeIcon
+                                icon={faClock}
+                                style={{
+                                  color: "white",
+                                  backgroundColor: "gray",
+                                  borderRadius: "50px",
+                                  border: "2px solid gray",
+                                }}
+                              />
+                            </i>
+                          </div>
+
+                          <div>
+                            <div className="flex">
+                              <div style={{ color: "gray" }}>Start </div>
+                              <div
+                                style={{ color: "teal", paddingLeft: "10px" }}
+                              >
+                                {getDate(event.startDate)} ·{" "}
+                                {getTime(event.startDate)}
+                              </div>
+                            </div>
+                            <div className="flex">
+                              <div style={{ color: "gray" }}> End</div>
+                              <div
+                                style={{ color: "teal", paddingLeft: "10px" }}
+                              >
+                                {getDate(event.endDate)} ·{" "}
+                                {getTime(event.endDate)}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex">
-                          <div style={{ color: "gray" }}>End </div>
-                          <div style={{ color: "teal", paddingLeft: "10px" }}>
-                            {getDate(event.endDate)} · {getTime(event.endDate)}
-                          </div>
-                        </div>
-                        <div style={{ color: "gray", paddingTop: "10px" }}>
+
+                        <div style={{ color: "gray" }}>
+                          <FontAwesomeIcon
+                            icon={faDollarSign}
+                            style={{
+                              color: "#919191",
+                              borderRadius: "50px",
+                              width: "16px",
+                              height: "16px",
+                              border: "2px solid gray",
+                            }}
+                          />{" "}
                           ${event.price}
                         </div>
-                        <div style={{ color: "gray", paddingTop: "10px" }}>
+                        <div
+                          style={{
+                            color: "gray",
+                            paddingLeft: "5px",
+                            paddingTop: "10px",
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faMapPin}
+                            style={{ color: "#919191" }}
+                          />{" "}
                           {event.type}
                         </div>
-                        {buttonHandler()}
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "right",
+                            paddingTop: "10px",
+                          }}
+                        >
+                          {buttonHandler()}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div style={{ paddingLeft: "90px" }}>
-                <div style={{ fontSize: "25px" }}> Details</div>
-                <div style={{ paddingTop: "10px" }}>{event.description}</div>
+                <div style={{ fontSize: "25px", paddingLeft: "110px" }}>
+                  {" "}
+                  Details
+                </div>
+                <div style={{ paddingTop: "10px", paddingLeft: "110px" }}>
+                  {event.description}
+                </div>
               </div>
             </div>
           </div>

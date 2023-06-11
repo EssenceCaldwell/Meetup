@@ -9,7 +9,17 @@ const DeleteEventModal = ({ eventId }) => {
   };
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Delete Event</button>
+      <button
+        style={{
+          backgroundColor: "#999999",
+          color: "white",
+          boxShadow: "4px 4px 0px 1px black",
+          border: '2px solid black'
+        }}
+        onClick={() => setShowModal(true)}
+      >
+        Delete Event
+      </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <DeleteEventForm eventId={eventId} onClose={handleCloseModal} />
