@@ -91,6 +91,7 @@ let state = '...loading'
                   color: "white",
                   boxShadow: "4px 4px 0px 1px black",
                   border: "2px solid black",
+                  cursor: 'pointer'
                 }}
               >
                 Update
@@ -139,7 +140,7 @@ let state = '...loading'
               </div>
             </div>
             <div className="bottom-container">
-              <div className="top-events-container">
+              <div style={{paddingTop: '20px'}} className="top-events-container">
                 <div>
                   <img className="image" src={events[0].previewImage} />
                 </div>

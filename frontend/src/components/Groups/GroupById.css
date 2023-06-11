@@ -49,14 +49,10 @@
 
 .image-size{
     width: 600px;
-    border: 2px solid black;
-    border-radius: 5px;
 }
 
 .small-image{
     width: 200px;
-    border: 2px solid black;
-    border-radius: 15px;
 }
 
 .inner-padding{

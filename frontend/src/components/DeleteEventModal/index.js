@@ -14,7 +14,8 @@ const DeleteEventModal = ({ eventId }) => {
           backgroundColor: "#999999",
           color: "white",
           boxShadow: "4px 4px 0px 1px black",
-          border: '2px solid black'
+          border: "2px solid black",
+          cursor: "pointer",
         }}
         onClick={() => setShowModal(true)}
       >
