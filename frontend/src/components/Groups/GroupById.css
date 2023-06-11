@@ -13,7 +13,7 @@
     padding-top: 60px;
 }
 
-.small-border{
+.group-small-border{
     display: grid;
     grid-template-rows: 2fr 1fr;
     border: 1px solid white ;;
@@ -22,7 +22,7 @@
     background-color: white ;
     font-family: Arial, Helvetica, sans-serif;
     width: 500px;
-    padding-top: 20px;
+    padding-top: 10px;
     margin-top: 20px;
 }
 

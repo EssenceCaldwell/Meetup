@@ -84,24 +84,27 @@ const GroupById = () => {
 
               return (
                 <div
-                  className="small-border"
+                  className="group-small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
                   <div className="card">
-                    <div style={{width: '80px', height: 140}}>
+                    <div style={{ width: "80px", height: 140 }}>
                       <img
                         className="small-image black-border"
                         src={ele.previewImage}
                         alt="previewImage"
                       />
                     </div>
-                    <div style={{marginLeft: '50px'}}>
+                    <div style={{ marginLeft: "50px" }}>
                       <div className="date">
                         {`${new Date(ele.startDate).getFullYear()}`}-
                         {`${new Date(ele.startDate).getMonth()}`}-
-                        {`${new Date(ele.startDate).getDate()}`} {getTime(ele.startDate)}
+                        {`${new Date(ele.startDate).getDate()}`} ·{" "}
+                        {getTime(ele.startDate)}
                       </div>
-                      <h3 style={{marginTop: '5px', marginBottom: '5px'}}>{ele.name}</h3>
+                      <h3 style={{ marginTop: "5px", marginBottom: "5px" }}>
+                        {ele.name}
+                      </h3>
                       <div className="location">
                         {ele.Venue.city}, {ele.Venue.state}
                       </div>
@@ -125,7 +128,7 @@ const GroupById = () => {
             {pastEvents.map((ele) => {
               return (
                 <div
-                  className="small-border"
+                  className="group small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
                   <div className="card">
