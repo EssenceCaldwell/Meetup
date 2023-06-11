@@ -28,7 +28,7 @@
 
 .card{
     display: grid;
-    grid-template-columns: 2fr 2fr;
+    grid-template-columns: 1fr 2fr;
     size: 200px;
     padding-bottom: 10px;
 }
@@ -77,7 +77,8 @@ h5{
 }
 
 .location{
-    color: gray
+    color: gray;
+    margin-top: 5px;
 }
 
 .join-group-button{

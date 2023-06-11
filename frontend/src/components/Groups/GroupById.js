@@ -7,6 +7,8 @@ import { allEvents, getEventsByGroup } from "../../store/events";
 import { element } from "prop-types";
 import { returnMembershipGroups } from "../../store/memberships";
 import DeletGroupModal from "../DeleteGroupModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const GroupById = () => {
   const groupId = useParams();
@@ -86,20 +88,20 @@ const GroupById = () => {
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
                   <div className="card">
-                    <div>
+                    <div style={{width: '80px', height: 140}}>
                       <img
                         className="small-image black-border"
                         src={ele.previewImage}
                         alt="previewImage"
                       />
                     </div>
-                    <div>
+                    <div style={{marginLeft: '50px'}}>
                       <div className="date">
                         {`${new Date(ele.startDate).getFullYear()}`}-
                         {`${new Date(ele.startDate).getMonth()}`}-
                         {`${new Date(ele.startDate).getDate()}`} {getTime(ele.startDate)}
                       </div>
-                      <h3>{ele.name}</h3>
+                      <h3 style={{marginTop: '5px', marginBottom: '5px'}}>{ele.name}</h3>
                       <div className="location">
                         {ele.Venue.city}, {ele.Venue.state}
                       </div>
@@ -230,6 +232,10 @@ const GroupById = () => {
           <div className="group-by-container top-container">
             <div className="grid-left-padding">
               <div className="top-link">
+                <FontAwesomeIcon
+                  icon={faAngleLeft}
+                  style={{ color: "#000000" }}
+                /> {' '}
                 <Link
                   to="/groups"
                   style={{ color: "teal", textDecoration: "underline" }}

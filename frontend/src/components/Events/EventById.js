@@ -105,24 +105,36 @@ let state = '...loading'
     }
   }
 
+  const getPrice = (event) => {
+    if(event.price === 0){
+      return 'FREE'
+    }else return `$ ${event.price}`
+  }
+
     return (
       groupLoaded &&
       eventLoaded && (
         <>
           <div className="event-container">
-            <div style={{ paddingLeft: "100px", paddingTop: '70px', paddingBottom: "30px" }}>
+            <div
+              style={{
+                paddingLeft: "100px",
+                paddingTop: "70px",
+                paddingBottom: "30px",
+              }}
+            >
               <FontAwesomeIcon
                 icon={faAngleLeft}
                 style={{ color: "#000000" }}
               />{" "}
               <Link
-                style={{ textDecoration: "none", color: "teal" }}
+                style={{ textDecoration: "underline", color: "teal" }}
                 to="/events"
               >
                 Events
               </Link>
               <h1>{event.name}</h1>
-              <div style={{color: 'gray'}}>
+              <div style={{ color: "gray" }}>
                 Hosted by {group.Organizer.firstName} {group.Organizer.lastName}
               </div>
             </div>
@@ -140,13 +152,13 @@ let state = '...loading'
                         (window.location.href = `/groups/${group.id}`)
                       }
                     >
-                      <div>
+                      <div style={{ width: "200px", margin: "5px" }}>
                         <img className="small-pic" src={group.previewImage} />
                       </div>
                       <div>
                         <div
                           style={{
-                            fontSize: "20px",
+                            fontSize: "30px",
                             fontStyle: "bold",
                             paddingTop: "20px",
                           }}
@@ -156,15 +168,23 @@ let state = '...loading'
                         {isPrivate()}
                       </div>
                     </div>
-                    <div>
-                      <div className="small-border">
+                    <div style={{ paddingTop: "10px" }}>
+                      <div className="bottom-small-border">
                         <div
                           style={{
                             display: "flex",
+                            paddingTop: "20px",
+                            paddingBottom: "30px",
+                            marginBottom: "5px",
+                            paddingLeft: "30px",
                           }}
                         >
                           <div
-                            style={{ paddingRight: "10px", paddingTop: "10px" }}
+                            style={{
+                              paddingRight: "10px",
+                              paddingTop: "4px",
+                              height: "0px",
+                            }}
                           >
                             <i>
                               {" "}
@@ -172,6 +192,8 @@ let state = '...loading'
                                 icon={faClock}
                                 style={{
                                   color: "white",
+                                  height: "30px",
+                                  width: "30px",
                                   backgroundColor: "gray",
                                   borderRadius: "50px",
                                   border: "2px solid gray",
@@ -182,18 +204,43 @@ let state = '...loading'
 
                           <div>
                             <div className="flex">
-                              <div style={{ color: "gray" }}>Start </div>
                               <div
-                                style={{ color: "teal", paddingLeft: "10px" }}
+                                style={{
+                                  color: "gray",
+                                  paddingLeft: "20px",
+                                  fontSize: "20px",
+                                }}
+                              >
+                                START{" "}
+                              </div>
+                              <div
+                                style={{
+                                  color: "teal",
+                                  paddingLeft: "20px",
+                                  fontSize: "20px",
+                                }}
                               >
                                 {getDate(event.startDate)} ·{" "}
                                 {getTime(event.startDate)}
                               </div>
                             </div>
                             <div className="flex">
-                              <div style={{ color: "gray" }}> End</div>
                               <div
-                                style={{ color: "teal", paddingLeft: "10px" }}
+                                style={{
+                                  color: "gray",
+                                  paddingLeft: "20px",
+                                  fontSize: "20px",
+                                }}
+                              >
+                                {" "}
+                                END
+                              </div>
+                              <div
+                                style={{
+                                  color: "teal",
+                                  paddingLeft: "42px",
+                                  fontSize: "20px",
+                                }}
                               >
                                 {getDate(event.endDate)} ·{" "}
                                 {getTime(event.endDate)}
@@ -201,41 +248,59 @@ let state = '...loading'
                             </div>
                           </div>
                         </div>
-
-                        <div style={{ color: "gray" }}>
-                          <FontAwesomeIcon
-                            icon={faDollarSign}
+                        <div style={{ paddingLeft: "30px" }}>
+                          <div style={{ display: "flex", color: "gray" }}>
+                            <FontAwesomeIcon
+                              icon={faDollarSign}
+                              style={{
+                                color: "#919191",
+                                borderRadius: "50px",
+                                width: "30px",
+                                height: "30px",
+                                border: "2px solid gray",
+                              }}
+                            />{" "}
+                            <div
+                              style={{
+                                paddingTop: "10px",
+                                paddingLeft: "27px",
+                                fontSize: "20px",
+                              }}
+                            >
+                              {getPrice(event)}
+                            </div>
+                          </div>
+                          <div
                             style={{
-                              color: "#919191",
-                              borderRadius: "50px",
-                              width: "16px",
-                              height: "16px",
-                              border: "2px solid gray",
+                              display: "flex",
+                              color: "gray",
+                              paddingLeft: "5px",
+                              paddingTop: "30px",
                             }}
-                          />{" "}
-                          ${event.price}
-                        </div>
-                        <div
-                          style={{
-                            color: "gray",
-                            paddingLeft: "5px",
-                            paddingTop: "10px",
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faMapPin}
-                            style={{ color: "#919191" }}
-                          />{" "}
-                          {event.type}
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "right",
-                            paddingTop: "10px",
-                          }}
-                        >
-                          {buttonHandler()}
+                          >
+                            <FontAwesomeIcon
+                              icon={faMapPin}
+                              style={{ color: "#919191", height: "30px" }}
+                            />{" "}
+                            <div
+                              style={{
+                                paddingTop: "12px",
+                                fontSize: "20px",
+                                paddingLeft: "32px",
+                              }}
+                            >
+                              {event.type}
+                            </div>
+                            <div
+                              style={{
+                                justifyContent: "right",
+                                paddingTop: "10px",
+                                paddingLeft: "160px",
+                              }}
+                            >
+                              {buttonHandler()}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
