@@ -187,13 +187,15 @@ const GroupById = () => {
   const joinGroupButton = () => {
     if(membership !== true){
      return (
-      <button className="join-group-button">Join this group</button>
-     )
+       <button style={{ cursor: "pointer" }} className="join-group-button">
+         Join this group
+       </button>
+     );
     }if(owner === true){
 
 
       return (
-        <div style={{display: 'flex'}}>
+        <div style={{ display: "flex" }}>
           <Link to={`/groups/${Object.values(groupId)}/events/new`}>
             <button
               style={{
@@ -201,12 +203,13 @@ const GroupById = () => {
                 color: "white",
                 boxShadow: "4px 4px 0px 1px black",
                 border: "2px solid black",
+                cursor: "pointer",
               }}
             >
               Create event
             </button>
           </Link>
-          <div style={{paddingLeft: '10px', paddingRight: '10px'}}>
+          <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
             <Link to={`/groups/${Object.values(groupId)}/edit`}>
               <button
                 style={{
@@ -214,6 +217,7 @@ const GroupById = () => {
                   color: "white",
                   boxShadow: "4px 4px 0px 1px black",
                   border: "2px solid black",
+                  cursor: "pointer",
                 }}
               >
                 Update

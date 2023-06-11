@@ -96,7 +96,7 @@ const Events = () => {
                   </div>
                   <div style={{paddingLeft: '40px', paddingRight: '10px'}}>
                   <div style={{height: '10px'}}>
-                    <h6 style={{ color: "gray", fontSize: '13.4'}}>Events in What's Up</h6>
+                    <h5 style={{ color: "gray"}}>Events in What's Up</h5>
                   </div>
                   </div>
 
@@ -159,7 +159,7 @@ const Events = () => {
                             </h6>
                           </div>
                         </div>
-                        <div style={{height: 'auto'}}>
+                        <div style={{height: '10px'}}>
                           <div style={{height: 'auto', paddingBottom: '0'}}>{`${event.description}`}</div>
                         </div>
                       </li>

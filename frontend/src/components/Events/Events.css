@@ -13,7 +13,7 @@
 .outer-event-container{
     display: grid;
     grid-template-rows: 1fr 1fr;
-    height: 210px;
+    height: 190px;
     width: 650px
 
 
@@ -56,11 +56,7 @@ grid-template-columns: 1fr 3fr;
     padding-bottom: 20px;
 }
 
-.image-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .events-text-width{
     display: flex;
@@ -75,6 +71,7 @@ grid-template-columns: 1fr 3fr;
 .no-top-padding{
   padding-top: 0px;
  margin-top: 0px;
+ padding-left: 0px;
 }
 
 .no-bottom-padding{

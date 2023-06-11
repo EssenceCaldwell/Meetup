@@ -40,75 +40,87 @@ const Groups = () => {
     return null
   }
 
-  return groupsLoaded && eventsLoaded && (
-    <>
-      <div className="container">
-        <div></div>
-        <div>
-          <div className=" borders">
-            <div className="header top-spacing">
-              <span>
+  return (
+    groupsLoaded &&
+    eventsLoaded && (
+      <>
+        <div className="container">
+          <div></div>
+          <div>
+            <div>
+              <div className="header top-spacing">
+                <span>
+                  <Link
+                    to="/events"
+                    style={{ textDecoration: "none", color: "gray" }}
+                    onMouseEnter={(e) => {
+                      e.target.style.textDecoration = "underline";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.textDecoration = "none";
+                    }}
+                  >
+                    Events
+                  </Link>
+                </span>
                 <Link
-                  to="/events"
-                  style={{ textDecoration: "none", color: "gray" }}
-                  onMouseEnter={(e) => {
-                    e.target.style.textDecoration = "underline";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.textDecoration = "none";
+                  to="/groups"
+                  className="left-spacing"
+                  style={{
+                    textDecoration: "underline",
+                    color: "teal",
+                    cursor: "default",
                   }}
                 >
-                  Events
+                  Groups
                 </Link>
-              </span>
-              <Link to='/groups'
-                className="left-spacing"
-                style={{ textDecoration: "underline", color: "teal", cursor: "default"}}
-              >
-                Groups
-              </Link>
+              </div>
+
+              <div style={{ paddingLeft: "40px", paddingRight: "10px" }}>
+                <div style={{ height: "7px" }}>
+                  <h6 style={{ color: "gray", fontSize: "13.4" }}>
+                    Groups in What's Up
+                  </h6>
+                </div>
+              </div>
             </div>
 
-            <h6 style={{ color: "gray"}}>
-              Groups in What's Up
-            </h6>
+            <ul>
+              {groupData.map((group) => {
+                return (
+                  <li
+                    style={{ paddingTop: "10px" }}
+                    className="borders box-width"
+                    onClick={() =>
+                      (window.location.href = `/groups/${group.id}`)
+                    }
+                  >
+                    <div className="image-container no-top-padding">
+                      <img
+                        src={`${group.previewImage}`}
+                        alt="previewImage"
+                        style={{ width: 200 }}
+                        className="group-image"
+                      />
+                    </div>
+                    <div className="word-container">
+                      <h4 className="no-top-padding no-bottom-padding">{`${group.name}`}</h4>
+                      <h6 className="location">{`${group.city}, ${group.state}`}</h6>
+                      <div className="text-width">{`${group.about}`}</div>
+                      <div className="header">
+                        <h6 className="location">{numEvents(group.id)}</h6>
+                        <h6 className="location">{`${group.type}`}</h6>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-
-          <ul>
-            {groupData.map((group) => {
-            return (
-              <li
-                className="borders box-width"
-                onClick={() =>
-                  (window.location.href = `/groups/${group.id}`)
-                }
-              >
-                <div className="image-container no-top-padding">
-                  <img
-                    src={`${group.previewImage}`}
-                    alt="previewImage"
-                    style={{ width: 200 }}
-                    className="group-image"
-                  />
-                </div>
-                <div className="word-container">
-                  <h3 className="no-top-padding no-bottom-padding">{`${group.name}`}</h3>
-                  <h6 className="location">{`${group.city}, ${group.state}`}</h6>
-                  <div className="text-width">{`${group.about}`}</div>
-                  <div className="header">
-                    <h6 className="location">
-                      {numEvents(group.id)}
-                    </h6>
-                    <h6 className="location">{`${group.type}`}</h6>
-                  </div>
-                </div>
-              </li>
-            )})}
-          </ul>
+          <div></div>
         </div>
-        <div></div>
-      </div>
-    </>
+      </>
+    )
   );
 };
 
