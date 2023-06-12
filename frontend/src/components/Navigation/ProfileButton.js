@@ -5,8 +5,10 @@ import '../Navigation/ProfileButton.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ProfileButton({ user }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -33,7 +35,8 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.logout())
+    history.push('/');
   };
 
   //const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
