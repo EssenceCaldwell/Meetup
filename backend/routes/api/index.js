@@ -9,6 +9,7 @@ const eventImageRouter = require('./eventImages');
 const groupImagesRouter = require('./groupImages')
 const { restoreUser } = require("../../utils/auth.js");
 
+
 router.use(restoreUser);
 router.use('/signup', signupRouter)
 router.use('/login', loginRouter);

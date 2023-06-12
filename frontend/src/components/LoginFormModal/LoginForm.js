@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import './LoginForm.css'
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function LoginForm() {
   const history = useHistory()
@@ -25,6 +25,13 @@ function LoginForm() {
     if(Object.values(errors).length){
       return <p style={{color: 'red'}}>The provided credentials were invalid.</p>;
     }
+  }
+
+  const Demo = () => {
+    let credential = 'Demo-lition'
+    let password = 'password'
+    dispatch(sessionActions.login({credential, password}))
+    history.push('/')
   }
   return (
     <form className="login-modal" onSubmit={handleSubmit}>
@@ -59,6 +66,9 @@ function LoginForm() {
           Log In
         </button>
       </div>
+
+      <Link to='#' onClick={Demo} style={{display: 'flex', justifyContent: 'center', paddingTop: '15px', color: 'teal'}}>
+        Demo User</Link>
     </form>
   );
 }
