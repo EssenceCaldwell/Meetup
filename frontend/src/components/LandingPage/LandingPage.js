@@ -48,7 +48,7 @@ let createGroupsLink
             <p className='paragraph'>
               Whatever your interest, from hiking and reading to networking and
               skill sharing, there are thousands of people who share it on
-              Meetup. Events are happening every day—sign up to join the fun
+              What's Up. Events are happening every day—sign up to join the fun
             </p>
           </div>
           <div>
