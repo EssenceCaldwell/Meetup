@@ -107,7 +107,7 @@ const Groups = () => {
                       <h4 className="no-top-padding no-bottom-padding">{`${group.name}`}</h4>
                       <h6 className="location">{`${group.city}, ${group.state}`}</h6>
                       <div className="text-width">{`${group.about}`}</div>
-                      <div className="header">
+                      <div style={{display: 'flex'}}>
                         <h6 className="location">{numEvents(group.id)}</h6>
                         <h6 className="location">{`${group.type}`}</h6>
                       </div>
