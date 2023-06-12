@@ -90,7 +90,7 @@ const GroupById = () => {
                   <div className="card">
                     <div style={{ width: "80px", height: 140 }}>
                       <img
-                        className="small-image black-border"
+                        className="small-image"
                         src={ele.previewImage}
                         alt="previewImage"
                       />
@@ -139,13 +139,15 @@ const GroupById = () => {
                         alt="previewImage"
                       />
                     </div>
-                    <div>
+                    <div style={{ marginLeft: "50px" }}>
                       <div className="date">
                         {`${new Date(ele.startDate).getFullYear()}`}-
                         {`${new Date(ele.startDate).getMonth()}`}-
                         {`${new Date(ele.startDate).getDate()}`}
                       </div>
-                      <h3>{ele.name}</h3>
+                      <h3 style={{ marginTop: "5px", marginBottom: "5px" }}>
+                        {ele.name}
+                      </h3>
                       <h6 className="location">
                         {ele.Venue.city}, {ele.Venue.state}
                       </h6>

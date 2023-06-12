@@ -20,8 +20,8 @@ module.exports = {
         type: "In person",
         capacity: 10,
         price: 50.0,
-        startDate: new Date("2024-01-01"),
-        endDate: new Date("2024-01-02"),
+        startDate: new Date("2022-01-01"),
+        endDate: new Date("2022-01-02"),
         previewImage: "https://i.imgur.com/s1jN3Tp.jpg",
       },
       {
@@ -40,7 +40,7 @@ module.exports = {
       {
         venueId: 3,
         groupId: 3,
-        name: "Soulfame Lanch Party",
+        name: "Soulframe Lanch Party",
         description:
           "Online event! Come and celebrate the new SoulFrame launch!",
         type: "Online",
