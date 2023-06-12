@@ -2,8 +2,8 @@
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     background-color: white;
-    width: 150px;
-    height: 100px;
+    width: 170px;
+    height: 80px;
     font-size: small;
     padding-top: 5px;
     border: 1px solid black;

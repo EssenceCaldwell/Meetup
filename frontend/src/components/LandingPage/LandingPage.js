@@ -43,9 +43,11 @@ let createGroupsLink
       <>
         <div className="box">
           <div className="words innerBox">
-            <h1 className="topWords">The people platform—</h1>
-            <h1 className="bottomWords">Where interests become friendships</h1>
-            <p className='paragraph'>
+            <div style={{paddingTop: '20px'}}>
+              <h1>The people platform— Where interests become friendships</h1>
+            </div>
+
+            <p className="paragraph">
               Whatever your interest, from hiking and reading to networking and
               skill sharing, there are thousands of people who share it on
               What's Up. Events are happening every day—sign up to join the fun
