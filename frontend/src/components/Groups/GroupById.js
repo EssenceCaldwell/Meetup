@@ -84,6 +84,7 @@ const GroupById = () => {
 
               return (
                 <div
+                  style={{ height: "240px" }}
                   className="group-small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
@@ -123,11 +124,12 @@ const GroupById = () => {
     const isPast = () => {
       if (pastEvents.length) {
         return (
-          <div>
+          <div >
             <h4>Past Events ({pastEvents.length})</h4>
             {pastEvents.map((ele) => {
               return (
                 <div
+                  style={{ height: "240px" }}
                   className="group small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
@@ -237,14 +239,14 @@ const GroupById = () => {
     groupLoaded &&
     membershipsLoaded && (
       <>
-        <div className="groupId-container">
+        <div style={{ paddingBottom: "80px" }} className="groupId-container">
           <div className="group-by-container top-container">
             <div className="grid-left-padding">
               <div className="top-link">
                 <FontAwesomeIcon
                   icon={faAngleLeft}
                   style={{ color: "#000000" }}
-                /> {' '}
+                />{" "}
                 <Link
                   to="/groups"
                   style={{ color: "teal", textDecoration: "underline" }}
@@ -280,7 +282,7 @@ const GroupById = () => {
               <div className="mini-titles">What we're about</div>
               <div className="upper-padding">{group.about}</div>
             </div>
-            <div>
+            <div style={{ paddingBottom: "30px" }}>
               <div className="upper-padding">{isUpcoming()}</div>
               <div>{isPast()}</div>
             </div>
