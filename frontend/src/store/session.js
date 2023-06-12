@@ -51,7 +51,7 @@ export const restoreUser = () => async (dispatch) => {
  const response = await csrfFetch("/api/login");
  //console.log(response)
   const data = await response.json();
-  console.log(data);
+  //console.log(data);
    dispatch(setSession(data.user));
   return response;
 };
@@ -69,6 +69,7 @@ export const signup = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
+  //console.log(data)
   dispatch(setSession(data.user));
   return response;
 };

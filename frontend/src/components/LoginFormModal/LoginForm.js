@@ -20,17 +20,20 @@ function LoginForm() {
         if (data && data.errors) setErrors(data.errors);
       });
   };
+
+  const showErrors = () => {
+    if(Object.values(errors).length){
+      return <p style={{color: 'red'}}>The provided credentials were invalid.</p>;
+    }
+  }
   return (
     <form className="login-modal" onSubmit={handleSubmit}>
       <h3 style={{ paddingLeft: "170px" }}>Login</h3>
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
-      </ul>
+      <div style={{paddingLeft: '75px'}}>{showErrors()}</div>
+
       <div className="input-container">
         {" "}
-        <label style={{paddingBottom: '10px'}}>
+        <label style={{ paddingBottom: "10px" }}>
           <input
             className="input-box"
             type="text"
@@ -51,8 +54,10 @@ function LoginForm() {
           />
         </label>
       </div>
-      <div style={{paddingLeft: '45px'}}>
-        <button className="login-button" type="submit">Log In</button>
+      <div style={{ paddingLeft: "45px" }}>
+        <button className="login-button" type="submit">
+          Log In
+        </button>
       </div>
     </form>
   );

@@ -39,6 +39,7 @@ function SignupForm() {
          const data = await res.json();
          if (data && data.errors) {
            setErrors(data.errors);
+           console.log(data)
          }
        });
    }
@@ -47,6 +48,8 @@ function SignupForm() {
        "Confirm Password field must be the same as the Password field",
    });
  };
+
+ console.log(errors)
 
   return (
     <>
