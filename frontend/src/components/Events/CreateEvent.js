@@ -82,7 +82,7 @@ let group
         history.push(`/events/${ele.id}`);
         window.location.reload();
       });
-      //console.log(newGroup)
+      console.log(event)
     }
   };
 
@@ -304,7 +304,10 @@ let group
                       <input
                         id="url"
                         type="text"
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={(e) => {
+                          console.log(e.target.value);
+                          setUrl(e.target.value);
+                        }}
                         placeholder={"Image Url"}
                         className="text-box-background"
                         style={{

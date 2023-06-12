@@ -29,7 +29,7 @@ const EventById = () => {
    if (eventLoaded) {
      dispatch(groupsById(events[0].groupId)).then(() => setGroupLoaded(true));
    }
- }, [dispatch, events, eventLoaded]);
+ }, [dispatch, eventLoaded]);
 
   if(groupLoaded){
     group = groupData[0]
@@ -112,7 +112,9 @@ let state = '...loading'
     }else return `$ ${event.price}`
   }
 
-    return (
+  //if(eventLoaded)
+//{console.log(events[0]);
+   return (
       groupLoaded &&
       eventLoaded && (
         <>

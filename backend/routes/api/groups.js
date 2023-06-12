@@ -154,7 +154,7 @@ if(!group){
 
 //Create and Event by Group Id
 router.post('/:id/events', requireAuth, validateEvent, async (req, res) => {
-  const {venueId, name, type, capacity, price, description, startDate, endDate } = req.body
+  const {venueId, name, type, capacity, price, previewImage, description, startDate, endDate } = req.body
 const user = req.user;
 const groupId = req.params.id;
 const group = await Group.findByPk(groupId)
@@ -201,6 +201,7 @@ const newGroup = await group.createEvent({
   capacity,
   price,
   description,
+  previewImage,
   startDate: new Date(newStartDate),
   endDate: new Date(newEndDate)
 })
