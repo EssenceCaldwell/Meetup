@@ -4,6 +4,14 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+@media screen and (max-width: 1024px){
+    .events-top-spacing{
+        padding-left: 0px;
+        margin-left: 0px;
+        padding-right: 350px;
+    }
+}
+
 
 .inner-event-container{
     display: grid;
@@ -18,6 +26,8 @@
 
 
 }
+
+
 
 .left-spacing{
     padding-left: 20px;

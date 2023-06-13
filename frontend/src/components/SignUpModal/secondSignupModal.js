@@ -7,7 +7,11 @@ function SecondSignupFormModal() {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <button className="buttons" onClick={() => setShowModal(true)}>
+      <button
+        style={{ cursor: "pointer" }}
+        className="buttons"
+        onClick={() => setShowModal(true)}
+      >
         Join What's Up
       </button>
       {showModal && (

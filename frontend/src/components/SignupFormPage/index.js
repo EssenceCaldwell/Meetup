@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
@@ -16,8 +16,22 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
 
+
+   useEffect(() => {
+    let errors = []
+    if(!email.length) errors.push('Email is required');
+    if(!username.length || username.length < 4) errors.push('Username must be at least 4 characters');
+    if(!firstName.length) errors.push('First name is required');
+    if(!lastName.length) errors.push('Last name is required');
+    if(!password.length || password.length < 6) errors.push('Password must be at least 6 characters');
+    if(password !== confirmPassword) errors.push('Passwords must match')
+
+    setValidationErrors(errors)
+  })
   if (sessionUser) return <Redirect to="/" />;
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -134,7 +148,12 @@ function SignupForm() {
             </label>
           </div>
           <div style={{ paddingLeft: "45px", paddingTop: "10px" }}>
-            <button className="signup-button" type="submit">
+            <button
+              style={{ cursor: "pointer" }}
+              className="signup-button"
+              type="submit"
+              disabled={Object.values(validationErrors).length > 0}
+            >
               Sign Up
             </button>
           </div>

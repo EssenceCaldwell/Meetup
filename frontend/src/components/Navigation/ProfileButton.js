@@ -5,7 +5,7 @@ import '../Navigation/ProfileButton.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function ProfileButton({ user }) {
   const history = useHistory();
@@ -43,11 +43,11 @@ function ProfileButton({ user }) {
  const showArrow = () => {
   if(!showMenu){
     return (
-      <i style={{ display: "flex", marginRight: "30px" }}>
+      <i style={{ display: "flex", marginRight: "30px" , cursor: 'pointer'}}>
         <FontAwesomeIcon
           icon={faUser}
           size="2xl"
-          style={{ color: "white", paddingRigh: "30px" }}
+          style={{ color: "white", paddingRigh: "30px", cursor: 'pointer' }}
         />
         <FontAwesomeIcon
           icon={faChevronDown}
@@ -57,11 +57,11 @@ function ProfileButton({ user }) {
     )
   }else {
     return (
-      <i style={{ display: "flex", marginRight: "30px" }}>
+      <i style={{ display: "flex", marginRight: "30px", cursor: 'pointer'}}>
         <FontAwesomeIcon
           icon={faUser}
           size="2xl"
-          style={{ color: "white", paddingRigh: "30px" }}
+          style={{ color: "white", paddingRigh: "30px", cursor: 'pointer'}}
         />
         <FontAwesomeIcon
           icon={faChevronUp}
@@ -73,7 +73,13 @@ function ProfileButton({ user }) {
  }
   return (
     <>
-      <div style={{ position: "relative", paddingTop: "20px", paddingRight: '30px' }}>
+      <div
+        style={{
+          position: "relative",
+          paddingTop: "20px",
+          paddingRight: "30px",
+        }}
+      >
         {/* <button onClick={openMenu}> */}
         <button
           style={{
@@ -89,7 +95,6 @@ function ProfileButton({ user }) {
           onClick={() => {
             setShowMenu(!showMenu);
           }}
-
         >
           {showArrow()}
         </button>
@@ -105,7 +110,7 @@ function ProfileButton({ user }) {
             <div>
               <div>
                 <div style={{ paddingLeft: "15px" }} className="content">
-                  Hello, {user.username}
+                  Hello, {user.firstName}
                 </div>
               </div>
               <div>
@@ -117,6 +122,43 @@ function ProfileButton({ user }) {
                     {user.email}
                   </div>
                 </div>
+                <div>
+                  <div>
+                    <div style={{ paddingLeft: "15px" }} className="content">
+                      <Link
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                          cursor: "pointer",
+                        }}
+                        to="/groups"
+                      >
+                        View groups
+                      </Link>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        paddingLeft: "15px",
+                        borderBottom: "2px solid black",
+                        paddingBottom: "5px",
+                      }}
+                      className="content"
+                    >
+                      <Link
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                          cursor: "pointer",
+                        }}
+                        to="/events"
+                      >
+                        View events
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div>
                 <div className="content">
@@ -125,6 +167,7 @@ function ProfileButton({ user }) {
                       paddingLeft: "15px",
                       borderStyle: "none",
                       backgroundColor: "white",
+                      cursor: "pointer",
                     }}
                     onClick={logout}
                   >

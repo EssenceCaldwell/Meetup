@@ -114,3 +114,28 @@ h5{
     color: teal;
     padding: 8px;
 }
+
+@media screen and (max-width: 1024px){
+    .grid-left-padding{
+        padding-left: 20px;
+    }
+    .inner-padding{
+        padding-right: 0px;
+        margin-right: 0px;
+        width: 300px;
+    }
+    .align-button{
+        padding-right: 0px;
+    }
+    .top-container{
+        width: 800px;
+    }
+    .image-size{
+        width: 500px;
+    }
+    .grid-right-padding{
+        width: 300px;
+        padding-right: 0px;
+    }
+
+}

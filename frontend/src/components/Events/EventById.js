@@ -84,7 +84,7 @@ let state = '...loading'
       if(sessionUser.id === group.organizerId){
         return (
           <div style={{ display: "flex" }}>
-            <div style={{ paddingRight: "10px" }}>
+            <div style={{ paddingRight: "10px", paddingLeft: '0px'}}>
               <button
                 style={{
                   backgroundColor: "#999999",
@@ -120,11 +120,7 @@ let state = '...loading'
         <>
           <div className="event-container">
             <div
-              style={{
-                paddingLeft: "100px",
-                paddingTop: "70px",
-                paddingBottom: "30px",
-              }}
+             className="top-container-events"
             >
               <FontAwesomeIcon
                 icon={faAngleLeft}
@@ -147,15 +143,16 @@ let state = '...loading'
                   <img className="image" src={events[0].previewImage} />
                 </div>
                 <div>
-                  <div style={{ paddingLeft: "30px" }}>
+                  <div style={{ paddingLeft: "20px" }}>
                     <div
-                      style={{ paddingTop: "1px" }}
+                      style={{ paddingTop: "1px", cursor: 'pointer' }}
                       className="small-border card-align"
                       onClick={() =>
                         (window.location.href = `/groups/${group.id}`)
                       }
                     >
-                      <div style={{ width: "200px", margin: "5px" }}>
+                      <
+                        div style={{ width: "190px", margin: "5px" }}>
                         <img className="small-pic" src={group.previewImage} />
                       </div>
                       <div>
@@ -310,12 +307,12 @@ let state = '...loading'
                   </div>
                 </div>
               </div>
-              <div style={{ paddingLeft: "90px" }}>
-                <div style={{ fontSize: "25px", paddingLeft: "110px" }}>
+              <div className='description-event'>
+                <div className="main-description">
                   {" "}
                   Details
                 </div>
-                <div style={{ paddingTop: "10px", paddingLeft: "110px" }}>
+                <div>
                   {event.description}
                 </div>
               </div>

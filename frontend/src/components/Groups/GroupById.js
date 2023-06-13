@@ -84,7 +84,7 @@ const GroupById = () => {
 
               return (
                 <div
-                  style={{ height: "240px" }}
+                  style={{ height: "240px", cursor: "pointer" }}
                   className="group-small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
@@ -129,7 +129,7 @@ const GroupById = () => {
             {pastEvents.map((ele) => {
               return (
                 <div
-                  style={{ height: "240px" }}
+                  style={{ height: "240px", cursor: "pointer" }}
                   className="group small-border"
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
@@ -191,7 +191,11 @@ const GroupById = () => {
   const joinGroupButton = () => {
     if(membership !== true){
      return (
-       <button style={{ cursor: "pointer" }} className="join-group-button">
+       <button
+         style={{ cursor: "pointer" }}
+         className="join-group-button"
+         onClick={() => alert("Feature coming soon")}
+       >
          Join this group
        </button>
      );

@@ -112,6 +112,7 @@ const Events = () => {
                     }
                     return (
                       <li
+                      style={{cursor: 'pointer'}}
                         className=" event-borders outer-event-container"
                         onClick={() =>
                           (window.location.href = `/events/${event.id}`)

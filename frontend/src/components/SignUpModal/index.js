@@ -7,8 +7,12 @@ function SignupFormModal() {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <button className="login" onClick={() => setShowModal(true)}>
-       Sign Up
+      <button
+        style={{ cursor: "pointer" }}
+        className="login"
+        onClick={() => setShowModal(true)}
+      >
+        Sign Up
       </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>

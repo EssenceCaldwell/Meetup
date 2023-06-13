@@ -6,7 +6,13 @@ function LoginFormModal() {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <button className="login" onClick={() => setShowModal(true)}>Log In</button>
+      <button
+        style={{ cursor: "pointer" }}
+        className="login"
+        onClick={() => setShowModal(true)}
+      >
+        Log In
+      </button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <LoginForm />

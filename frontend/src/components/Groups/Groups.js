@@ -89,7 +89,7 @@ const Groups = () => {
               {groupData.map((group) => {
                 return (
                   <li
-                    style={{ paddingTop: "10px" }}
+                    style={{ paddingTop: "10px", cursor: "pointer" }}
                     className="borders box-width"
                     onClick={() =>
                       (window.location.href = `/groups/${group.id}`)
@@ -107,7 +107,7 @@ const Groups = () => {
                       <h4 className="no-top-padding no-bottom-padding">{`${group.name}`}</h4>
                       <h6 className="location">{`${group.city}, ${group.state}`}</h6>
                       <div className="text-width">{`${group.about}`}</div>
-                      <div style={{display: 'flex'}}>
+                      <div style={{ display: "flex" }}>
                         <h6 className="location">{numEvents(group.id)}</h6>
                         <h6 className="location">{`${group.type}`}</h6>
                       </div>

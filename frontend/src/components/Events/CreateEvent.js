@@ -99,7 +99,7 @@ let group
           <div className="form-left-padding">
             <form onSubmit={onSubmit}>
               <div style={{ borderBottom: "2px solid black" }}>
-                <div>
+                <div className="h1-event">
                   <h1>Create an event for {group.name}</h1>
                 </div>
                 <div>
