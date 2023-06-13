@@ -89,7 +89,7 @@ const GroupById = () => {
                   onClick={() => (window.location.href = `/events/${ele.id}`)}
                 >
                   <div className="card">
-                    <div style={{ width: "80px", height: 140 }}>
+                    <div style={{ width: "80px", height: '140px' }}>
                       <img
                         className="small-image"
                         src={ele.previewImage}
