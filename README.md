@@ -1,7 +1,7 @@
 # Meetup Clone
 
 ## Database Schema Design
-![Schema](https://imgur.com/a/p3xnaoH)
+![Schema](https://i.imgur.com/HrNauRe.png)
 
 Welcome to my Meetup clone! In this project, I used React to create a clone of the website 'meetup.com' and fontAwesome to add the icons, creating my own "What's up".
 
