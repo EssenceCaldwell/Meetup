@@ -1,7 +1,29 @@
 # Meetup Clone
 
 ## Database Schema Design
-![Schema](https://i.imgur.com/RtNbDln.png)
+![Schema](https://imgur.com/a/p3xnaoH)
+
+Welcome to my Meetup clone! In this project, I used React to create a clone of the website 'meetup.com' and fontAwesome to add the icons, creating my own "What's up".
+
+To download and start project, 
+
+Go into your terminal and make the folder you would like to clone this project in.
+
+Type in the command 'git clone https://github.com/EssenceCaldwell/Meetup.git'
+
+cd into the backend and npm install dependencies
+
+npm start to start backend server
+
+cd to the root folder
+
+cd into the frontend folder
+
+npm install depencenies 
+
+npm start to start front end
+
+open up localhost:3000 to see application
 
 ## API Documentation
 
