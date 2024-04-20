@@ -112,7 +112,7 @@ const GroupById = () => {
                     </div>
                   </div>
 
-                  <div>{ele.description}</div>
+                  <div style={{paddingTop: '25px'}}>{ele.description}</div>
                 </div>
               );
             })}
